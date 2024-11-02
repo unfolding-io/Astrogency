@@ -1,0 +1,26 @@
+name: Sync to Public Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the Private Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Git Configuration
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Push to Public Repo
+        env:
+          PUBLIC_REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          git remote add public https://preetamslot:${REPO_TOKEN}@github.com/unfolding-io/Astrogency.git
+          git push -u public main --force
