@@ -20,7 +20,7 @@ jobs:
 
       - name: Push to Public Repo
         env:
-          PUBLIC_REPO_TOKEN: ${{ secrets.REPO_TOKEN }} 
+          PUBLIC_REPO_TOKEN: ${{ secrets.REPO_TOKEN_UD }} 
         run: |
           git remote add public https://preetamslot:${PUBLIC_REPO_TOKEN}@github.com/unfolding-io/Astrogency.git
           git push -u public master --force
