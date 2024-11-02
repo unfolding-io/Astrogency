@@ -20,6 +20,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Re-pack Local Repository
+        run: |
+          git gc --prune=now
+          git repack -a -d --depth=250 --window=250
+
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -28,4 +33,4 @@ jobs:
       - name: Push to Public Repo
         run: |
           git remote add public git@github.com:unfolding-io/Astrogency.git
-          git push -u public master --force
+          git push --force-with-lease public master
