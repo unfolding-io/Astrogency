@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout the Private Repo
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Git Configuration
         run: |
@@ -20,7 +22,7 @@ jobs:
 
       - name: Push to Public Repo
         env:
-          REPO_TOKEN: ${{ secrets.REPO_TOKEN }} 
+          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
         run: |
           git remote add public https://preetamslot:${{ secrets.REPO_TOKEN }}@github.com/unfolding-io/Astrogency.git
           git push -u public master --force
