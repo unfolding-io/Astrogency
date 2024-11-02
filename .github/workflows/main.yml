@@ -25,11 +25,15 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Pull latest changes
-        run: git pull origin master
+      - name: Fetch from Public Repo
+        run: |
+          git remote add public git@github.com:unfolding-io/Astrogency.git
+          git fetch public
+
+      - name: Merge Public Repo Changes
+        run: |
+          git merge public/master --allow-unrelated-histories
 
       - name: Push to Public Repo
         run: |
-          git remote add public git@github.com:unfolding-io/Astrogency.git
-          git repack public master
           git push -u public master --force
