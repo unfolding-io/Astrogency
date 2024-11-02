@@ -20,9 +20,12 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Add SSH Key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Push to Public Repo
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          git remote add public https://${{ secrets.PAT_TOKEN }}@github.com/unfolding-io/Astrogency.git
+          git remote add public git@github.com:unfolding-io/Astrogency.git
           git push -u public master --force
