@@ -1,0 +1,57 @@
+---
+import { useTranslations, getLangFromUrl } from "@lib/translate";
+import Link from "@components/navigation/Link.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const routeParts = Astro.url.pathname
+  .split("/")
+  .filter((part) => part !== "" && part !== lang);
+ 
+
+let links = [
+  {
+    href: {
+      linktype: "url",
+      url: "/",
+    },
+    label: t("home"),
+  },
+];
+
+if (routeParts[0] && routeParts.length > 1) {
+  links.push({
+    href: {
+      linktype: "url",
+      url: `/${routeParts[0]}`,
+    },
+    label: t(routeParts[0]),
+  });
+}
+---
+
+<ul
+  class="breadcrumbs flex content-center items-center gap-4 truncate text-xs uppercase tracking-wider"
+>
+  {
+    links.map((link) => (
+      <li class="relative">
+        <Link className="btn-underline truncate" blok={link} />
+      </li>
+    ))
+  }
+  <slot />
+</ul>
+
+<style is:global>
+  .breadcrumbs {
+    li:not(:last-child)::after {
+      content: "/";
+      @apply absolute -right-4 bottom-1 top-0 grid w-4 place-items-center leading-none;
+    }
+    li.and:not(:last-child)::after {
+      content: "&";
+    }
+  }
+</style>

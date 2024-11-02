@@ -1,0 +1,64 @@
+---
+import {
+  storyblokEditable,
+  renderRichText,
+  useStoryblokApi,
+} from "@storyblok/astro";
+import ContactFormVue from "@components/forms/ContactFormVue.vue";
+import { getLangFromUrl } from "@lib/translate";
+
+import type { ISbStories } from "@storyblok/astro";
+
+interface Props {
+  blok: ContactFormStoryblok;
+}
+const api = useStoryblokApi();
+const { blok } = Astro.props;
+const {
+  content,
+  topic,
+  thank_you,
+  show_topics = false,
+  container ,
+  surface = "",
+  surface_accent = "surface_dark",
+  padding_top = "pt-lg",
+  padding_bottom= "pb-lg"
+} = blok;
+const renderedRichText = renderRichText(content);
+
+/* get the current lang */
+const lang = getLangFromUrl(Astro.url);
+
+/* get all contact_topics from storyblok */
+
+const topicsData = (await api.get(`cdn/stories`, {
+  version: import.meta.env.DEV ? "draft" : "published",
+  content_type: "contact_topics",
+  language: lang,
+  per_page: 100,
+  page: 1,
+})) as ISbStories;
+
+const topics = topicsData?.data?.stories.map((t) => t.content);
+const contact_topic = topicsData?.data?.stories.find((t) => t.uuid === topic);
+---
+
+<div {...storyblokEditable(blok)} class={`${surface} intersection`}>
+  <div class={container ? "content-grid" : ""}>
+    <div class={`${container} ${padding_top} ${padding_bottom} px-1` }>
+      <ContactFormVue
+        client:visible
+        endpoint={`none`}
+        topic={contact_topic?.content}
+        {topics}
+        {show_topics}
+        {thank_you}
+        {lang}
+        {surface_accent}
+      >
+        <div set:html={renderedRichText} class="richtext fade-up max-w-2xl" />
+      </ContactFormVue>
+    </div>
+  </div>
+</div>

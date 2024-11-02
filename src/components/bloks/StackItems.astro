@@ -1,0 +1,133 @@
+---
+import { storyblokEditable, renderRichText, useStoryblokApi } from "@storyblok/astro";
+import Picture from "@components/media/Picture.astro"; 
+import type { ISbStories } from "@storyblok/astro";
+
+interface Props {
+  blok: StackItemsStoryblok;
+  lang: string;
+  status: StoryStatus;
+}
+
+const { blok, lang, status } = Astro.props;
+
+const api = useStoryblokApi();
+const {
+  content,
+  surface = "",
+  container = "breakout",
+  align = "",
+  items = [],
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+} = blok;
+
+const renderedRichText = renderRichText(content);
+
+
+
+/// get the items fron storyblok
+
+const fetchStories = async () => {
+  const params = {
+    version: status || "published",
+    language: lang,
+    per_page: 100,
+    page: 1,
+  };
+
+  if (items && items.length > 0) {
+    return api.get(`cdn/stories`, {
+      ...params,
+      by_uuids_ordered: items.join(","),
+    });
+  }
+};
+
+const {
+  data: { stories = [] },
+} = (await fetchStories()) as ISbStories;
+ 
+const contentClass = `${align} ${container} ${container === "full-width" ? "px-2 md:px-4" : ""} grid gap-y-4`;
+---
+
+<div 
+  {...storyblokEditable(blok)}
+  class={`gallery ${surface} ${padding_top} ${padding_bottom} intersection`}
+>
+  <div class="content-grid">
+    <div class={contentClass}>
+      {
+        renderedRichText && (
+          <div set:html={renderedRichText} class="richtext max-w-2xl pb-2" />
+        )
+      }
+
+      <div class="flex flex-wrap gap-x-4 gap-y-6 md:gap-x-8 md:gap-y-10">
+        {
+          stories.map((item) => (
+            <div class="richtext min-w-[200px] flex-1">
+              <div class="float-left inline max-w-12 overflow-hidden pr-3 pt-1">
+                {item.content.logo && (
+                  <Picture
+                    src={item.content.logo.filename}
+                    alt={
+                      item.content.logo.alt ||
+                      item.content.logo.title ||
+                      item.name
+                    }
+                    sizes="2.5rem"
+                    layout="fill"
+                  />
+                )}
+              </div>
+              {item.content.intro && (
+                <p class="pt-0 text-sm font-bold">{item.content.intro}</p>
+              )}
+              {/* <div
+                set:html={renderRichText(item.content.content)}
+                class="pt-2 text-sm"
+              /> */}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gallery-grid {
+    grid-template-columns: repeat(var(--columns-xs), 1fr);
+    @screen sm {
+      grid-template-columns: repeat(var(--columns-sm), 1fr);
+    }
+    @screen md {
+      grid-template-columns: repeat(var(--columns-md), 1fr);
+    }
+    @screen lg {
+      grid-template-columns: repeat(var(--columns-lg), 1fr);
+    }
+    @screen xl {
+      grid-template-columns: repeat(var(--columns-xl), 1fr);
+    }
+
+    .lightbox-aspect {
+      aspect-ratio: var(--aspect-ratio);
+    }
+  }
+</style>
+<style is:global>
+  .image_card {
+    @apply grid gap-3;
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @apply text-lg;
+      font-size: 1rem !important;
+      line-height: 1 !important;
+    }
+  }
+</style>

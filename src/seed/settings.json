@@ -1,0 +1,575 @@
+{
+  "name": "Settings",
+  "parent_id": 572711350,
+  "group_id": "8ddb8bc9-22cf-4c4c-ab6e-8752558fd28d",
+  "alternates": [
+    
+  ],
+  "created_at": "2024-11-02T10:00:16.680Z",
+  "deleted_at": null,
+  "sort_by_date": null,
+  "tag_list": [
+    
+  ],
+  "updated_at": "2024-11-02T10:31:51.543Z",
+  "published_at": null,
+  "id": 572711355,
+  "uuid": "7322803b-f91d-41af-9e0e-002991c46bb0",
+  "is_folder": false,
+  "content": {
+    "_uid": "4f53e349-0c6a-4a52-b596-020ea06e6bae",
+    "email": "test@test.test",
+    "links": [
+      {
+        "_uid": "f0826d87-5beb-4325-bcb9-e4a9b6642d02",
+        "href": {
+          "id": "",
+          "url": "#",
+          "target": "_blank",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "#"
+        },
+        "icon": "facebook",
+        "label": "facebook",
+        "surface": "",
+        "component": "link"
+      },
+      {
+        "_uid": "adde1844-f3f4-4fcc-afa7-01f7fa481fc1",
+        "href": {
+          "id": "",
+          "url": "#",
+          "target": "_blank",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "#"
+        },
+        "icon": "instagram",
+        "label": "instagram",
+        "surface": "",
+        "component": "link"
+      }
+    ],
+    "phone": "0000000",
+    "address": "405 Madison Avenue, Suite 23\nDraper District, 10022\nNew York, NY, USA",
+    "dark_bg": {
+      "_uid": "098b7f5a-95b9-4742-802e-0855e9d16c49",
+      "color": "#072220",
+      "plugin": "native-color-picker"
+    },
+    "dark_fg": {
+      "_uid": "03ea49d3-c808-4f30-93c6-320a8ce69171",
+      "color": "#ffffff",
+      "plugin": "native-color-picker"
+    },
+    "info_bg": {
+      "_uid": "43e6f5a1-2597-4e3a-a3ff-2460737428aa",
+      "color": "#3b85a5",
+      "plugin": "native-color-picker"
+    },
+    "info_fg": {
+      "_uid": "eddb099a-123a-46a3-ae21-19e14799bfce",
+      "color": "#ffffff",
+      "plugin": "native-color-picker"
+    },
+    "light_bg": {
+      "_uid": "66a0085a-a9df-448d-8a1f-0eccc1490a0e",
+      "color": "#ffffff",
+      "plugin": "native-color-picker"
+    },
+    "light_fg": {
+      "_uid": "712ce840-7488-4f3f-a8b8-472c3b5df45f",
+      "color": "#072220",
+      "plugin": "native-color-picker"
+    },
+    "muted_bg": {
+      "_uid": "4db7075f-da85-45f6-bf96-74d152c216b0",
+      "color": "#edf7f4",
+      "plugin": "native-color-picker"
+    },
+    "muted_fg": {
+      "_uid": "31921219-b500-4d14-baec-e40791d1f8a0",
+      "color": "#072220",
+      "plugin": "native-color-picker"
+    },
+    "whatsapp": "0000000",
+    "accent_bg": {
+      "_uid": "06941aed-b366-4eed-aeef-63ef19b6a2a4",
+      "color": "#1a5b5a",
+      "plugin": "native-color-picker"
+    },
+    "accent_fg": {
+      "_uid": "d0218527-dab6-4838-98fc-25b7d18284e1",
+      "color": "#ffffff",
+      "plugin": "native-color-picker"
+    },
+    "component": "settings",
+    "danger_bg": {
+      "_uid": "df7f1d68-9638-46ad-a84f-fc5fe109253b",
+      "color": "#d04949",
+      "plugin": "native-color-picker"
+    },
+    "danger_fg": {
+      "_uid": "4a17e355-7fed-4d88-9f70-761841e483a8",
+      "color": "#ffffff",
+      "plugin": "native-color-picker"
+    },
+    "font_body": "--font-system-ui",
+    "main_menu": [
+      {
+        "_uid": "a079a74b-2c15-484b-8d17-ad36197474b6",
+        "href": {
+          "id": "",
+          "url": "/",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "/"
+        },
+        "icon": "",
+        "label": "Home",
+        "surface": "",
+        "component": "link"
+      },
+      {
+        "_uid": "b8bb3d1f-c280-4693-b918-30d073bc3d9e",
+        "href": {
+          "id": "ef441a20-d6c5-44d9-bfc6-20f7e44ecbd6",
+          "url": "",
+          "linktype": "story",
+          "fieldtype": "multilink",
+          "cached_url": "services/"
+        },
+        "icon": "",
+        "label": "Services",
+        "surface": "",
+        "component": "link"
+      },
+      {
+        "_uid": "6593578b-ed44-4d70-95f5-0d80175dc702",
+        "href": {
+          "id": "",
+          "url": "/work/",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "/work/"
+        },
+        "icon": "",
+        "label": "Work",
+        "surface": "",
+        "component": "link"
+      },
+      {
+        "_uid": "31f92117-1171-4aff-a3a6-901f502cd8db",
+        "href": {
+          "id": "",
+          "url": "/blog/",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "/blog/"
+        },
+        "icon": "",
+        "label": "Blog",
+        "surface": "",
+        "component": "link"
+      }
+    ],
+    "blog_title": "Blog",
+    "primary_bg": {
+      "_uid": "90314e8b-98ec-4277-8fb2-54fa219172f3",
+      "color": "#2c7d6f",
+      "plugin": "native-color-picker"
+    },
+    "primary_fg": {
+      "_uid": "af237909-4b97-4865-83e6-9c7c5596ccb3",
+      "color": "#ffffff",
+      "plugin": "native-color-picker"
+    },
+    "success_bg": {
+      "_uid": "4dd13de1-6663-454e-ac63-edcf704530f7",
+      "color": "#05765D",
+      "plugin": "native-color-picker"
+    },
+    "success_fg": {
+      "_uid": "60a84b53-335c-4e05-ba0f-f73ae22d300f",
+      "color": "#ffffff",
+      "plugin": "native-color-picker"
+    },
+    "warning_bg": {
+      "_uid": "8e2c1b89-4f3e-46b0-934f-ff1f2f46cbf4",
+      "color": "#e8b52c",
+      "plugin": "native-color-picker"
+    },
+    "warning_fg": {
+      "_uid": "54f904ab-3c42-485c-b1f2-3d5951640fd8",
+      "color": "#363535",
+      "plugin": "native-color-picker"
+    },
+    "work_title": "Work & Projects",
+    "footer_text": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "Astrogency",
+              "type": "text",
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ]
+            },
+            {
+              "text": " – The Green Astro Web Template for Future-Driven, Sustainable Agencies.",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "phone_label": "+34 000 000 00",
+    "blog_content": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "Demo content for the blog template!",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "company_name": "Astrogency",
+    "contact_form": [
+      {
+        "_uid": "917b98ff-d58b-49cc-a50c-9cdc2cd205b9",
+        "topic": "f96a581e-3815-42b4-94d7-79caa1308573",
+        "content": {
+          "type": "doc",
+          "content": [
+            {
+              "type": "heading",
+              "attrs": {
+                "level": 3
+              },
+              "content": [
+                {
+                  "text": "Hello! We’re excited to connect with you. ",
+                  "type": "text"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "text": "Tell us how we can assist you in bringing your vision to life!",
+                  "type": "text"
+                }
+              ]
+            }
+          ]
+        },
+        "surface": "",
+        "component": "contact_form",
+        "container": "",
+        "thank_you": "Thank you for your message.We will get back to you within 48 hours.",
+        "show_topics": true
+      }
+    ],
+    "radius_input": "1.20",
+    "radius_media": "1.80",
+    "secondary_bg": {
+      "_uid": "12aef145-3331-4d14-8da5-48c258357623",
+      "color": "#a7d08b",
+      "plugin": "native-color-picker"
+    },
+    "secondary_fg": {
+      "_uid": "f89efe61-d569-46f1-a9fa-3a377dd4ae38",
+      "color": "#072220",
+      "plugin": "native-color-picker"
+    },
+    "surface_menu": "surface-dark",
+    "surface_page": "surface-light",
+    "work_content": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "Demo content for our work template!",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "blog_og_image": {
+      "id": 17727067,
+      "alt": "",
+      "name": "",
+      "focus": "",
+      "title": "",
+      "source": "",
+      "filename": "https://a.storyblok.com/f/297817/512x512/15fed0d992/design-illustration-2.jpeg",
+      "copyright": "",
+      "fieldtype": "asset",
+      "meta_data": {
+        
+      },
+      "is_external_url": false
+    },
+    "blog_og_title": "Astrogency News",
+    "font_headings": "--font-system-ui",
+    "footer_menu_1": [
+      {
+        "_uid": "bee93b15-1691-4179-96d1-df8dc5d82b96",
+        "href": {
+          "id": "",
+          "url": "/",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "/"
+        },
+        "icon": "",
+        "label": "Home",
+        "surface": "",
+        "component": "link"
+      },
+      {
+        "_uid": "fbb1741e-0cb5-421a-933e-299d03c4224a",
+        "href": {
+          "id": "ef441a20-d6c5-44d9-bfc6-20f7e44ecbd6",
+          "url": "",
+          "linktype": "story",
+          "fieldtype": "multilink",
+          "cached_url": "services/"
+        },
+        "icon": "",
+        "label": "Services",
+        "surface": "",
+        "component": "link",
+        "hide_label": false
+      },
+      {
+        "_uid": "6c5d0315-0dd8-4861-9606-99831e3ed692",
+        "href": {
+          "id": "",
+          "url": "/work/",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "/work/"
+        },
+        "icon": "",
+        "label": "Work Example",
+        "surface": "",
+        "component": "link",
+        "hide_label": false
+      },
+      {
+        "_uid": "a9060508-fabf-4ea4-a212-80b4f45f11bc",
+        "href": {
+          "id": "",
+          "url": "#contact",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "#contact"
+        },
+        "icon": "",
+        "label": "Contact",
+        "surface": "",
+        "component": "link",
+        "hide_label": false
+      }
+    ],
+    "footer_menu_2": [
+      {
+        "_uid": "f85b2310-7062-4161-92d3-eb19719171dc",
+        "href": {
+          "id": "",
+          "url": "/blog/",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "/blog/"
+        },
+        "icon": "",
+        "label": "Blog",
+        "surface": "",
+        "component": "link",
+        "hide_label": false
+      },
+      {
+        "_uid": "409348ee-7f30-4478-a30f-c6e11a8e2182",
+        "href": {
+          "id": "",
+          "url": "#",
+          "target": "_blank",
+          "linktype": "url",
+          "fieldtype": "multilink",
+          "cached_url": "#"
+        },
+        "icon": "",
+        "label": "GitHub",
+        "surface": "",
+        "component": "link"
+      }
+    ],
+    "work_og_image": {
+      "id": 17727263,
+      "alt": "",
+      "name": "",
+      "focus": "",
+      "title": "",
+      "source": "",
+      "filename": "https://a.storyblok.com/f/297817/512x512/f082e524cb/hosting-illustration.jpeg",
+      "copyright": "",
+      "fieldtype": "asset",
+      "meta_data": {
+        
+      },
+      "is_external_url": false
+    },
+    "work_og_title": "Work & Projects",
+    "surface_footer": "surface-dark",
+    "font_weight_body": "400",
+    "tiny_analytics_id": "",
+    "newsletter_content": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "Subscribe for updates!",
+              "type": "text",
+              "marks": [
+                {
+                  "type": "italic"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "blog_og_description": "Demo content for the blog template!",
+    "footer_menu_1_label": "Company",
+    "footer_menu_2_label": "Information",
+    "work_og_description": "Check out our latest work",
+    "font_weight_headings": "800",
+    "newsletter_in_footer": false,
+    "newsletter_thank_you": "Thank you!",
+    "footer_text__i18n__nl": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "Astrogency - De groene Astro Thema voor toekomstgerichte, duurzame bureaus. ",
+              "type": "text",
+              "marks": [
+                {
+                  "type": "bold"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "blog_content__i18n__nl": {
+      "type": "doc",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "text": "Demo content for the blog template!",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    "footer_3_label__i18n__nl": "Openings Tijden",
+    "footer_menu_1_label__i18n__nl": "Bedrijf",
+    "footer_menu_2_label__i18n__nl": "Informatie"
+  },
+  "published": false,
+  "slug": "settings",
+  "path": null,
+  "full_slug": "site-settings/settings",
+  "default_root": null,
+  "disble_fe_editor": false,
+  "parent": {
+    "id": 572711350,
+    "uuid": "cebb54ba-6485-48f2-82d7-753a6c8c426a",
+    "name": "Site Settings",
+    "slug": "site-settings",
+    "disble_fe_editor": true
+  },
+  "is_startpage": false,
+  "unpublished_changes": true,
+  "meta_data": null,
+  "imported_at": null,
+  "preview_token": {
+    "token": "a0aeaa13e9b5b69c975c0a625482b417bf98eb57",
+    "timestamp": "1730543671"
+  },
+  "pinned": false,
+  "breadcrumbs": [
+    {
+      "id": 572711350,
+      "name": "Site Settings",
+      "parent_id": 0,
+      "disble_fe_editor": true,
+      "path": null,
+      "slug": "site-settings",
+      "translated_slugs": [
+        
+      ]
+    }
+  ],
+  "publish_at": null,
+  "expire_at": null,
+  "first_published_at": "2024-06-26T16:11:53.038Z",
+  "last_author": {
+    "id": 68956,
+    "userid": "hello@unfolding.io",
+    "friendly_name": "hello@unfolding.io"
+  },
+  "last_author_id": 68956,
+  "user_ids": [
+    
+  ],
+  "space_role_ids": [
+    
+  ],
+  "translated_slugs": [
+    
+  ],
+  "localized_paths": [
+    
+  ],
+  "position": 0,
+  "translated_stories": [
+    
+  ],
+  "can_not_view": false,
+  "is_scheduled": null,
+  "scheduled_dates": null,
+  "ideas": [
+    
+  ],
+  "stage": null,
+  "favourite_for_user_ids": [
+    
+  ]
+}

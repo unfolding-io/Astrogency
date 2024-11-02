@@ -1,0 +1,372 @@
+[
+  {
+    "name": "Design",
+    "parent_id": 527504208,
+    "group_id": "106079f5-6009-46b9-882b-45f714cb4049",
+    "alternates": [
+      
+    ],
+    "created_at": "2024-07-24T09:37:45.117Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [
+      
+    ],
+    "updated_at": "2024-10-21T10:47:42.280Z",
+    "published_at": "2024-10-21T10:47:42.264Z",
+    "id": 527504214,
+    "uuid": "154822e9-916e-4e3b-b446-30bd2ed788de",
+    "is_folder": false,
+    "content": {
+      "_uid": "6d49bffa-5b71-4b84-ad03-a8b5e7107d08",
+      "body": [
+        {
+          "_uid": "e741a355-4510-465f-8e05-111323c32e5d",
+          "align": "",
+          "image": {
+            "id": 17727067,
+            "alt": "",
+            "name": "",
+            "focus": "",
+            "title": "",
+            "source": "",
+            "filename": "https://a.storyblok.com/f/297817/512x512/15fed0d992/design-illustration-2.jpeg",
+            "copyright": "",
+            "fieldtype": "asset",
+            "meta_data": {
+              
+            },
+            "is_external_url": false
+          },
+          "links": [
+            
+          ],
+          "video": {
+            "id": null,
+            "alt": null,
+            "name": "",
+            "focus": null,
+            "title": null,
+            "source": null,
+            "filename": "",
+            "copyright": null,
+            "fieldtype": "asset",
+            "meta_data": {
+              
+            }
+          },
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "level": 2
+                },
+                "content": [
+                  {
+                    "text": "Unique Illustrations for Standout Branding",
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "textStyle",
+                        "attrs": {
+                          "color": "#000000CC"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "text": "Enhance your brand identity with custom illustrations designed to bring your story to life. Whether it's detailed icons, hand-drawn elements, or dynamic visuals, our illustrations are crafted to align with your brand’s personality and engage your audience. Each piece is tailored to fit seamlessly across your digital presence, adding a creative touch that sets you apart from the competition.",
+                    "type": "text",
+                    "marks": [
+                      {
+                        "type": "textStyle",
+                        "attrs": {
+                          "color": "#000000CC"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "reverse": false,
+          "surface": "",
+          "component": "text_media",
+          "container": "breakout",
+          "media_width": "50",
+          "padding_top": "pt-lg",
+          "aspect_ratio": "1.25",
+          "padding_bottom": "pb-lg"
+        },
+        {
+          "_uid": "08de0605-c40d-47de-b779-95152a8224fb",
+          "items": [
+            
+          ],
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "level": 3
+                },
+                "content": [
+                  {
+                    "text": "Design Projects",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "surface": "surface-muted",
+          "category": "0afe1d5b-e18c-41e6-b6bb-e6f41989c79f",
+          "component": "blog_and_work_items",
+          "container": "breakout",
+          "max_items": "3",
+          "padding_top": "pt-lg",
+          "padding_bottom": "pb-lg"
+        },
+        {
+          "_uid": "b5458424-4582-4f14-bb3a-efcaa34f1f66",
+          "align": "",
+          "image": {
+            "id": 17727414,
+            "alt": "",
+            "name": "",
+            "focus": "",
+            "title": "",
+            "source": "",
+            "filename": "https://a.storyblok.com/f/297817/1080x1080/b75fdd3684/helpdesk_1.png",
+            "copyright": "",
+            "fieldtype": "asset",
+            "meta_data": {
+              "alt": "",
+              "title": "",
+              "source": "",
+              "copyright": ""
+            },
+            "is_external_url": false
+          },
+          "links": [
+            {
+              "_uid": "ae54c243-c16f-4072-8a04-e612069100db",
+              "href": {
+                "id": "",
+                "url": "#contact",
+                "linktype": "url",
+                "fieldtype": "multilink",
+                "cached_url": "#contact"
+              },
+              "icon": "",
+              "label": "Lets have a chat",
+              "surface": "",
+              "component": "link",
+              "hide_label": false
+            }
+          ],
+          "video": {
+            "id": null,
+            "alt": null,
+            "name": "",
+            "focus": null,
+            "title": null,
+            "source": null,
+            "filename": "",
+            "copyright": null,
+            "fieldtype": "asset",
+            "meta_data": {
+              
+            }
+          },
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "level": 2
+                },
+                "content": [
+                  {
+                    "text": "Bring Your Brand to Life with Custom Design",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "text": "Elevate your brand with stunning, bespoke designs that captivate your audience and boost your business. Whether it’s a fresh website layout or unique visual assets, we’ll make your brand stand out.",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "reverse": true,
+          "surface": "surface-secondary",
+          "component": "text_media",
+          "container": "breakout",
+          "media_width": "33.33",
+          "padding_top": "pt-lg",
+          "aspect_ratio": "1",
+          "padding_bottom": "pb-lg"
+        }
+      ],
+      "intro": "We create bespoke, visually striking designs tailored to your brand. Whether you need a full website layout, a logo, or branding assets, we focus on clean, modern aesthetics that capture your audience’s attention.",
+      "title": "Design",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "We create bespoke, visually striking designs tailored to your brand. Whether you need a full website layout, a logo, or branding assets, we focus on clean, modern aesthetics that capture your audience’s attention. ",
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "styled",
+                    "attrs": {
+                      "class": "lead"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Our designs are not only beautiful but also optimized for performance, ensuring they support your business goals across digital platforms.",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "surface": "surface-light",
+      "og_image": {
+        "id": 17727010,
+        "alt": "",
+        "name": "",
+        "focus": "",
+        "title": "",
+        "source": "",
+        "filename": "https://a.storyblok.com/f/297817/512x512/98921c83aa/design-illustration.jpeg",
+        "copyright": "",
+        "fieldtype": "asset",
+        "meta_data": {
+          
+        },
+        "is_external_url": false
+      },
+      "og_title": "Custom Design Solutions",
+      "component": "service",
+      "thumbnail": {
+        "id": 17727010,
+        "alt": "",
+        "name": "",
+        "focus": "",
+        "title": "",
+        "source": "",
+        "filename": "https://a.storyblok.com/f/297817/512x512/98921c83aa/design-illustration.jpeg",
+        "copyright": "",
+        "fieldtype": "asset",
+        "meta_data": {
+          
+        },
+        "is_external_url": false
+      },
+      "page_title": "Custom Design Solutions",
+      "og_description": "We create bespoke, visually striking designs tailored to your brand. Whether you need a full website layout, a logo, or branding assets, we focus on clean, modern aesthetics that capture your audience’s attention. Our designs are not only beautiful but also optimized for performance, ensuring they support your business goals across digital platforms."
+    },
+    "published": true,
+    "slug": "design",
+    "path": null,
+    "full_slug": "services/design",
+    "default_root": null,
+    "disble_fe_editor": false,
+    "parent": {
+      "id": 527504208,
+      "uuid": "89a3b73a-5b17-468c-8aed-8e914a60b4ea",
+      "name": "Services",
+      "slug": "services",
+      "disble_fe_editor": false
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "da00f7e696c8fa8c32f7edde3ef77ceb6816ead9",
+      "timestamp": "1730538682"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 527504208,
+        "name": "Services",
+        "parent_id": 0,
+        "disble_fe_editor": false,
+        "path": null,
+        "slug": "services",
+        "translated_slugs": [
+          
+        ]
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-07-24T09:39:37.555Z",
+    "last_author": {
+      "id": 68956,
+      "userid": "hello@unfolding.io",
+      "friendly_name": "hello@unfolding.io"
+    },
+    "last_author_id": 68956,
+    "user_ids": [
+      
+    ],
+    "space_role_ids": [
+      
+    ],
+    "translated_slugs": [
+      
+    ],
+    "localized_paths": [
+      {
+        "path": "services/design",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": 0,
+    "translated_stories": [
+      
+    ],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [
+      
+    ],
+    "stage": null,
+    "favourite_for_user_ids": [
+      
+    ]
+  }
+]

@@ -1,0 +1,145 @@
+[
+  {
+    "name": "Design",
+    "parent_id": 527457062,
+    "group_id": "9da968e0-9cdf-4f05-b905-933486cde667",
+    "alternates": [
+      
+    ],
+    "created_at": "2024-07-24T08:40:10.359Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [
+      
+    ],
+    "updated_at": "2024-10-17T14:24:10.564Z",
+    "published_at": "2024-10-20T10:43:23.000Z",
+    "id": 527457449,
+    "uuid": "0afe1d5b-e18c-41e6-b6bb-e6f41989c79f",
+    "is_folder": false,
+    "content": {
+      "_uid": "86ac4dff-d49e-49e7-a440-1851a9e4e328",
+      "title": "Design",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "This is demo content for the theme, no real projects.",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "surface": "surface-light",
+      "og_image": {
+        "id": 17727010,
+        "alt": "",
+        "name": "",
+        "focus": "",
+        "title": "",
+        "source": "",
+        "filename": "https://a.storyblok.com/f/297817/512x512/98921c83aa/design-illustration.jpeg",
+        "copyright": "",
+        "fieldtype": "asset",
+        "meta_data": {
+          
+        },
+        "is_external_url": false
+      },
+      "og_title": "Design Examples",
+      "component": "work_category",
+      "page_title": "Design Examples",
+      "og_description": "This is demo content for the theme, no real projects."
+    },
+    "published": true,
+    "slug": "design",
+    "path": null,
+    "full_slug": "site-settings/work-categories/design",
+    "default_root": null,
+    "disble_fe_editor": false,
+    "parent": {
+      "id": 527457062,
+      "uuid": "8e15b384-44a7-4b99-9bc6-e9105f47368d",
+      "name": "Work Categories",
+      "slug": "work-categories",
+      "disble_fe_editor": true
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "9fa1bfe35b5af66114c169dc90957b023e2288ae",
+      "timestamp": "1730539210"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 526161103,
+        "name": "Site Settings",
+        "parent_id": 0,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "site-settings",
+        "translated_slugs": [
+          
+        ]
+      },
+      {
+        "id": 527457062,
+        "name": "Work Categories",
+        "parent_id": 526161103,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "work-categories",
+        "translated_slugs": [
+          
+        ]
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-07-24T08:40:51.054Z",
+    "last_author": {
+      "id": 68956,
+      "userid": "hello@unfolding.io",
+      "friendly_name": "hello@unfolding.io"
+    },
+    "last_author_id": 68956,
+    "user_ids": [
+      
+    ],
+    "space_role_ids": [
+      
+    ],
+    "translated_slugs": [
+      
+    ],
+    "localized_paths": [
+      {
+        "path": "site-settings/work-categories/design",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": -10,
+    "translated_stories": [
+      
+    ],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [
+      
+    ],
+    "stage": null,
+    "favourite_for_user_ids": [
+      
+    ]
+  }
+]

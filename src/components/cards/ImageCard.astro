@@ -1,0 +1,110 @@
+---
+import Picture from "@components/media/Picture.astro";
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import Link from "@components/navigation/Link.astro";
+
+const {
+  image,
+  content,
+  surface,
+  template = "card",
+  aspect_ratio = 1,
+  align = "text-left",
+  vertical_align = "content-start",
+  image_opacity = 1,
+  buttons = [],
+  sizes = "20rem",
+  noRadius = false,
+} = Astro.props;
+
+const text = renderRichText(content);
+---
+
+{
+  template === "card" && (
+    <div
+      class={`${align} ${noRadius ? "" : "rounded-media"} @container image-card intersection grid h-full auto-rows-auto grid-cols-1 overflow-hidden ${surface || ""} ${surface ? "hass-bg" : ""} `}
+      {...storyblokEditable}
+    >
+      {image?.filename && (
+        <div class={`${noRadius ? "" : "rounded-media"} media-bg relative h-fit self-start overflow-hidden`}>
+          <Picture
+            src={image.filename}
+            alt={image.alt || image.title || ""}
+            sizes={sizes}
+            ar={aspect_ratio}
+            layout="fullWidth"
+            loading="lazy"
+          />
+        </div>
+      )}
+      <div
+        class={` ${surface ? "flex h-full flex-col justify-between px-4 pb-6 pt-4 sm:px-8 sm:pb-8 sm:pt-8" : "grid h-fit grid-cols-1 py-3 @xs:py-6"}`}
+      >
+        <div class={`richtext scale-in`} set:html={text} />
+        {buttons && buttons.length > 0 && (
+          <div class="buttons inline-flex h-fit w-full flex-wrap gap-4 pt-6">
+            {buttons.map((link: any) => (
+              <Link blok={link} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+{
+  template === "banner" && (
+    <div
+      class={`${align} ${vertical_align} image-banner intersection relative grid h-full grid-cols-1 overflow-hidden ${noRadius ? "" : "rounded-media"} ${surface || ""} ${surface ? "hass-bg" : ""}`}
+      {...storyblokEditable}
+    >
+      {image?.filename && (
+        <div
+          class="absolute inset-0 z-0 h-full w-full"
+          style={`opacity: ${image_opacity};`}
+        >
+          <Picture
+            src={image.filename}
+            alt={image.alt || image.title || ""}
+            sizes={sizes}
+            ar={aspect_ratio}
+            layout="fill"
+            loading="lazy"
+          />
+        </div>
+      )}
+      <div
+        class={`banner-content h-fit pb-6 pt-4 sm:pb-10 sm:pt-8 ${surface ? "px-4 sm:px-8" : ""}`}
+      >
+        <div class={`richtext scale-in relative`} set:html={text} />
+        {buttons && buttons.length > 0 && (
+          <div class="buttons relative inline-flex h-fit w-fit flex-wrap gap-4 pt-6">
+            {buttons.map((link: any) => (
+              <Link blok={link} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .image-card {
+    grid-template-rows: auto 1fr;
+    &.hass-bg {
+      .rounded-media {
+        border-radius: var(--radius-media) var(--radius-media) 0 0;
+      }
+      &.text-left .buttons {
+        justify-content: end;
+      }
+    }
+  }
+  .banner-content {
+    @apply m-auto;
+    max-width: var(--content-max-width);
+  }
+</style>

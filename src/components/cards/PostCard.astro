@@ -1,0 +1,69 @@
+---
+import Picture from "@components/media/Picture.astro"; 
+ 
+const {
+  full_slug,
+  thumbnail,
+  title,
+  intro,
+  wide,
+  category,
+  showCategory,
+  categories,
+  compact,
+  min_width,
+  sizes = null,
+  noRadius = false,
+} = Astro.props;
+
+const url = `/${full_slug}/`;
+
+function getSizes() {
+  if (compact) {
+    return "(min-width: 1566px) 426px, (min-width: 1280px) 56vw, (min-width: 768px) 27vw, calc(100vw - 2rem)";
+  }
+  if (wide) {
+    return "(min-width: 1566px) 890px, (min-width: 1280px) 28vw, (min-width: 768px) 27vw, calc(100vw - 2rem)";
+  }
+  return "(min-width: 1566px) 426px, (min-width: 1280px) 56vw, (min-width: 768px) 27vw, calc(100vw - 2rem)";
+}
+
+const cat = showCategory ? categories.find((c:any) => c.uuid === category[0]) : null;
+---
+
+<a
+  href={url}
+  class={`group transition-all duration-300 @container ${wide ? "xl:col-span-2" : ""} ${min_width || "min-w-[200px]"} flex-1`}
+>
+  <div 
+    class={`grid h-fit auto-rows-max grid-cols-1 intersection ${compact ? "gap-2 @lg:grid-cols-2 @lg:gap-8" : "gap-4"}`}
+  > 
+    <div class={`${noRadius ? '' : 'rounded-media'} relative h-full overflow-hidden media-bg `}>
+      <Picture
+        src={thumbnail.filename}
+        alt={title}
+        sizes={sizes || getSizes()}
+        ar={compact ? 16/9 : wide ? 21/9 : 10.5/9.43}
+        layout="fill"
+        loading="lazy"
+        className="transition-all duration-500 fade-in group-hover:grayscale-[100%]"
+        artDirectives={[
+          {
+            media: "(max-width: 1279px)",
+            ar: 16/9,
+            breakpoints: [150, 320, 440, 640, 768, 820, 940, 1024, 1280, 1480],
+          },
+        ]}
+      />
+      {cat && (
+        <div class="absolute right-2 top-2 z-10 rounded-input bg-dark/40 px-2 py-1 text-sm text-light backdrop-blur-sm">
+          {cat.content.title} 
+        </div>
+      )}
+    </div>
+    <div class={`${noRadius ? 'px-4 pb-14' : ''} scale-in z-20 @lg:self-center`}>
+      <h2 class={compact ? "text-lg" : "text-2xl"}>{title}</h2>
+      <div class={compact ? "line-clamp-3" : "line-clamp-3"}>{intro}</div>
+    </div>
+  </div>
+</a>

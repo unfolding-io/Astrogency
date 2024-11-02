@@ -1,0 +1,567 @@
+[
+  {
+    "name": "AI Images",
+    "parent_id": 527457603,
+    "group_id": "c735bab4-48d3-474e-be6f-c58ae6614f2e",
+    "alternates": [
+      
+    ],
+    "created_at": "2024-07-24T08:42:46.965Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [
+      
+    ],
+    "updated_at": "2024-10-20T16:50:20.736Z",
+    "published_at": "2024-10-20T16:50:50.000Z",
+    "id": 527457781,
+    "uuid": "2bcdaa0f-cc9f-47de-aa25-96eb7308ec75",
+    "is_folder": false,
+    "content": {
+      "_uid": "da97a6a9-170c-49f8-b28a-5d104905d85d",
+      "body": [
+        {
+          "_uid": "0894c6e8-0082-45a0-82a6-053fba937ed2",
+          "align": "text-left mr-auto justify-items-start",
+          "items": [
+            {
+              "id": 16737961,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/106d4f3b41/nature.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            },
+            {
+              "id": 16737959,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/5472694e96/eco-aware.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            }
+          ],
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "level": 2
+                },
+                "content": [
+                  {
+                    "text": "Gallery",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "text": "Bloody Peasant! Why do you think that she is a witch? Shh! Knights, I bid you welcome to your new home. Let us ride to Camelot! You don't vote for kings. …Are you suggesting that coconuts migrate?",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "surface": "",
+          "lightbox": true,
+          "component": "gallery",
+          "container": "breakout",
+          "columns_lg": "2",
+          "columns_md": "2",
+          "columns_sm": "2",
+          "columns_xl": "2",
+          "columns_xs": "1",
+          "padding_top": "pt-md",
+          "aspect_ratio": "1.777",
+          "padding_bottom": "pb-xs"
+        },
+        {
+          "_uid": "856de3f6-c369-496b-b075-dc9069b466b8",
+          "align": "text-left mr-auto justify-items-start",
+          "items": [
+            {
+              "id": 16737954,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/f1437a3a9d/get_more_clients.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            }
+          ],
+          "compact": true,
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph"
+              }
+            ]
+          },
+          "surface": "",
+          "lightbox": true,
+          "component": "gallery",
+          "container": "breakout",
+          "columns_lg": "1",
+          "columns_md": "1",
+          "columns_sm": "1",
+          "columns_xl": "1",
+          "columns_xs": "1",
+          "padding_top": "pt-xs",
+          "aspect_ratio": "1.777",
+          "padding_bottom": "pb-xs"
+        },
+        {
+          "_uid": "5df1c9f2-61de-43d8-8c76-5c484a3493a4",
+          "align": "text-left mr-auto justify-items-start",
+          "items": [
+            {
+              "id": 16737951,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/4a78bcf32e/design.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            },
+            {
+              "id": 16737950,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/d3162c96fa/about-us.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            },
+            {
+              "id": 16737952,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/e6648518d9/collecting_leads.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            },
+            {
+              "id": 16737955,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/ca75074831/webdev.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            },
+            {
+              "id": 16737953,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/91e438d21f/reasearch.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            },
+            {
+              "id": 16732345,
+              "alt": "",
+              "name": "",
+              "focus": "",
+              "title": "",
+              "source": "",
+              "filename": "https://a.storyblok.com/f/297817/2688x1536/7f5f88d387/speed.jpeg",
+              "copyright": "",
+              "fieldtype": "asset",
+              "meta_data": {
+                
+              }
+            }
+          ],
+          "compact": true,
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "paragraph"
+              }
+            ]
+          },
+          "surface": "",
+          "lightbox": true,
+          "component": "gallery",
+          "container": "breakout",
+          "columns_lg": "3",
+          "columns_md": "3",
+          "columns_sm": "2",
+          "columns_xl": "3",
+          "columns_xs": "1",
+          "padding_top": "pt-xs",
+          "aspect_ratio": "1.777",
+          "padding_bottom": "pb-lg"
+        },
+        {
+          "_uid": "225147c6-8788-4e0f-865e-cd5610e6aaa2",
+          "align": "",
+          "items": [
+            "12ddec00-5500-4d0a-9eac-d06c1ee5381f",
+            "be1875c5-85fc-4e3a-a407-3953ef97a844",
+            "e31241b5-508b-439a-9151-b5b42cde27ff"
+          ],
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "level": 3
+                },
+                "content": [
+                  {
+                    "text": "Tools Used",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          "surface": "surface-muted",
+          "component": "stack_items",
+          "container": "breakout",
+          "accent_surface": "surface-primary"
+        },
+        {
+          "_uid": "b69c891a-2a97-414a-add0-6072dec17553",
+          "crop": false,
+          "align": "",
+          "image": {
+            "id": 17727414,
+            "alt": "",
+            "name": "",
+            "focus": "",
+            "title": "",
+            "source": "",
+            "filename": "https://a.storyblok.com/f/297817/1080x1080/b75fdd3684/helpdesk_1.png",
+            "copyright": "",
+            "fieldtype": "asset",
+            "meta_data": {
+              "alt": "",
+              "title": "",
+              "source": "",
+              "copyright": ""
+            },
+            "is_external_url": false
+          },
+          "links": [
+            {
+              "_uid": "05d344e0-92c2-49e4-9748-0f40fd49517e",
+              "href": {
+                "id": "",
+                "url": "#contact",
+                "linktype": "url",
+                "fieldtype": "multilink",
+                "cached_url": "#contact"
+              },
+              "icon": "",
+              "label": "Lets have a chat",
+              "surface": "",
+              "component": "link",
+              "hide_label": false
+            }
+          ],
+          "video": {
+            "id": null,
+            "alt": null,
+            "name": "",
+            "focus": null,
+            "title": null,
+            "source": null,
+            "filename": "",
+            "copyright": null,
+            "fieldtype": "asset",
+            "meta_data": {
+              
+            }
+          },
+          "layout": "fit",
+          "content": {
+            "type": "doc",
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "level": 2
+                },
+                "content": [
+                  {
+                    "text": "Ready to Add a Touch of Whimsy to Your Project?",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "content": [
+                  {
+                    "text": "Let our AI-generated hamsters bring creativity and charm to your brand. Whether for marketing, branding, or personal projects, these delightful designs are sure to capture attention.",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph"
+              }
+            ]
+          },
+          "reverse": true,
+          "surface": "surface-secondary",
+          "component": "text_media",
+          "container": "breakout",
+          "media_width": "33.33",
+          "padding_top": "pt-lg",
+          "aspect_ratio": "1",
+          "padding_bottom": "pb-lg"
+        }
+      ],
+      "intro": "Dive into a whimsical world where creativity meets technology! Our AI Hamsters are meticulously crafted with love and inspired by the joy of a good drink. Each unique design showcases our commitment to fun, innovation, and the endless possibilities of blending art and artificial intelligence.",
+      "links": [
+        {
+          "_uid": "5e69cdab-c485-4c71-8d60-2e3adebc13ff",
+          "href": {
+            "id": "",
+            "url": "#",
+            "linktype": "url",
+            "fieldtype": "multilink",
+            "cached_url": "#"
+          },
+          "icon": "external",
+          "label": "View project",
+          "surface": "",
+          "component": "link"
+        }
+      ],
+      "title": "AI Hamsters: Created with creativity, love, and a touch of fun.",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "DEMO CONTENT.",
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "bold"
+                  },
+                  {
+                    "type": "styled",
+                    "attrs": {
+                      "class": "lead"
+                    }
+                  }
+                ]
+              },
+              {
+                "text": "Dive into a whimsical world where creativity meets technology! Our AI Hamsters are meticulously crafted with love and inspired by the joy of a good drink. ",
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "styled",
+                    "attrs": {
+                      "class": "lead"
+                    }
+                  },
+                  {
+                    "type": "textStyle",
+                    "attrs": {
+                      "color": "#000000CC"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Each unique design showcases our commitment to fun, innovation, and the endless possibilities of blending art and artificial intelligence.",
+                "type": "text",
+                "marks": [
+                  {
+                    "type": "textStyle",
+                    "attrs": {
+                      "color": "#000000CC"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "surface": "",
+      "category": [
+        "0afe1d5b-e18c-41e6-b6bb-e6f41989c79f",
+        "9597085b-dd80-4bb3-871c-57fd20233b0b"
+      ],
+      "og_image": {
+        "id": 16732345,
+        "alt": "",
+        "name": "",
+        "focus": "",
+        "title": "",
+        "source": "",
+        "filename": "https://a.storyblok.com/f/297817/2688x1536/7f5f88d387/speed.jpeg",
+        "copyright": "",
+        "fieldtype": "asset",
+        "meta_data": {
+          
+        },
+        "is_external_url": false
+      },
+      "og_title": "AI Hamsters: Created with creativity, love, and a touch of fun.",
+      "services": [
+        "154822e9-916e-4e3b-b446-30bd2ed788de",
+        "9f4b717a-3839-4102-8174-27207e8d7aa8"
+      ],
+      "component": "work",
+      "thumbnail": {
+        "id": 16732345,
+        "alt": "",
+        "name": "",
+        "focus": "",
+        "title": "",
+        "source": "",
+        "filename": "https://a.storyblok.com/f/297817/2688x1536/7f5f88d387/speed.jpeg",
+        "copyright": "",
+        "fieldtype": "asset",
+        "meta_data": {
+          
+        },
+        "is_external_url": false
+      },
+      "og_description": "Dive into a whimsical world where creativity meets technology! Our AI Hamsters are meticulously crafted with love and inspired by the joy of a good drink. Each unique design showcases our commitment to fun, innovation, and the endless possibilities of blending art and artificial intelligence."
+    },
+    "published": true,
+    "slug": "ai-images",
+    "path": null,
+    "full_slug": "work/ai-images",
+    "default_root": null,
+    "disble_fe_editor": false,
+    "parent": {
+      "id": 527457603,
+      "uuid": "6dcc808c-a495-499c-a7c1-c9d3c53d02b4",
+      "name": "Work",
+      "slug": "work",
+      "disble_fe_editor": false
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "2ea01c326c559c250b5dc9573cd63a34b7db3980",
+      "timestamp": "1730539470"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 527457603,
+        "name": "Work",
+        "parent_id": 0,
+        "disble_fe_editor": false,
+        "path": null,
+        "slug": "work",
+        "translated_slugs": [
+          
+        ]
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-07-24T09:41:32.185Z",
+    "last_author": {
+      "id": 68956,
+      "userid": "hello@unfolding.io",
+      "friendly_name": "hello@unfolding.io"
+    },
+    "last_author_id": 68956,
+    "user_ids": [
+      
+    ],
+    "space_role_ids": [
+      
+    ],
+    "translated_slugs": [
+      
+    ],
+    "localized_paths": [
+      {
+        "path": "work/ai-images",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": 30,
+    "translated_stories": [
+      
+    ],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [
+      
+    ],
+    "stage": null,
+    "favourite_for_user_ids": [
+      
+    ]
+  }
+]

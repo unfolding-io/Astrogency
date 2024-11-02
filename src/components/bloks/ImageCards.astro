@@ -1,0 +1,112 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import ImageCard from "@components/cards/ImageCard.astro";
+
+interface Props {
+  blok: ImageCardsStoryblok;
+}
+
+const { blok } = Astro.props;
+
+const {
+  content,
+  surface = "",
+  container = "breakout",
+  aspect_ratio,
+  columns_xs,
+  columns_sm,
+  columns_md,
+  columns_lg,
+  columns_xl,
+  align = "",
+  items = [],
+  gap_xs = "1",
+  gap_md = "1.5",
+  gap_xl = "2",
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+  min_height="0",
+} = blok;
+
+const renderedRichText = renderRichText(content);
+const count = items.length;
+
+const columns = {
+  xs: Math.min(columns_xs, count),
+  sm: Math.min(columns_sm, count),
+  md: Math.min(columns_md, count),
+  lg: Math.min(columns_lg, count),
+  xl: Math.min(columns_xl, count),
+};
+
+function getSizes() {
+  const baseSize = (col: keyof typeof columns) =>
+    `calc(100vw / ${columns[col]})`;
+  const sizes = [
+    `(min-width: 1280px) ${baseSize("xl")}`,
+    `(min-width: 1024px) ${baseSize("lg")}`,
+    `(min-width: 768px) ${baseSize("md")}`,
+    `(min-width: 640px) ${baseSize("sm")}`,
+    baseSize("xs"),
+  ];
+
+  if (container === "breakout") {
+    sizes.unshift(
+      `(min-width: var(--breakout-max-width)) calc(var(--breakout-max-width) / ${columns.xl})`,
+    );
+  } else if (container !== "full-width") {
+    sizes[0] = `(min-width: var(--content-max-width)) calc(var(--content-max-width) / ${columns.xl})`;
+  }
+
+  return sizes.join(", ");
+}
+
+const noRadius = gap_xs === "0" && gap_md === "0" && gap_xl === "0";
+ 
+const contentClass = `${align} ${container} ${container === "full-width" && !noRadius ? "px-2 md:px-4" : ""} grid gap-y-6`;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  style={`--gap-xs: ${gap_xs}rem; --gap-md: ${gap_md}rem; --gap-xl: ${gap_xl}rem; --min-height: ${min_height}svh;`}
+  class={`gallery ${surface} ${padding_top} ${padding_bottom} intersection`}
+>
+  <div
+    class="content-grid"
+    style={`--aspect-ratio: ${aspect_ratio}; --columns-xs: ${columns.xs}; --columns-sm: ${columns.sm}; --columns-md: ${columns.md}; --columns-lg: ${columns.lg}; --columns-xl: ${columns.xl};`}
+  >
+    <div class={contentClass}>
+      {
+        renderedRichText && (
+          <div set:html={renderedRichText} class="richtext max-w-2xl pb-2" />
+        )
+      }
+
+      <div class="card-grid grid">
+        {items.map((item) => <ImageCard {...item} sizes={getSizes()} {noRadius} />)}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card-grid {
+    min-height: var(--min-height);
+    gap: var(--gap-xs);
+    grid-template-columns: repeat(var(--columns-xs), 1fr);
+    @screen sm {
+      grid-template-columns: repeat(var(--columns-sm), 1fr);
+    }
+    @screen md {
+      gap: var(--gap-md);
+      grid-template-columns: repeat(var(--columns-md), 1fr);
+    }
+    @screen lg {
+      grid-template-columns: repeat(var(--columns-lg), 1fr);
+    }
+    @screen xl {
+      gap: var(--gap-xl);
+      grid-template-columns: repeat(var(--columns-xl), 1fr);
+    }
+  }
+</style>
