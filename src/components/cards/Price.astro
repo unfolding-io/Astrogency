@@ -1,0 +1,108 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import Link from "@components/navigation/Link.astro";
+import { Icon } from "astro-icon/components";
+interface Props {
+  blok: PriceItemStoryblok;
+}
+
+const { blok } = Astro.props;
+
+const {
+  content,
+  price_prefix,
+  surface,
+  accent_surface,
+  links,
+  icon,
+  price,
+  price_suffix,
+  title,
+} = blok;
+
+const renderedRichText = renderRichText(content);
+---
+
+<div 
+  {...storyblokEditable(blok)}
+  class={`${surface ? "p-4 sm:p-8 min-w-[320px] " + surface : "mt-20 min-w-[300px] "} price flex-1 rounded-media @container intersection`}
+>
+  <div class="flex h-full flex-col @md:flex-row @md:gap-8 @md:pb-20">
+    <div
+      class="mb-8 flex h-fit items-start border-b border-current border-opacity-40 pb-8 @md:min-w-[33%]"
+    >
+      {
+        icon && (
+          <div class={`${accent_surface || ""} rounded-input p-1`}>
+            <Icon name={icon} class={`h-6 w-6`} />
+          </div>
+        )
+      }
+      <div class="ml-5">
+        <h3 class="block text-2xl font-semibold">{title}</h3>
+        <span
+          ><span class="align-top text-xl font-medium"
+            >{price_prefix || ""}</span
+          ><span class="text-3xl font-bold">{price}</span></span
+        ><span class="font-medium"
+          >{price_suffix ? " / " + price_suffix : ""}</span
+        >
+      </div>
+    </div>
+
+    <div
+      set:html={renderedRichText}
+      class="price-content text-xl @lg:mt-10 @2xl:columns-2 @4xl:columns-3"
+    />
+
+    {
+      links && links.length > 0 && (
+        <div
+          class={`buttons mt-auto flex w-full flex-wrap items-center justify-end gap-4 pt-8 @md:w-2/3 @lg:w-1/4 ${surface ? "@md:absolute @md:bottom-8 @md:right-8" : "@md:absolute @md:bottom-0 @md:right-0"}`}
+        >
+          {links.map((link) => (
+            <Link
+              className={`${accent_surface || ""} btn w-full justify-center`}
+              blok={{
+                ...link,
+              }}
+            />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style is:global>
+  .price-content {
+    ul,
+    ol {
+      @apply grid grid-cols-1 gap-2 text-pretty pl-7;
+    }
+
+    ol {
+      @apply list-decimal;
+    }
+
+    li {
+      @apply relative;
+      &:not(:has(p > s)):before {
+        @apply absolute -left-7 top-0 h-7 w-7 text-2xl text-inherit;
+        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="none" stroke="rgba(20,20,20,0.8)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 6L9 17l-5-5"/></svg>');
+      }
+      &:has(p > s):before {
+        @apply absolute -left-7 top-0 h-7 w-7 text-2xl text-inherit;
+        content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24"><path fill="none" stroke="rgba(20,20,20,0.8)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg>');
+      }
+    }
+
+    /*  */
+
+    * + *:not(svg, use, pah, a, li, a *) {
+      @apply pt-4;
+    }
+  }
+
+ 
+</style>

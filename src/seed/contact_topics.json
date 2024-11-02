@@ -1,0 +1,86 @@
+[
+  
+  {
+    "name": "Contact",
+    "parent_id": 566299184,
+    "group_id": "88c1fea5-3963-4151-a2e5-dbc1be646691",
+    "alternates": [],
+    "created_at": "2024-10-21T10:22:21.763Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [],
+    "updated_at": "2024-10-21T10:24:07.637Z",
+    "published_at": "2024-10-21T10:24:07.607Z",
+    "id": 566299751,
+    "uuid": "e2bc6267-c215-49dc-a055-bfdea1c5f045",
+    "is_folder": false,
+    "content": {
+      "_uid": "2e5cae75-07dd-4536-8144-9055bd157eb6",
+      "name": "Contact",
+      "component": "contact_topics",
+      "destination": "info@my-website.test"
+    },
+    "published": true,
+    "slug": "contact",
+    "path": null,
+    "full_slug": "site-settings/contact-topics/contact",
+    "default_root": null,
+    "disble_fe_editor": false,
+    "parent": {
+      "id": 566299184,
+      "uuid": "ff444822-5b2d-494f-843b-8bf2310057f7",
+      "name": "Contact Topics",
+      "slug": "contact-topics",
+      "disble_fe_editor": true
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 526161103,
+        "name": "Site Settings",
+        "parent_id": 0,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "site-settings",
+        "translated_slugs": []
+      },
+      {
+        "id": 566299184,
+        "name": "Contact Topics",
+        "parent_id": 526161103,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "contact-topics",
+        "translated_slugs": []
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-10-21T10:24:07.607Z",
+    "last_author_id": 68956,
+    "user_ids": [],
+    "space_role_ids": [],
+    "translated_slugs": [],
+    "localized_paths": [
+      {
+        "path": "site-settings/contact-topics/contact",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": 0,
+    "translated_stories": [],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [],
+    "stage": null,
+    "favourite_for_user_ids": []
+  }
+]

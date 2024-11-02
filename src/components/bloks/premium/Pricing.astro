@@ -1,0 +1,28 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+
+import Upgrade from "./Upgrade.astro";
+
+interface Props {
+  blok: PricingStoryblok;
+}
+
+const { blok } = Astro.props;
+const {
+  surface = "",
+  container = "breakout",
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+} = blok;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class={`${surface} ${padding_top} ${padding_bottom} intersection`}
+>
+  <div class="content-grid">
+    <div class={`${container} gap-y-8 md:gap-y-10 relative z-40 grid`}>
+      <Upgrade />
+    </div>
+  </div>
+</div>

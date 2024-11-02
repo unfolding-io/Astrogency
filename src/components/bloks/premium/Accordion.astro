@@ -1,0 +1,27 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+import Upgrade from "./Upgrade.astro";
+
+interface Props {
+  blok: AccordionStoryblok;
+}
+
+const { blok } = Astro.props;
+const {
+  surface = "",
+  align = "",
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+  container = "breakout",
+} = blok;
+---
+
+<div {...storyblokEditable(blok)} class={`${surface} intersection`}>
+  <div class="content-grid">
+    <div
+      class={`${container} ${align} ${padding_top} ${padding_bottom} scale-in grid h-fit w-full grid-cols-1 gap-8 `}
+    >
+      <Upgrade />
+    </div>
+  </div>
+</div>

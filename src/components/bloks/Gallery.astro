@@ -1,0 +1,137 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import Picture from "@components/media/Picture.astro";
+import LightboxGallery from "@components/media/LightboxGallery.vue";
+
+interface Props {
+  blok: GalleryStoryblok;
+}
+
+const { blok } = Astro.props;
+
+const {
+  content,
+  surface = "",
+  container = "breakout",
+  aspect_ratio,
+  columns_xs,
+  columns_sm,
+  columns_md,
+  columns_lg,
+  columns_xl,
+  align = "",
+  items = [],
+  lightbox,
+  padding_top = 'pt-lg',
+  padding_bottom = 'pb-lg',
+} = blok;
+
+const renderedRichText = renderRichText(content);
+const count = items.length;
+
+const columns = {
+  xs: Math.min(columns_xs, count),
+  sm: Math.min(columns_sm, count),
+  md: Math.min(columns_md, count),
+  lg: Math.min(columns_lg, count),
+  xl: Math.min(columns_xl, count),
+};
+function getSizes() {
+  const baseSize = (col: keyof typeof columns) => `calc(100vw / ${columns[col]})`;
+  const sizes = [
+    `(min-width: 1280px) ${baseSize('xl')}`,
+    `(min-width: 1024px) ${baseSize('lg')}`,
+    `(min-width: 768px) ${baseSize('md')}`,
+    `(min-width: 640px) ${baseSize('sm')}`,
+    baseSize('xs')
+  ];
+
+  if (container === "breakout") {
+    sizes.unshift(`(min-width: var(--breakout-max-width)) calc(var(--breakout-max-width) / ${columns.xl})`);
+  } else if (container !== "full-width") {
+    sizes[0] = `(min-width: var(--content-max-width)) calc(var(--content-max-width) / ${columns.xl})`;
+  }
+
+  return sizes.join(', ');
+}
+
+function getImageDimension(src: string, dimension: 'width' | 'height') {
+  return src.split('/')[5].split('x')[dimension === 'width' ? 0 : 1];
+}
+
+ 
+const contentClass = `${align} ${container} ${container === "full-width" ? "px-2 md:px-4" : ""} grid gap-y-4`;
+---
+
+<div 
+  {...storyblokEditable(blok)}
+  class={`gallery ${surface} ${padding_top} ${padding_bottom} intersection`}
+>
+  <div
+    class="content-grid"
+    style={`--aspect-ratio: ${aspect_ratio}; --columns-xs: ${columns.xs}; --columns-sm: ${columns.sm}; --columns-md: ${columns.md}; --columns-lg: ${columns.lg}; --columns-xl: ${columns.xl};`}
+  >
+    <div class={contentClass}>
+      {renderedRichText && <div set:html={renderedRichText} class="richtext max-w-2xl pb-2" />}
+
+      {lightbox ? (
+        <LightboxGallery client:visible id={blok._uid} className="gallery-grid gap-4 grid">
+          {items.map((item) => (
+            <a
+              class="lightbox-aspect block overflow-hidden rounded-media transition-all"
+              href={item.filename}
+              aria-label="enlarge image"
+              data-pswp-width={getImageDimension(item.filename, 'width')}
+              data-pswp-height={getImageDimension(item.filename, 'height')}
+              target="_blank"
+              rel="noreferrer"
+              data-cropped="true"
+            >
+              <Picture
+                src={item.filename}
+                alt={item.alt || item.title || ""}
+                sizes={getSizes()}
+                layout="fill"
+              />
+            </a>
+          ))}
+        </LightboxGallery>
+      ) : (
+        <div class="gallery-grid grid gap-4">
+          {items.map((item) => (
+            <Picture
+              src={item.filename}
+              alt={item.alt || item.title || ""}
+              sizes={getSizes()}
+              ar={aspect_ratio}
+              className="overflow-hidden rounded-media"
+              layout="fill"
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  .gallery-grid {
+    grid-template-columns: repeat(var(--columns-xs), 1fr);
+    @screen sm {
+      grid-template-columns: repeat(var(--columns-sm), 1fr);
+    }
+    @screen md {
+      grid-template-columns: repeat(var(--columns-md), 1fr);
+    }
+    @screen lg {
+      grid-template-columns: repeat(var(--columns-lg), 1fr);
+    }
+    @screen xl {
+      grid-template-columns: repeat(var(--columns-xl), 1fr);
+    }
+
+    .lightbox-aspect {
+      aspect-ratio: var(--aspect-ratio);
+    }
+  }
+</style>

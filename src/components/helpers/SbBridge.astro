@@ -1,0 +1,18 @@
+<script>
+  import { loadStoryblokBridge } from "@storyblok/astro";
+  document.addEventListener("DOMContentLoaded", () => { 
+    loadStoryblokBridge().then(() => {
+      const { StoryblokBridge, location } = window;
+
+      const storyblokInstance = new StoryblokBridge({
+        /* preventClicks: true, */
+      });
+
+      storyblokInstance.on(["published", "change"], (event: any) => {
+        if (!event.slugChanged) {
+          location.reload();
+        }
+      });
+    });
+  });
+</script>

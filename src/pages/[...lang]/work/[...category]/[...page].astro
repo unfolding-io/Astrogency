@@ -1,0 +1,200 @@
+---
+import { 
+  getWorksData, 
+  getWorkCategories,
+  getLocales,
+} from "@lib/storyblokApi";
+import { renderRichText } from "@storyblok/astro";
+import Layout from "@layouts/Layout.astro";
+import PostCard from "@components/cards/PostCard.astro";
+import { SITE_LANG } from "astro:env/client";
+import Link from "@components/navigation/Link.astro";
+import { translateUrl, useTranslations } from "@lib/translate";
+import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
+import { getEntry } from 'astro:content';
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const pageSize = 10;
+  const locales = await getLocales()
+
+  /* GET ALL PAGES */
+  const pages = locales.flatMap(async (lang, index) => {
+    const dataLang = index === 0 ? "default" : lang;
+    const status = import.meta.env.DEV ? "draft" : "published";
+    const posts = await getWorksData(dataLang, status);
+    const categories = await getWorkCategories(dataLang, status);
+    const settings = (await getEntry("settings", lang)).data;
+
+    const indexPages = paginate(posts, { pageSize: pageSize });
+
+    const groupedByCategory: GroupedByWorkCategory = posts.reduce((acc, item) => {
+      item.category?.forEach((categoryId:string) => {
+        if (!acc[categoryId]) {
+          acc[categoryId] = [item];
+        }
+        else {
+          acc[categoryId].push(item);
+        }
+      });
+      return acc;
+    }, {} as GroupedByWorkCategory);
+
+    const categoryPages = Object.keys(groupedByCategory)
+      .map((categoryId) => {
+        const category = categories.find((cat) => cat.uuid === categoryId);
+        const categoryIndexPages = paginate(groupedByCategory[categoryId], {
+          pageSize: pageSize,
+        });
+
+        return categoryIndexPages.map((page: any) => ({
+          params: {
+            page: page.params.page,
+            category: category?.slug,
+            lang: dataLang === "default" ? undefined : dataLang,
+          },
+          props: {
+            ...page.props,
+            status,
+            settings,
+            locales,
+            categories,
+            category: {
+              ...category,
+              ...category?.content,
+            },
+          },
+        }));
+      })
+      .flat();
+
+    const BasePages = indexPages.map((page: any) => ({
+      params: {
+        page: page.params.page,
+        category: undefined,
+        lang: dataLang === "default" ? undefined : dataLang,
+      },
+      props: { ...page.props, status, settings, locales, categories },
+    }));
+
+    return [...BasePages, ...categoryPages];
+  });
+
+  const routes = await Promise.all(pages);
+  return routes.flat();
+}
+let { lang } = Astro.params;
+let { page, settings, locales, categories, category } = Astro.props;
+const pageLang = !lang ? SITE_LANG : lang;
+const t = useTranslations(pageLang);
+
+const { next, prev } = page.url;
+
+const {
+  work_title,
+  work_content,
+  work_og_title,
+  work_og_description,
+  work_og_image,
+  surface_page,
+} = settings;
+
+const localeUrls = translateUrl(Astro.url, locales);
+
+const meta = {
+  title: category?.og_title ? category.og_title : work_og_title,
+  description: category?.og_description ? category.og_description : work_og_description,
+  image: category?.og_image ? category.og_image?.filename : work_og_image?.filename,
+};
+
+const wideImages = [
+  1, 4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 32, 33, 36, 37, 40, 41,
+  44, 45, 48, 49, 52, 53, 56, 57, 60, 61, 64, 65, 68, 69, 72, 73, 76, 77, 80,
+  81, 84, 85, 88, 89, 92, 93, 96, 97, 100,
+];
+const category_title = category?.page_title || category?.title;
+
+if(!meta.title || !meta.description || !meta.image) return Astro.redirect("/404")
+---
+
+<Layout {meta} {settings} {localeUrls}>
+  <section class={surface_page || ""}>
+    <div class="content-grid min-h-svh content-start">
+      <div class="mx-w-lg breakout grid gap-3 pt-20 h-fit">
+        <div class="grid grid-cols-1 gap-2">
+          <Breadcrumbs />
+          <h1
+            class="text-5xl md:text-6xl text-balance "
+            set:html={category_title || work_title}
+          />
+          <div
+            class="richtext no-lead text-balance"
+            set:html={renderRichText(
+              category ? category.content : work_content,
+            )}
+          />
+        </div>
+        {
+          categories && categories.length > 0 && (
+            <div class="mt-1 flex w-fit flex-wrap justify-start gap-4 border-t border-current py-4">
+              {categories.map((cat:WorkCategoryStoryblok) => (
+                <Link
+                  className={`btn-underline text-sm ${cat?.slug === category?.slug ? "text-primary" : ""}`}
+                  blok={{
+                    href: {
+                      url: `/work/${cat.slug}`,
+                    },
+                    label: cat.content?.title,
+                  }}
+                />
+              ))}
+            </div>
+          )
+        }
+      </div>
+      <div
+        class="breakout grid grid-cols-1 gap-4 py-4 md:grid-cols-2 md:gap-8 xl:grid-cols-3"
+      >
+        {
+          page.data.map((story: PostStoryblok, index: number) => (
+            <PostCard
+              {...story}
+              wide={wideImages.includes(index + 1)}
+              showCategory={!category}
+              {categories}
+            />
+          ))
+        }
+      </div>
+
+      <div class="breakout mt-auto pb-8 pt-14">
+        <div class="flex justify-end gap-4">
+          {
+            prev && (
+              <Link
+                blok={{
+                  href: {
+                    url: lang === undefined ? `${prev}` : `/${lang}${prev}`,
+                  },
+                  label: t("previous"),
+                }}
+              />
+            )
+          }
+
+          {
+            next && (
+              <Link
+                blok={{
+                  href: {
+                    url: lang === undefined ? `${next}` : `/${lang}${next}`,
+                  },
+                  label: t("next"),
+                }}
+              />
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

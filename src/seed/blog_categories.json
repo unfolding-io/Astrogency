@@ -1,0 +1,141 @@
+[
+  {
+    "name": "News",
+    "parent_id": 526389473,
+    "group_id": "62964bfa-cce2-4bb7-84f0-e66e98792a43",
+    "alternates": [
+      
+    ],
+    "created_at": "2024-07-22T10:51:04.510Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [
+      
+    ],
+    "updated_at": "2024-07-22T14:21:23.136Z",
+    "published_at": "2024-10-20T10:43:23.000Z",
+    "id": 526391143,
+    "uuid": "ab17d042-4e6f-40c9-ae05-97397d63ffd0",
+    "is_folder": false,
+    "content": {
+      "_uid": "1f9189a6-6ccf-4f7e-bfaf-167e8137e80a",
+      "title": "News",
+      "content": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "News about the company and the industry",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "surface": "surface-dark",
+      "og_image": {
+        "id": 16703816,
+        "alt": "",
+        "name": "",
+        "focus": "",
+        "title": "",
+        "source": "",
+        "filename": "https://a.storyblok.com/f/297817/1280x1917/4ead0260f6/yuor-logo-here.png",
+        "copyright": "",
+        "fieldtype": "asset",
+        "meta_data": {
+          
+        },
+        "is_private": false,
+        "is_external_url": false
+      },
+      "og_title": "Docs & Features",
+      "component": "blog_category",
+      "og_description": "News about the company and the industry"
+    },
+    "published": true,
+    "slug": "docs-features",
+    "path": null,
+    "full_slug": "site-settings/blog-categories/news",
+    "default_root": null,
+    "disble_fe_editor": false,
+    "parent": {
+      "id": 526389473,
+      "uuid": "e0ee7328-ff90-4027-9002-cfc3f0b8da77",
+      "name": "Blog Categories",
+      "slug": "blog-categories",
+      "disble_fe_editor": true
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "b45f525849160bf2b133bed1850e6fb39a3912b8",
+      "timestamp": "1730539280"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 526161103,
+        "name": "Site Settings",
+        "parent_id": 0,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "site-settings",
+        "translated_slugs": [
+          
+        ]
+      },
+      {
+        "id": 526389473,
+        "name": "Blog Categories",
+        "parent_id": 526161103,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "blog-categories",
+        "translated_slugs": [
+          
+        ]
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-07-22T10:51:40.332Z",
+    
+    "last_author_id": 68956,
+    "user_ids": [
+      
+    ],
+    "space_role_ids": [
+      
+    ],
+    "translated_slugs": [
+      
+    ],
+    "localized_paths": [
+      {
+        "path": "site-settings/blog-categories/news",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": 0,
+    "translated_stories": [
+      
+    ],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [
+      
+    ],
+    "stage": null,
+    "favourite_for_user_ids": [
+      
+    ]
+  }
+]

@@ -1,0 +1,322 @@
+[
+  {
+    "name": "Contact Topics",
+    "parent_id": 526161103,
+    "group_id": "e896fcb4-2293-43ea-a98c-5270b71df972",
+    "alternates": [],
+    "created_at": "2024-10-21T10:21:56.956Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [],
+    "updated_at": "2024-10-21T10:21:56.956Z",
+    "published_at": null,
+    "id": 566299184,
+    "uuid": "ff444822-5b2d-494f-843b-8bf2310057f7",
+    "is_folder": true,
+    "content": {
+      "content_types": ["contact_topics"],
+      "lock_subfolders_content_types": true
+    },
+    "published": false,
+    "slug": "contact-topics",
+    "path": null,
+    "full_slug": "site-settings/contact-topics",
+    "default_root": "contact_topics",
+    "disble_fe_editor": true,
+    "parent": {
+      "id": 526161103,
+      "uuid": "54720e6a-5ea6-4769-901f-11c437efd537",
+      "name": "Site Settings",
+      "slug": "site-settings",
+      "disble_fe_editor": true
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "d9a264d60b7a8599bd167d752e87f9a35748aecf",
+      "timestamp": "1730539014"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 526161103,
+        "name": "Site Settings",
+        "parent_id": 0,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "site-settings",
+        "translated_slugs": []
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": null,
+    "last_author": {
+      "id": 68956,
+      "userid": "hello@unfolding.io",
+      "friendly_name": "hello@unfolding.io"
+    },
+    "last_author_id": 68956,
+    "user_ids": [],
+    "space_role_ids": [],
+    "translated_slugs": [],
+    "localized_paths": [
+      {
+        "path": "site-settings/contact-topics",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": -40,
+    "translated_stories": [],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [],
+    "stage": null,
+    "favourite_for_user_ids": []
+  },
+  {
+    "name": "Tools",
+    "parent_id": 526161103,
+    "group_id": "c96a8a87-ba0b-4184-a176-621a011cbd9e",
+    "alternates": [],
+    "created_at": "2024-10-18T11:40:22.137Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [],
+    "updated_at": "2024-10-18T11:40:22.137Z",
+    "published_at": "2024-10-20T10:43:23.000Z",
+    "id": 565676267,
+    "uuid": "6632d01b-90ff-4cbb-b7f1-56d19c3163b2",
+    "is_folder": true,
+    "content": {
+      "content_types": ["stack"],
+      "lock_subfolders_content_types": false
+    },
+    "published": true,
+    "slug": "tools",
+    "path": null,
+    "full_slug": "site-settings/tools",
+    "default_root": "stack",
+    "disble_fe_editor": true,
+    "parent": {
+      "id": 526161103,
+      "uuid": "54720e6a-5ea6-4769-901f-11c437efd537",
+      "name": "Site Settings",
+      "slug": "site-settings",
+      "disble_fe_editor": true
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "d9a264d60b7a8599bd167d752e87f9a35748aecf",
+      "timestamp": "1730539014"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 526161103,
+        "name": "Site Settings",
+        "parent_id": 0,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "site-settings",
+        "translated_slugs": []
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-10-20T10:43:23.829Z",
+    "last_author": {
+      "id": 68956,
+      "userid": "hello@unfolding.io",
+      "friendly_name": "hello@unfolding.io"
+    },
+    "last_author_id": 68956,
+    "user_ids": [],
+    "space_role_ids": [],
+    "translated_slugs": [],
+    "localized_paths": [
+      {
+        "path": "site-settings/tools",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": -30,
+    "translated_stories": [],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [],
+    "stage": null,
+    "favourite_for_user_ids": []
+  },
+  {
+    "name": "Work Categories",
+    "parent_id": 526161103,
+    "group_id": "e18711df-7cc1-476e-89e2-0bc955f7aa64",
+    "alternates": [],
+    "created_at": "2024-07-24T08:38:15.960Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [],
+    "updated_at": "2024-07-24T08:38:15.960Z",
+    "published_at": "2024-10-20T10:43:23.000Z",
+    "id": 527457062,
+    "uuid": "8e15b384-44a7-4b99-9bc6-e9105f47368d",
+    "is_folder": true,
+    "content": {
+      "content_types": ["work_category"],
+      "lock_subfolders_content_types": true
+    },
+    "published": true,
+    "slug": "work-categories",
+    "path": null,
+    "full_slug": "site-settings/work-categories",
+    "default_root": "work_category",
+    "disble_fe_editor": true,
+    "parent": {
+      "id": 526161103,
+      "uuid": "54720e6a-5ea6-4769-901f-11c437efd537",
+      "name": "Site Settings",
+      "slug": "site-settings",
+      "disble_fe_editor": true
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "6b202a835c911a5eced27959064ede5a89eeaa32",
+      "timestamp": "1730539016"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 526161103,
+        "name": "Site Settings",
+        "parent_id": 0,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "site-settings",
+        "translated_slugs": []
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-10-20T10:43:23.829Z",
+    "last_author": {
+      "id": 68956,
+      "userid": "hello@unfolding.io",
+      "friendly_name": "hello@unfolding.io"
+    },
+    "last_author_id": 68956,
+    "user_ids": [],
+    "space_role_ids": [],
+    "translated_slugs": [],
+    "localized_paths": [
+      {
+        "path": "site-settings/work-categories",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": -20,
+    "translated_stories": [],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [],
+    "stage": null,
+    "favourite_for_user_ids": []
+  },
+  {
+    "name": "Blog Categories",
+    "parent_id": 526161103,
+    "group_id": "fffec082-82c9-4287-9299-c3f44e8eb8c1",
+    "alternates": [],
+    "created_at": "2024-07-22T10:50:05.648Z",
+    "deleted_at": null,
+    "sort_by_date": null,
+    "tag_list": [],
+    "updated_at": "2024-07-22T10:50:05.648Z",
+    "published_at": "2024-10-20T10:43:23.000Z",
+    "id": 526389473,
+    "uuid": "e0ee7328-ff90-4027-9002-cfc3f0b8da77",
+    "is_folder": true,
+    "content": {
+      "content_types": ["blog_category"],
+      "lock_subfolders_content_types": true
+    },
+    "published": true,
+    "slug": "blog-categories",
+    "path": null,
+    "full_slug": "site-settings/blog-categories",
+    "default_root": "blog_category",
+    "disble_fe_editor": true,
+    "parent": {
+      "id": 526161103,
+      "uuid": "54720e6a-5ea6-4769-901f-11c437efd537",
+      "name": "Site Settings",
+      "slug": "site-settings",
+      "disble_fe_editor": true
+    },
+    "is_startpage": false,
+    "unpublished_changes": false,
+    "meta_data": null,
+    "imported_at": null,
+    "preview_token": {
+      "token": "c3e09611d0f4690355aeb4a2e0cb3c52d05d196a",
+      "timestamp": "1730539019"
+    },
+    "pinned": false,
+    "breadcrumbs": [
+      {
+        "id": 526161103,
+        "name": "Site Settings",
+        "parent_id": 0,
+        "disble_fe_editor": true,
+        "path": null,
+        "slug": "site-settings",
+        "translated_slugs": []
+      }
+    ],
+    "publish_at": null,
+    "expire_at": null,
+    "first_published_at": "2024-10-20T10:43:23.829Z",
+    "last_author": {
+      "id": 68956,
+      "userid": "hello@unfolding.io",
+      "friendly_name": "hello@unfolding.io"
+    },
+    "last_author_id": 68956,
+    "user_ids": [],
+    "space_role_ids": [],
+    "translated_slugs": [],
+    "localized_paths": [
+      {
+        "path": "site-settings/blog-categories",
+        "name": null,
+        "lang": "nl",
+        "published": null
+      }
+    ],
+    "position": -10,
+    "translated_stories": [],
+    "can_not_view": false,
+    "is_scheduled": null,
+    "scheduled_dates": null,
+    "ideas": [],
+    "stage": null,
+    "favourite_for_user_ids": []
+  }
+]

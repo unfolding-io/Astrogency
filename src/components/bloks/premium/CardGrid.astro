@@ -1,0 +1,32 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+import Upgrade from "./Upgrade.astro";
+
+interface Props {
+  blok: ImageCardsStoryblok;
+}
+
+const { blok } = Astro.props;
+
+const {
+  surface = "",
+  container = "breakout", 
+  align = "",
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+} = blok;
+
+const containerClass = container ? "content-grid" : "";
+const contentClass = `${align} ${container} ${container === "full-width" ? "px-2 md:px-4" : ""} grid gap-y-6`;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class={`${surface} ${padding_top} ${padding_bottom} intersection`}
+>
+  <div class={containerClass}>
+    <div class={contentClass}>
+      <Upgrade />
+    </div>
+  </div>
+</div>

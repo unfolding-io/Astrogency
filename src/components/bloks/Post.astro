@@ -1,0 +1,91 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import Picture from "@components/media/Picture.astro";
+import Link from "@components/navigation/Link.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
+
+interface Props {
+  blok: PostStoryblok;
+  status?: "draft" | "published" | undefined;
+  categories?: BlogCategoryStoryblok[];
+}
+const { blok, status, categories } = Astro.props;
+const { title, content, thumbnail, surface, body } = blok;
+---
+
+<main {...storyblokEditable(blok)} class={`${surface || ""} pt-20`}>
+  <section class="content-grid grid">
+    <div class="grid grid-cols-1 gap-8 breakout">
+      <div class="grid grid-cols-1 gap-2">
+        <Breadcrumbs>
+          {
+            categories?.map((category) => (
+              <li class="and relative">
+                <Link
+                  className="btn-underline truncate"
+                  blok={{
+                    href: {
+                      linktype: "url",
+                      url: `/blog/${category.slug}`,
+                    },
+                    label: category?.content?.title,
+                  }}
+                />
+              </li>
+            ))
+          }
+        </Breadcrumbs>
+        <h1 class="text-balance text-5xl md:text-6xl">
+          {title}
+        </h1>
+      </div>
+
+      <div class="parallax-wrap relative overflow-hidden rounded-media">
+        {
+          thumbnail && (
+            <Picture
+              src={thumbnail.filename}
+              alt={title}
+              className="parallax"
+              sizes={`(min-width: 726px) 50vw , 100vw `}
+              ar={21 / 9}
+              layout="fill"
+              artDirectives={[
+                {
+                  media: "(max-width: 768px)",
+                  ar: 5 / 4,
+                  breakpoints: [320, 440, 640, 768],
+                },
+              ]}
+            />
+          )
+        }
+        <div
+          class="absolute right-4 top-4 z-10 flex flex-wrap items-center justify-end gap-2"
+        >
+          {
+            categories?.map((category) => (
+              <Link
+                className="bg-dark/40 backdrop-blur-sm text-light px-2 py-1 rounded-input text-sm"
+                blok={{
+                  href: {
+                    linktype: "url",
+                    url: `/blog/${category.slug}`,
+                  },
+                  label: category?.content?.title,
+                }}
+              />
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class="richtext mb-8 mt-4 max-w-2xl text-pretty"
+        set:html={renderRichText(content)}
+      />
+    </div>
+  </section>
+  {body?.map((blok) => <StoryblokComponent blok={blok} {status} />)}
+</main>

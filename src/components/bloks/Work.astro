@@ -1,0 +1,149 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import Picture from "@components/media/Picture.astro";
+import Link from "@components/navigation/Link.astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
+
+interface Props {
+  blok: WorkStoryblok;
+  status?: "draft" | "published" | undefined;
+  categories?: any[];
+  services?: any[];
+  links?: any[];
+}
+const { blok, status, categories, services } = Astro.props;
+const { title, content, thumbnail, surface, body, links } = blok;
+---
+
+<main {...storyblokEditable(blok)} class={`${surface || ""} `}>
+  <section class="content-grid grid pt-20">
+    <div class="breakout work-grid gap-8">
+      <div class="title grid grid-cols-1 gap-2">
+        <Breadcrumbs >
+          {
+            categories?.map((category) => (
+              <li class="relative and">
+                <Link
+                className="btn-underline truncate"
+                blok={{
+                  href: {
+                    linktype: "url",
+                    url: `/work/${category.slug}`,
+                  },
+                  label: category.content.title,
+                }}
+              />
+              </li>
+            ))
+          }
+          </Breadcrumbs>
+         
+
+        <h1 class="text-balance text-5xl md:text-6xl max-w-2xl">
+          {title}
+        </h1>
+      </div>
+
+      <div
+        class="image parallax-wrap relative h-fit overflow-hidden rounded-media"
+      >
+        {
+          thumbnail && (
+            <Picture
+              src={thumbnail.filename}
+              alt={title}
+              className="parallax"
+              sizes={`(min-width: 726px) 50vw , 100vw `}
+              ar={5 / 4}
+              layout="fill"
+              artDirectives={[
+                {
+                  media: "(max-width: 768px)",
+                  ar: 21 / 9,
+                  breakpoints: [320, 440, 640, 768],
+                },
+              ]}
+            />
+          )
+        }
+      </div>
+      <div class="text flex flex-col">
+        <div
+          class="richtext max-w-2xl text-pretty"
+          set:html={renderRichText(content)}
+        />
+        {
+          links && links.length > 0 && (
+            <div class="mt-auto flex w-full items-center justify-end gap-2 pt-4">
+              {links.map((link:LinkStoryblok) => (
+                <Link blok={link} />
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <ul class="services">
+        {
+          services?.map((service) => (
+            <li>
+              <Link
+                className="btn-underline"
+                blok={{
+                  href: {
+                    linktype: "url",
+                    url: `/${service.full_slug}`,
+                  },
+                  label: service.content.title,
+                }}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+  <div class="min-h-20">
+    {body?.map((blok) => <StoryblokComponent blok={blok} {status} />)}
+  </div>
+</main>
+
+<style>
+  .work-grid {
+    @apply grid grid-cols-2 gap-4;
+    grid-template-areas:
+      "🤯 🤯"
+      "📝 📝"
+      "🛎 🛎"
+      "🖼 🖼";
+
+    @screen md {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2rem;
+      grid-template-areas:
+        "🤯 🤯 🤯"
+        "🖼 📝 📝"
+        "🛎 🛎 🛎";
+    }
+
+    .title {
+      grid-area: 🤯;
+    }
+    .image {
+      grid-area: 🖼;
+    }
+    .text {
+      grid-area: 📝;
+    }
+    .services {
+      grid-area: 🛎;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      li {
+        list-style: none;
+      }
+    }
+  }
+</style>

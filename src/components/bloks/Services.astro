@@ -1,0 +1,76 @@
+---
+import { storyblokEditable, renderRichText, useStoryblokApi } from "@storyblok/astro";
+import { getIdFromContent } from "@lib/storyblokApi";
+import type { ISbStories } from "@storyblok/astro";
+import PostCard from "@components/cards/PostCard.astro"; 
+
+interface Props {
+  blok: ServiceStoryblok;
+  lang: string;
+  status: StoryStatus;
+}
+const api = useStoryblokApi();
+const { blok, lang, status } = Astro.props;
+const { 
+  content,  
+  surface = "", 
+  items, 
+  accent_surface, 
+  max_items = 100, 
+  padding_top = "pt-lg", 
+  padding_bottom = "pb-lg",
+  container = "normal"
+} = blok;
+
+const fetchStories = async () => {
+  const params = {
+    version: status || "published",
+    language: lang,
+    per_page: max_items,
+    page: 1,
+  };
+
+  if (items && items.length > 0) {
+    return api.get(`cdn/stories`, {
+      ...params,
+      by_uuids_ordered: items.join(","),
+    });
+  }
+
+  return api.get(`cdn/stories`, {
+    ...params,
+    content_type: "service",
+  });
+};
+
+const { data: { stories = [] } } = await fetchStories() as ISbStories;
+
+const renderedContent = renderRichText(content);
+
+const id = getIdFromContent(content)
+---
+
+<section class={`${padding_top} ${padding_bottom} ${surface}`} {...storyblokEditable(blok)}>
+  <div class="content-grid gap-y-8" {id}>
+    {renderedContent && (
+      <div class={`${container} grid gap-2`}> 
+        <div class="richtext max-w-2xl" set:html={renderedContent} />
+      </div>
+    )}
+
+    {stories.length > 0 && (
+      <div class={`${container} flex flex-wrap gap-x-4 gap-y-6 md:gap-x-8 md:gap-y-10`}>
+        {stories.map((story) => (
+          <PostCard
+            {...story.content}
+            full_slug={story.full_slug}
+            accent={accent_surface}
+            compact={true}
+            wide={true}
+            min_width="min-w-[270px]"
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</section>

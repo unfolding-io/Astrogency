@@ -1,0 +1,49 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import Feature from "@components/cards/Feature.astro";
+
+import { getIdFromContent } from "@lib/storyblokApi";
+interface Props {
+  blok: FeaturesStoryblok;
+}
+
+const { blok } = Astro.props;
+const {
+  content,
+  surface = "",
+  container ="breakout",
+  accent_surface,
+  align = "",
+  items = [],
+  padding_top = 'pt-lg',
+  padding_bottom = 'pb-lg'
+} = blok;
+
+const renderedRichText = renderRichText(content);
+const id = getIdFromContent(content)
+---
+
+<div 
+  {...storyblokEditable(blok)}
+  class={`${surface} h-full intersection`}
+>
+  <div class={`content-grid ${padding_top} ${padding_bottom}`} {id}>
+    <div class={`${container} gap-y-8 relative z-40 grid`}>
+      <div set:html={renderedRichText} class={`richtext max-w-2xl ${align} text-balance`} />
+
+      {items.length > 0 && (
+        <div class="feature-grid grid gap-4 md:gap-8">
+          {items.map((item: FeatureItemStoryblok) => (
+            <Feature blok={item} surface={accent_surface} />
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  .feature-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  }
+</style>

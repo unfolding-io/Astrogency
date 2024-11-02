@@ -1,0 +1,105 @@
+[
+  {
+    "name": "Surface",
+    "slug": "surface",
+    "dimensions": [],
+    "datasource_entries": [
+      { "name": "Light", "value": "surface-light" },
+      { "name": "Dark", "value": "surface-dark" },
+      { "name": "Muted", "value": "surface-muted" },
+      { "name": "Primary", "value": "surface-primary" },
+      { "name": "Secondary", "value": "surface-secondary" },
+      { "name": "Accent", "value": "surface-accent" },
+      { "name": "Warning", "value": "surface-warning" },
+      { "name": "Danger", "value": "surface-danger" },
+      { "name": "info", "value": "surface-info" },
+      { "name": "Success", "value": "surface-success" }
+    ]
+  },
+  {
+    "name": "Icons",
+    "slug": "icons",
+    "dimensions": [],
+    "datasource_entries": [
+      { "name": "Arrow Left", "value": "lucide:arrow-left" },
+      { "name": "Arrow Right", "value": "lucide:arrow-right" },
+      { "name": "Arrow Up", "value": "lucide:arrow-up" },
+      { "name": "Arrow Down", "value": "lucide:arrow-down" },
+      { "name": "Chevron Left", "value": "lucide:chevron-left" },
+      { "name": "Chevron Right", "value": "lucide:chevron-right" },
+      { "name": "Chevron Up", "value": "lucide:chevron-up" },
+      { "name": "Chevron Down", "value": "lucide:chevron-down" },
+      { "name": "External", "value": "lucide:external-link" },
+      { "name": "Download", "value": "lucide:download" },
+      { "name": "Cloud Download", "value": "lucide:cloud-download" },
+      { "name": "Whatsapp", "value": "whatsapp" },
+      { "name": "Instagram", "value": "lucide:instagram" },
+      { "name": "Facebook", "value": "lucide:facebook" },
+      { "name": "Tripadvisor", "value": "tripadvisor" },
+      { "name": "Youtube", "value": "youtube" },
+      { "name": "X (twitter)", "value": "x" },
+      { "name": "Home", "value": "lucide:home" },
+      { "name": "Email", "value": "lucide:mail" },
+      { "name": "Phone", "value": "lucide:phone" },
+      { "name": "Smartphone", "value": "lucide:smartphone" },
+      { "name": "Laptop", "value": "lucide:laptop" },
+      { "name": "Menu", "value": "lucide:menu" },
+      { "name": "Newspaper", "value": "lucide:newspaper" },
+      { "name": "Coffee", "value": "lucide:coffee" },
+      { "name": "Map", "value": "lucide:map" },
+      { "name": "Map Pin", "value": "lucide:map-pin" },
+      { "name": "Search", "value": "lucide:search" },
+      { "name": "Money", "value": "money" },
+      { "name": "Image", "value": "lucide:image" },
+      { "name": "Badge Percent", "value": "lucide:badge-percent" },
+      { "name": "Banana", "value": "lucide:banana" },
+      { "name": "Bitcoin", "value": "lucide:bitcoin" },
+      { "name": "Bookmark", "value": "lucide:bookmark" },
+      { "name": "Bot", "value": "lucide:bot" },
+      { "name": "Boxes", "value": "lucide:boxes" },
+      { "name": "Calendar Check", "value": "lucide:calendar-check" },
+      { "name": "Circle Check Big", "value": "lucide:circle-check-big" },
+      { "name": "Github", "value": "lucide:github" },
+      { "name": "Messages Square", "value": "lucide:messages-square" },
+      { "name": "Navigation", "value": "lucide:navigation" },
+      { "name": "Qr Code", "value": "lucide:qr-code" },
+      { "name": "Play", "value": "lucide:play" },
+      { "name": "Shield Check", "value": "lucide:shield-check" },
+      { "name": "Slack", "value": "lucide:slack" },
+      { "name": "Star", "value": "lucide:star" },
+      { "name": "Thumbs Up", "value": "lucide:thumbs-up" },
+      { "name": "User Round", "value": "lucide:user-round" }
+    ]
+  },
+  {
+    "name": "Fonts",
+    "slug": "font",
+    "dimensions": [],
+    "datasource_entries": [
+      { "name": "System UI (sans-serif)", "value": "--font-system-ui" },
+      { "name": "Humanist (sans-serif)", "value": "--font-humanist" },
+      {
+        "name": "Geometric Humanist (sans-serif)",
+        "value": "--font-geometric-humanist"
+      },
+      {
+        "name": "Classical Humanist (sans-serif)",
+        "value": "--font-classical-humanist"
+      },
+      { "name": "Neo-Grotesque (sans-serif)", "value": "--font-neo-grotesque" },
+      { "name": "Industrial (sans-serif)", "value": "--font-industrial" },
+      { "name": "Rounded Sans (sans-serif)", "value": "--font-rounded-sans" },
+      { "name": "Transitional (serif)", "value": "--font-transitional" },
+      { "name": "Old Style (serif)", "value": "--font-old-style" },
+      { "name": "Antique (serif)", "value": "--font-antique" },
+      { "name": "Didone (serif)", "value": "--font-didone" },
+      { "name": "Slab Serif (serif)", "value": "--font-slab-serif" },
+      {
+        "name": "Monospace Slab Serif",
+        "value": "--font-monospace-slab-serif"
+      },
+      { "name": "Monospace Code", "value": "--font-monospace-code" },
+      { "name": "Handwritten", "value": "--font-handwritten" }
+    ]
+  }
+]

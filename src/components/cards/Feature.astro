@@ -1,0 +1,64 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import Link from "@components/navigation/Link.astro";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  blok: FeatureItemStoryblok;
+  surface?: string;
+}
+
+const { blok, surface } = Astro.props;
+const { content, links, icon } = blok;
+const renderedRichText = renderRichText(content);
+---
+
+<div
+  {...storyblokEditable(blok)}
+  class="feature rounded-media intersection min-w-[290px] flex-1"
+>
+  <div>
+    {
+      icon && (
+        <div
+          class={`${surface || ""} rounded-input float-right ml-2 inline-block p-1`}
+        >
+          <Icon name={icon} class="h-6 w-6" />
+        </div>
+      )
+    }
+
+    <div set:html={renderedRichText} class="richtext contents text-balance" />
+    {
+      links && links.length > 0 && (
+        <div class="buttons mt-4 flex w-full flex-wrap items-center justify-end gap-4">
+          {links.map((link) => (
+            <Link className="btn-underline text-right text-xs" blok={link} />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style is:global>
+  .feature .richtext {
+    h3,
+    h4,
+    h5 {
+      text-wrap: balance;
+    }
+    h3 {
+      @apply text-xl;
+    }
+    h4 {
+      @apply text-lg sm:text-xl;
+    }
+    h5 {
+      @apply text-base sm:text-lg;
+    }
+    > p:first-of-type {
+      @apply pt-1;
+    }
+  }
+</style>

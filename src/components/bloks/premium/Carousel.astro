@@ -1,0 +1,29 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+
+import Upgrade from "./Upgrade.astro";
+
+interface Props {
+  blok: BlogAndWorkItemsStoryblok;
+  lang: string;
+  status: StoryStatus;
+}
+
+const { blok } = Astro.props;
+
+const {
+  container = "full",
+  surface = "",
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+} = blok;
+---
+
+<section
+  class={`${surface} ${padding_top} ${padding_bottom} grid grid-cols-1 content-grid overflow-hidden content-end`}
+  {...storyblokEditable(blok)}
+>
+  <div class={`${container}  `}>
+    <Upgrade />
+  </div>
+</section>
