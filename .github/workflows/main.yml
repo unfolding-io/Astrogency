@@ -25,13 +25,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Reinitialize Git
-        run: |
-          git init
-          git remote add origin git@github.com:preetamslot/AstrogencyPremium.git
-          git fetch
-          git reset --hard origin/master
-
       - name: Pull latest changes
         run: git pull origin master
 
