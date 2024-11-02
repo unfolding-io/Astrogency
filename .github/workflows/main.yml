@@ -15,6 +15,11 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Verify and Clean Git Repository
+        run: |
+          git fsck --full
+          git gc --prune=now --aggressive
+
       - name: Set up Git Configuration
         run: |
           git config --global user.name "github-actions[bot]"
@@ -30,10 +35,10 @@ jobs:
           git remote add public git@github.com:unfolding-io/Astrogency.git
           git fetch public
 
-      - name: Merge Public Repo Changes
+      - name: Rebase from Public Repo
         run: |
-          git merge public/master --allow-unrelated-histories
+          git rebase public/master
 
-      - name: Push to Public Repo
+      - name: Force Push to Public Repo
         run: |
-          git push -u public master --force
+          git push -u public +master --force
