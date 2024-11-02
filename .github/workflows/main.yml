@@ -25,6 +25,9 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Pull latest changes
+        run: git pull origin master
+
       - name: Push to Public Repo
         run: |
           git remote add public git@github.com:unfolding-io/Astrogency.git
