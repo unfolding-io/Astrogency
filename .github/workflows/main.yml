@@ -31,4 +31,5 @@ jobs:
       - name: Push to Public Repo
         run: |
           git remote add public git@github.com:unfolding-io/Astrogency.git
+          git fetch public
           git push -u public master --force
