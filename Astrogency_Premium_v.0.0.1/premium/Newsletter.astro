@@ -1,0 +1,63 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import NewsletterForm from "@components/forms/NewsletterForm.vue";
+import { getLangFromUrl } from "@lib/translate";
+import { NEWSLETTER_ENDPOINT } from "astro:env/server";
+import { getIdFromContent } from "@lib/storyblokApi";
+
+interface Props {
+  blok: NewsletterStoryblok;
+  index?: number;
+}
+
+const { blok } = Astro.props;
+const {
+  content,
+  thank_you,
+  container = "normal",
+  surface = "",
+  surface_accent = "",
+  add_main_list_option = false,
+  show_name_field = false,
+  opt_in = true,
+  list_id = "",
+  align = "",
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+} = blok;
+
+/* get the current lang */
+const lang = getLangFromUrl(Astro.url);
+
+const id = getIdFromContent(content);
+---
+<div
+  {...storyblokEditable(blok)}
+  class={`${surface || ""} ${padding_top} ${padding_bottom} intersection`}
+>
+  <div class={container && "content-grid"} {id}>
+    <div class={container}>
+      <NewsletterForm
+        client:visible
+        endpoint={NEWSLETTER_ENDPOINT}
+        thank_you={thank_you || "thanks"}
+        {lang}
+        list={list_id}
+        show_name_field={show_name_field}
+        opt_in={opt_in}
+        include_main_list={add_main_list_option}
+        className={` ${align}`}
+        inputClass={surface_accent}
+      >
+        {
+          content && (
+            <div
+              set:html={renderRichText(content)}
+              class="richtext fade-up max-w-2xl text-balance empty:hidden"
+            />
+          )
+        }
+      </NewsletterForm>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import ImageCard from "@components/cards/ImageCard.astro";
+
+interface Props {
+  blok: ImageCardsStoryblok;
+}
+
+const { blok } = Astro.props;
+
+const {
+  content,
+  surface = "",
+  container = "breakout",
+  aspect_ratio,
+  columns_xs,
+  columns_sm,
+  columns_md,
+  columns_lg,
+  columns_xl,
+  align = "",
+  items = [],
+  gap_xs = "1",
+  gap_md = "1.5",
+  gap_xl = "2",
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+  min_height = "0",
+} = blok;
+
+const renderedRichText = renderRichText(content);
+const count = items.length;
+
+const columns = {
+  xs: Math.min(columns_xs, count),
+  sm: Math.min(columns_sm, count),
+  md: Math.min(columns_md, count),
+  lg: Math.min(columns_lg, count),
+  xl: Math.min(columns_xl, count),
+};
+
+const breakpointsFull = [
+  { minWidth: "1280px", size: `${Math.round(100 / columns.xl)}vw` }, // xl
+  { minWidth: "1024px", size: `${Math.round(100 / columns.lg)}vw` }, // lg
+  { minWidth: "768px", size: `${Math.round(100 / columns.md)}vw` }, // md
+  { minWidth: "640px", size: `${Math.round(100 / columns.sm)}vw` }, // sm
+  { minWidth: "0px", size: `${Math.round(100 / columns.xs)}vw` }, // xs
+];
+const breakpointsBreakout = [
+  {
+    minWidth: "1400px",
+    size: `${Math.round(1400 / columns.xl)}px`,
+  },
+  { minWidth: "1280px", size: `${Math.round(100 / columns.xl)}vw` }, // xl
+  { minWidth: "1024px", size: `${Math.round(100 / columns.lg)}vw` }, // lg
+  { minWidth: "768px", size: `${Math.round(100 / columns.md)}vw` }, // md
+  { minWidth: "640px", size: `${Math.round(100 / columns.sm)}vw` }, // sm
+  { minWidth: "0px", size: `${Math.round(100 / columns.xs)}vw` }, // xs
+];
+const breakpoints = [
+  {
+    minWidth: "1000px",
+    size: `${Math.round(1000 / columns.lg)}px`,
+  },
+  { minWidth: "768px", size: `${Math.round(100 / columns.md)}vw` }, // md
+  { minWidth: "640px", size: `${Math.round(100 / columns.sm)}vw` }, // sm
+  { minWidth: "0px", size: `${Math.round(100 / columns.xs)}vw` }, // xs
+];
+
+function getMediaSizes() {
+  let sizes: any = [];
+  if (container === "full-width") {
+    sizes = breakpointsFull.map(
+      (bp) => `(min-width: ${bp.minWidth}) ${bp.size}`,
+    );
+  }
+  if (container === "breakout") {
+    sizes = breakpointsBreakout.map(
+      (bp) => `(min-width: ${bp.minWidth}) ${bp.size}`,
+    );
+  }
+  if (container === "normal") {
+    sizes = breakpoints.map((bp) => `(min-width: ${bp.minWidth}) ${bp.size}`);
+  }
+
+  return sizes.join(", ");
+}
+
+const noRadius = gap_xs === "0" && gap_md === "0" && gap_xl === "0";
+
+const containerClass = container ? "content-grid" : "";
+const contentClass = `${align} ${container} ${container === "full-width" && !noRadius ? "px-2 md:px-4" : ""} grid gap-y-6`;
+---
+
+<div
+  {...storyblokEditable(blok)}
+  style={`--gap-xs: ${gap_xs}rem; --gap-md: ${gap_md}rem; --gap-xl: ${gap_xl}rem; --min-height: ${min_height}svh;`}
+  class={`gallery ${surface} ${padding_top} ${padding_bottom} intersection`}
+>
+  <div
+    class={containerClass}
+    style={`--aspect-ratio: ${aspect_ratio}; --columns-xs: ${columns.xs}; --columns-sm: ${columns.sm}; --columns-md: ${columns.md}; --columns-lg: ${columns.lg}; --columns-xl: ${columns.xl};`}
+  >
+    <div class={contentClass}>
+      {
+        renderedRichText && (
+          <div set:html={renderedRichText} class="richtext max-w-2xl pb-2" />
+        )
+      }
+
+      <div
+        class={`${container !== "full-width" && noRadius ? "overflow-hidden rounded-media" : ""} card-grid grid`}
+      >
+        {
+          items.map((item) => (
+            <ImageCard {...item} sizes={getMediaSizes()} {noRadius} />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card-grid {
+    min-height: var(--min-height);
+    gap: var(--gap-xs);
+    grid-template-columns: repeat(var(--columns-xs), 1fr);
+    @screen sm {
+      grid-template-columns: repeat(var(--columns-sm), 1fr);
+    }
+    @screen md {
+      gap: var(--gap-md);
+      grid-template-columns: repeat(var(--columns-md), 1fr);
+    }
+    @screen lg {
+      grid-template-columns: repeat(var(--columns-lg), 1fr);
+    }
+    @screen xl {
+      gap: var(--gap-xl);
+      grid-template-columns: repeat(var(--columns-xl), 1fr);
+    }
+  }
+</style>
