@@ -44,7 +44,11 @@ jobs:
           # Create a new branch with a unique name
           BRANCH_NAME="sync-$(date +%s)"
           git checkout -b "$BRANCH_NAME"
-          git push -u public "$BRANCH_NAME" --force
+          echo "New branch created: $BRANCH_NAME"
+
+      - name: Push New Branch to Public Repo
+        run: |
+          git push public "$BRANCH_NAME"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
