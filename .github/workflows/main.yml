@@ -35,10 +35,18 @@ jobs:
           git remote add public git@github.com:unfolding-io/Astrogency.git
           git fetch public
 
-      - name: Rebase from Public Repo
+      - name: Create a New Branch for PR
         run: |
-          git rebase public/master
+          # Create a new branch with a unique name
+          BRANCH_NAME="sync-$(date +%s)"
+          git checkout -b "$BRANCH_NAME"
+          git push public "$BRANCH_NAME"
 
-      - name: Force Push to Public Repo
-        run: |
-          git push -u public +master --force
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          head: "$BRANCH_NAME"
+          base: master
+          title: "Sync master branch from private repo"
+          body: "This PR syncs the latest changes from the master branch in the private repo."
