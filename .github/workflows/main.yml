@@ -20,6 +20,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: astrogency-free
 
       - name: Verify and Clean Git Repository
         run: |
@@ -42,21 +43,19 @@ jobs:
         run: |
           # Add the public remote if not already added
           git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
-          # Sync local master with public master to ensure latest changes
+          # Fetch the latest changes from the public repo
           git fetch public
-          git checkout master
-          git reset --soft public/master
 
       - name: Create a New Branch for PR
         run: |
-          # Create a new branch with a unique name
+          # Create a new branch with a unique name based on the private repo branch
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
 
-      - name: Force Push New Branch to Public Repo
+      - name: Push New Branch to Public Repo
         run: |
-          echo "Attempting to force push branch: $BRANCH_NAME to public"
-          git push public "$BRANCH_NAME" --force
+          echo "Attempting to push branch: $BRANCH_NAME to public"
+          git push public "$BRANCH_NAME"
 
       - name: Confirm Branch Exists on Public Repo
         run: |
@@ -69,6 +68,6 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
           head: "$BRANCH_NAME"
-          base: master
-          title: "Sync master branch from private repo"
-          body: "This PR syncs the latest changes from the master branch in the private repo."
+          base: astrogency-free
+          title: "Sync astrogency-free branch from private repo"
+          body: "This PR syncs the latest changes from the astrogency-free branch in the private repo."
