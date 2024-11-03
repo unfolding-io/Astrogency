@@ -13,7 +13,7 @@ const env = loadEnv("", process.cwd(), ["STORYBLOK", "NETLIFY"]);
  
 // https://astro.build/config
 export default defineConfig({
-  site: "https://unfolding.io/",
+  site: "https://astrogency.unfolding.io/", // change this to your domain
   output: "hybrid",
   adapter: env.NETLIFY ? netlify() : vercel(), // vercel() or netlify()
   integrations: [

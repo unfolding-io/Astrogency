@@ -2,7 +2,7 @@
 
 [![License: CC BY-ND 4.0](https://img.shields.io/badge/License-CC_BY--ND_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nd/4.0/)
 
-
+### 👉 [Demo & Docs](https://astrogency.unfolding.io/)
 
 ## 📝 1. Setting up the .env file
 
@@ -56,6 +56,14 @@ export default defineConfig({
 
 ```
 
+## 💎 Premium Features
+Enjoy the freedom of no attribution, effortless integration with Mailgun, Postmark, or Slack for contact forms, and Mailchimp support for your newsletters. Plus, harness the power of premium page builder blocks to create stunning, customized layouts that captivate your audience.
+
+### 👉 [upgrade](https://payhip.com/b/IWyfD)
+
+### 👉 [more information](https://astrogency.unfolding.io/blog/premium-components-and-features/)
+
+
 
 ## 🛸 Commands
 
@@ -99,8 +107,7 @@ By [caffeinating](https://www.buymeacoffee.com/unfolding.io) your developer, you
 ![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_2.png)
 ![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_3.png)
 ![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_4.png)
-![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_5.png)
-![Astrorante](https://astrorante.unfolding.io/screenshots/sync.png)
+![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_5.png) 
 
 
 
