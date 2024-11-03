@@ -56,7 +56,11 @@ jobs:
 
       - name: Push New Branch to Public Repo
         run: |
-          git push public "$BRANCH_NAME"
+          git push public "$BRANCH_NAME" || (
+            echo "Initial push failed, retrying..." &&
+            sleep 5 &&
+            git push public "$BRANCH_NAME"
+          )
 
       - name: Confirm Branch Exists on Public Repo
         run: |
