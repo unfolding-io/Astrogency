@@ -20,11 +20,11 @@ jobs:
 
       - name: Verify and Clean Git Repository
         run: |
-            git fsck --full
-            git gc --prune=now --aggressive
-            git reflog expire --expire=now --all
-            git repack -a -d --depth=250 --window=250
-            
+          git fsck --full
+          git gc --prune=now --aggressive
+          git reflog expire --expire=now --all
+          git repack -a -d --depth=250 --window=250
+
       - name: Set up Git Configuration
         run: |
           git config --global user.name "github-actions[bot]"
@@ -37,19 +37,18 @@ jobs:
 
       - name: Fetch from Public Repo
         run: |
-          git remote add public git@github.com:unfolding-io/Astrogency.git
-          git checkout master
+          # Add the public remote if not already added
+          git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
+          # Sync local master with public master to ensure latest changes
           git fetch public
-          git reset --hard public/master
+          git checkout master
+          git reset --soft public/master
 
       - name: Create a New Branch for PR
         run: |
           # Create a new branch with a unique name
-          
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
-           # Verify branch creation and current branch
-         
 
       - name: Push New Branch to Public Repo
         run: |
@@ -58,10 +57,9 @@ jobs:
 
       - name: Confirm Branch Exists on Public Repo
         run: |
-          # Double-check if the branch exists remotely
+          # Verify that the branch was successfully pushed to the public remote
           git fetch public
           git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
-
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
