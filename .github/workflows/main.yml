@@ -1,0 +1,73 @@
+name: Sync to Public Repo
+
+on:
+  push:
+    branches:
+      - astrogency-free
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    env:
+      BRANCH_NAME: "sync-${{ github.run_id }}"
+
+    steps:
+      - name: Checkout the Private Repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: astrogency-free
+
+      - name: Verify and Clean Git Repository
+        run: |
+          git fsck --full
+          git gc --prune=now --aggressive
+          git reflog expire --expire=now --all
+          git repack -a -d --depth=250 --window=250
+
+      - name: Set up Git Configuration
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add SSH Key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Fetch from Public Repo
+        run: |
+          # Add the public remote if not already added
+          git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
+          # Fetch the latest changes from the public repo
+          git fetch public
+
+      - name: Create a New Branch for PR
+        run: |
+          # Create a new branch with a unique name based on the private repo branch
+          git checkout -b "$BRANCH_NAME"
+          echo "New branch created: $BRANCH_NAME"
+
+      - name: Push New Branch to Public Repo
+        run: |
+          echo "Attempting to push branch: $BRANCH_NAME to public"
+          git push public "$BRANCH_NAME"
+
+      - name: Confirm Branch Exists on Public Repo
+        run: |
+          # Verify that the branch was successfully pushed to the public remote
+          git fetch public
+          git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          head: "$BRANCH_NAME"
+          base: astrogency-free
+          title: "Sync astrogency-free branch from private repo"
+          body: "This PR syncs the latest changes from the astrogency-free branch in the private repo."
