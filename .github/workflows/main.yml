@@ -35,7 +35,9 @@ jobs:
       - name: Fetch from Public Repo
         run: |
           git remote add public git@github.com:unfolding-io/Astrogency.git
+          git checkout master
           git fetch public
+          git reset --hard public/master
 
       - name: Create a New Branch for PR
         run: |
