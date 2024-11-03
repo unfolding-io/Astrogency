@@ -45,18 +45,20 @@ jobs:
           git remote add public git@github.com:unfolding-io/Astrogency.git
           git fetch public --prune
 
-          # Create and push both branches
+          # Push the branches
           git push public astrogency-free:astrogency-free --force
-          
-          git checkout -b "$BRANCH_NAME"
-          git push public "$BRANCH_NAME" --force
+          git push public HEAD:$BRANCH_NAME --force
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: actions/github-script@v6
         with:
-          token: ${{ secrets.PAT_TOKEN }}
-          repository: unfolding-io/Astrogency
-          branch: ${{ env.BRANCH_NAME }}
-          base: astrogency-free
-          title: "Sync astrogency-free branch from private repo"
-          body: "This PR syncs the latest changes from the astrogency-free branch in the private repo."
+          github-token: ${{ secrets.PAT_TOKEN }}
+          script: |
+            await github.rest.pulls.create({
+              owner: 'unfolding-io',
+              repo: 'Astrogency',
+              head: process.env.BRANCH_NAME,
+              base: 'astrogency-free',
+              title: 'Sync astrogency-free branch from private repo',
+              body: 'This PR syncs the latest changes from the astrogency-free branch in the private repo.'
+            });
