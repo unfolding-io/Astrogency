@@ -46,7 +46,6 @@ jobs:
           git fetch public --prune
 
           # Push the branches
-          git push public astrogency-free:astrogency-free --force
           git push public HEAD:$BRANCH_NAME --force
 
       - name: Create Pull Request
