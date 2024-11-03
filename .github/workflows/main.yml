@@ -27,7 +27,6 @@ jobs:
           git gc --prune=now --aggressive
           git reflog expire --expire=now --all
           git repack -a -d --depth=250 --window=250
-          git repack -a -d --depth=5000 --window=5000
 
       - name: Set up Git Configuration
         run: |
@@ -39,18 +38,18 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Fetch from Private Repo
+      - name: Fetch from Public Repo
         run: |
-          git fetch origin
-          git checkout master
-          git reset --soft origin/master
-
-      - name: Add Public Remote
-        run: |
+          # Add the public remote if not already added
           git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
+          # Sync local master with public master to ensure latest changes
+          git fetch public
+          git checkout master
+          git reset --soft public/master
 
       - name: Create a New Branch for PR
         run: |
+          # Create a new branch with a unique name
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
 
@@ -61,6 +60,7 @@ jobs:
 
       - name: Confirm Branch Exists on Public Repo
         run: |
+          # Verify that the branch was successfully pushed to the public remote
           git fetch public
           git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
 
