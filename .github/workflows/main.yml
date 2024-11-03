@@ -21,8 +21,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: astrogency-free
-          fetch-depth: 0  # Full history
-          lfs: true      # Support Git LFS if used
+          fetch-depth: 0
+          lfs: true
 
       - name: Set up Git Configuration
         run: |
@@ -34,29 +34,25 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Setup Public Repo
+      - name: Setup and Push to Public Repo
         run: |
-          # Add and fetch from public remote
+          # Add public remote
           git remote add public git@github.com:unfolding-io/Astrogency.git
           git fetch public --prune
 
-      - name: Prepare and Push Branch
-        run: |
-          # Create new branch from current state
+          # Create and push branch
           git checkout -b "$BRANCH_NAME"
+          git push public "$BRANCH_NAME" --force
           
-          # Ensure all objects are present
-          git fetch origin --unshallow || true
-          git fetch origin --tags
-          
-          # Push with verbose logging
-          GIT_TRACE=1 GIT_CURL_VERBOSE=1 git push -u public HEAD:$BRANCH_NAME --force
+          # Set up tracking
+          git branch --set-upstream-to=public/"$BRANCH_NAME" "$BRANCH_NAME"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          head: "$BRANCH_NAME"
+          repository: unfolding-io/Astrogency
+          branch: ${{ env.BRANCH_NAME }}
           base: astrogency-free
           title: "Sync astrogency-free branch from private repo"
           body: "This PR syncs the latest changes from the astrogency-free branch in the private repo."
