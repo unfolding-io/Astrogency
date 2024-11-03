@@ -43,9 +43,14 @@ jobs:
           # Create and push branch
           git checkout -b "$BRANCH_NAME"
           git push public "$BRANCH_NAME" --force
-          
-          # Set up tracking
-          git branch --set-upstream-to=public/"$BRANCH_NAME" "$BRANCH_NAME"
+
+      - name: Checkout Public Repo for PR Creation
+        uses: actions/checkout@v4
+        with:
+          repository: unfolding-io/Astrogency
+          ref: ${{ env.BRANCH_NAME }}
+          token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 0
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
