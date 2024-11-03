@@ -38,7 +38,7 @@ jobs:
         run: |
           rm -rf .github/workflows
           git add -A
-          git commit -m "Remove workflow files before sync"
+          git commit -m "Remove workflow files"
 
       - name: Setup and Push to Public Repo
         run: |
@@ -58,6 +58,6 @@ jobs:
               repo: 'Astrogency',
               head: process.env.BRANCH_NAME,
               base: 'master',
-              title: 'Sync astrogency-free branch from private repo',
+              title: 'Sync Astrogency Free Theme',
               body: 'This PR syncs the latest changes from the astrogency-free'
             });
