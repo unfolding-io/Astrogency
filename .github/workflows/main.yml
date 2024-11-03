@@ -38,29 +38,27 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Fetch from Public Repo
+      - name: Fetch from Private Repo
         run: |
-          # Add the public remote if not already added
-          git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
-          # Sync local master with public master to ensure latest changes
-          git fetch public
+          git fetch origin
           git checkout master
-          git reset --soft public/master
+          git reset --soft origin/master
+
+      - name: Add Public Remote
+        run: |
+          git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
 
       - name: Create a New Branch for PR
         run: |
-          # Create a new branch with a unique name
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
 
       - name: Push New Branch to Public Repo
         run: |
-          echo "Attempting to push branch: $BRANCH_NAME to public"
           git push public "$BRANCH_NAME"
 
       - name: Confirm Branch Exists on Public Repo
         run: |
-          # Verify that the branch was successfully pushed to the public remote
           git fetch public
           git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
 
