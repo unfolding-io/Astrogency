@@ -9,6 +9,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
 
+    env:
+      BRANCH_NAME: "sync-${{ github.run_id }}-${{ github.sha }}"
+
     steps:
       - name: Checkout the Private Repo
         uses: actions/checkout@v3
@@ -42,13 +45,18 @@ jobs:
       - name: Create a New Branch for PR
         run: |
           # Create a new branch with a unique name
-          BRANCH_NAME="sync-$(date +%s)"
+          
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
+           # Verify branch creation and current branch
+          if ! git branch --show-current | grep -q "$BRANCH_NAME"; then
+            echo "Error: Branch $BRANCH_NAME not created correctly."
+            exit 1
+          fi
 
       - name: Push New Branch to Public Repo
         run: |
-          git push public "$BRANCH_NAME"
+          git push -u public "$BRANCH_NAME"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
