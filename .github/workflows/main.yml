@@ -21,14 +21,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: astrogency-free
-          fetch-depth: 1  # Reduced depth
-
-      - name: Verify and Clean Git Repository
-        run: |
-          git fsck --full
-          git gc --prune=now --aggressive
-          git reflog expire --expire=now --all
-          git repack -a -d --depth=250 --window=250
+          fetch-depth: 0  # Full history
+          lfs: true      # Support Git LFS if used
 
       - name: Set up Git Configuration
         run: |
@@ -40,25 +34,23 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Fetch from Public Repo
+      - name: Setup Public Repo
         run: |
-          git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
-          git fetch public
+          # Add and fetch from public remote
+          git remote add public git@github.com:unfolding-io/Astrogency.git
+          git fetch public --prune
 
-      - name: Create a New Branch for PR
+      - name: Prepare and Push Branch
         run: |
+          # Create new branch from current state
           git checkout -b "$BRANCH_NAME"
-          echo "New branch created: $BRANCH_NAME"
-
-      - name: Push New Branch to Public Repo
-        run: |
-          echo "Attempting to push branch: $BRANCH_NAME to public"
-          GIT_TRACE=1 GIT_CURL_VERBOSE=1 git push public "$BRANCH_NAME" --force
-
-      - name: Confirm Branch Exists on Public Repo
-        run: |
-          git fetch public
-          git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
+          
+          # Ensure all objects are present
+          git fetch origin --unshallow || true
+          git fetch origin --tags
+          
+          # Push with verbose logging
+          GIT_TRACE=1 GIT_CURL_VERBOSE=1 git push -u public HEAD:$BRANCH_NAME --force
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
