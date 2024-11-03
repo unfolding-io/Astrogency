@@ -58,7 +58,7 @@ jobs:
               owner: 'unfolding-io',
               repo: 'Astrogency',
               head: process.env.BRANCH_NAME,
-              base: 'astrogency-free',
+              base: 'master',
               title: 'Sync astrogency-free branch from private repo',
-              body: 'This PR syncs the latest changes from the astrogency-free branch in the private repo.'
+              body: 'This PR syncs the latest changes from the astrogency-free'
             });
