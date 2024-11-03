@@ -49,14 +49,19 @@ jobs:
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
            # Verify branch creation and current branch
-          if ! git branch --show-current | grep -q "$BRANCH_NAME"; then
-            echo "Error: Branch $BRANCH_NAME not created correctly."
-            exit 1
-          fi
+         
 
       - name: Push New Branch to Public Repo
         run: |
-          git push -u public "$BRANCH_NAME"
+          echo "Attempting to push branch: $BRANCH_NAME to public"
+          git push public "$BRANCH_NAME"
+
+      - name: Confirm Branch Exists on Public Repo
+        run: |
+          # Double-check if the branch exists remotely
+          git fetch public
+          git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
+
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
