@@ -53,10 +53,10 @@ jobs:
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
 
-      - name: Push New Branch to Public Repo
+      - name: Force Push New Branch to Public Repo
         run: |
-          echo "Attempting to push branch: $BRANCH_NAME to public"
-          git push public "$BRANCH_NAME"
+          echo "Attempting to force push branch: $BRANCH_NAME to public"
+          git push public "$BRANCH_NAME" --force
 
       - name: Confirm Branch Exists on Public Repo
         run: |
