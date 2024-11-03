@@ -13,11 +13,11 @@ jobs:
       contents: write
 
     env:
-      BRANCH_NAME: "sync-${{ github.run_id }}-${{ github.sha }}"
+      BRANCH_NAME: "sync-${{ github.run_id }}"
 
     steps:
       - name: Checkout the Private Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -65,7 +65,7 @@ jobs:
           git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           head: "$BRANCH_NAME"
