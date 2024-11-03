@@ -21,7 +21,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: astrogency-free
-          fetch-depth: 1  # Reduce the depth of the clone
+          fetch-depth: 1  # Reduced depth
 
       - name: Verify and Clean Git Repository
         run: |
@@ -42,25 +42,21 @@ jobs:
 
       - name: Fetch from Public Repo
         run: |
-          # Add the public remote if not already added
           git remote add public git@github.com:unfolding-io/Astrogency.git || echo "Public remote already exists"
-          # Fetch the latest changes from the public repo
           git fetch public
 
       - name: Create a New Branch for PR
         run: |
-          # Create a new branch with a unique name based on the private repo branch
           git checkout -b "$BRANCH_NAME"
           echo "New branch created: $BRANCH_NAME"
 
       - name: Push New Branch to Public Repo
         run: |
           echo "Attempting to push branch: $BRANCH_NAME to public"
-          GIT_TRACE=1 GIT_CURL_VERBOSE=1 git push public "$BRANCH_NAME" --force  # Increase verbosity and force push
+          GIT_TRACE=1 GIT_CURL_VERBOSE=1 git push public "$BRANCH_NAME" --force
 
       - name: Confirm Branch Exists on Public Repo
         run: |
-          # Verify that the branch was successfully pushed to the public remote
           git fetch public
           git branch -r | grep "public/$BRANCH_NAME" || (echo "Error: Branch $BRANCH_NAME does not exist on public" && exit 1)
 
