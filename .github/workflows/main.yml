@@ -34,23 +34,22 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Remove Workflows and Prepare Branch
+        run: |
+          rm -rf .github/workflows
+          git add -A
+          git commit -m "Remove workflow files before sync"
+
       - name: Setup and Push to Public Repo
         run: |
-          # Add public remote
           git remote add public git@github.com:unfolding-io/Astrogency.git
           git fetch public --prune
 
-          # Create and push branch
+          # Create and push both branches
+          git push public astrogency-free:astrogency-free --force
+          
           git checkout -b "$BRANCH_NAME"
           git push public "$BRANCH_NAME" --force
-
-      - name: Checkout Public Repo for PR Creation
-        uses: actions/checkout@v4
-        with:
-          repository: unfolding-io/Astrogency
-          ref: ${{ env.BRANCH_NAME }}
-          token: ${{ secrets.PAT_TOKEN }}
-          fetch-depth: 0
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
