@@ -101,12 +101,12 @@ By [caffeinating](https://www.buymeacoffee.com/unfolding.io) your developer, you
 
 ## 📸 Screenshots
 
-![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_0.png)
-![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_1.png)
-![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_2.png)
-![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_3.png)
-![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_4.png)
-![Astrorante](https://astrorante.unfolding.io/screenshots/Screenshot_5.png) 
+![Astrorante](https://astrogency.unfolding.io/screenshots/Screenshot_0.png)
+![Astrorante](https://astrogency.unfolding.io/screenshots/Screenshot_1.png)
+![Astrorante](https://astrogency.unfolding.io/screenshots/Screenshot_2.png)
+![Astrorante](https://astrogency.unfolding.io/screenshots/Screenshot_3.png)
+![Astrorante](https://astrogency.unfolding.io/screenshots/Screenshot_4.png)
+![Astrorante](https://astrogency.unfolding.io/screenshots/Screenshot_5.png) 
 
 
 
