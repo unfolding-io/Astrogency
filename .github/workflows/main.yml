@@ -53,10 +53,14 @@ jobs:
         run: |
           rm -rf .github/workflows
 
-      - name: Push New Branch to Public Repo
+      - name: Clean and Repack Repository
         run: |
           git add -A
           git commit -m "Sync branch without .github/workflows"
+          git repack -a -d --depth=250 --window=250
+
+      - name: Push New Branch to Public Repo
+        run: |
           git push public "$BRANCH_NAME"
 
       - name: Confirm Branch Exists on Public Repo
