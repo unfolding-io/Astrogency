@@ -17,9 +17,11 @@ jobs:
 
       - name: Verify and Clean Git Repository
         run: |
-          git fsck --full
-          git gc --prune=now --aggressive
-
+            git fsck --full
+            git gc --prune=now --aggressive
+            git reflog expire --expire=now --all
+            git repack -a -d --depth=250 --window=250
+            
       - name: Set up Git Configuration
         run: |
           git config --global user.name "github-actions[bot]"
@@ -40,7 +42,7 @@ jobs:
           # Create a new branch with a unique name
           BRANCH_NAME="sync-$(date +%s)"
           git checkout -b "$BRANCH_NAME"
-          git push public "$BRANCH_NAME"
+          git push -u public "$BRANCH_NAME" --force
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
