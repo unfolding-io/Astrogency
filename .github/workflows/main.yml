@@ -3,7 +3,7 @@ name: Sync to Public Repo
 on:
   push:
     branches:
-      - master
+      - astrogency-free
 
 jobs:
   sync:
