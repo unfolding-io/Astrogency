@@ -67,7 +67,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
           head: "$BRANCH_NAME"
           base: master
           title: "Sync master branch from private repo"
