@@ -27,7 +27,6 @@ jobs:
           git gc --prune=now --aggressive
           git reflog expire --expire=now --all
           git repack -a -d --depth=250 --window=250
-          git repack -a -d --depth=5000 --window=5000
 
       - name: Set up Git Configuration
         run: |
