@@ -21,6 +21,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: astrogency-free
+          fetch-depth: 1  # Reduce the depth of the clone
 
       - name: Verify and Clean Git Repository
         run: |
@@ -39,11 +40,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Verify Remote Repository
-        run: |
-          git ls-remote git@github.com:unfolding-io/Astrogency.git
-          git fetch git@github.com:unfolding-io/Astrogency.git
-
       - name: Fetch from Public Repo
         run: |
           # Add the public remote if not already added
@@ -60,7 +56,7 @@ jobs:
       - name: Push New Branch to Public Repo
         run: |
           echo "Attempting to push branch: $BRANCH_NAME to public"
-          git push public "$BRANCH_NAME"
+          GIT_TRACE=1 GIT_CURL_VERBOSE=1 git push public "$BRANCH_NAME" --force  # Increase verbosity and force push
 
       - name: Confirm Branch Exists on Public Repo
         run: |
