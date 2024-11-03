@@ -9,6 +9,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     env:
       BRANCH_NAME: "sync-${{ github.run_id }}-${{ github.sha }}"
 
