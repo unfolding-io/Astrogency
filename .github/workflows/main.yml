@@ -52,6 +52,9 @@ jobs:
       - name: Remove Workflow Files
         run: |
           rm -rf .github/workflows
+          git add -A
+          git commit -m "Remove workflows before push"
+          git repack -a -d --depth=250 --window=250
 
       - name: Clean and Repack Repository
         run: |
