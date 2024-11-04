@@ -15,87 +15,102 @@ const {
   video,
   image,
   surface,
-  container ="full-width",
+  container = "full-width",
   align,
   links,
   opacity = "opacity-50",
   surface_banner,
-  padding_top = 'pt-lg',
-  padding_bottom = 'pb-lg',
-  wide = false
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
+  wide = false,
 } = blok;
 
 const renderedRichText = renderRichText(content);
 
 function getSizes() {
-  if ( container === "full-width") return "100vw";
+  if (container === "full-width") return "100vw";
   if (container === "breakout")
     return "(min-width: var(--breakout-max-width)) var(--breakout-max-width), (min-width: 768px) 100vw, 100vw";
   return "(min-width: var(--content-max-width)) var(--content-max-width), (min-width: 768px) 100vw, 100vw";
 }
 
-const containerClass = container === "full-width"
-  ? "full-width parallax-wrap"
-  : `${container} rounded-media overflow-hidden my-8 parallax-wrap`;
+const containerClass =
+  container === "full-width"
+    ? "full-width parallax-wrap"
+    : `${container} rounded-media overflow-hidden my-8 parallax-wrap`;
 
-const contentClass = container === "full-width"
-  ? "content-grid relative"
-  : "relative px-2 sm:px-4 md:px-8";
+const contentClass =
+  container === "full-width"
+    ? "content-grid relative"
+    : "relative px-2 sm:px-4 md:px-8";
 
-  const id = getIdFromContent(content)
-
-   
+const id = getIdFromContent(content);
 ---
 
-<div 
+<div
   {...storyblokEditable(blok)}
   class={`${surface || ""} ${padding_top} ${padding_bottom} intersection`}
 >
   <div class="content-grid isolate" {id}>
     <div class={containerClass}>
-      <div class={`${surface_banner || ""} ${align || ""} relative w-full overflow-hidden`}>
+      <div
+        class={`${surface_banner || ""} ${align || ""} relative w-full overflow-hidden`}
+      >
         <div class={`parallax absolute inset-0 overflow-hidden ${opacity}`}>
-          {!video?.filename && image?.filename && (
-            <Picture
-              src={image.filename}
-              alt={image.alt || image.name}
-              className="fade-in"
-              sizes={getSizes()}
-              ar={16 / 9}
-              layout="fill"
-            />
-          )}
-          {video?.filename && (
-            <VideoInline url={video.filename} client:visible className="fade-in">
-              {image?.filename && (
-                <Picture
-                  src={image.filename}
-                  alt={image.alt || image.name}
-                  sizes={getSizes()}
-                  ar={16 / 9}
-                  layout="fill"
-                />
-              )}
-            </VideoInline>
-          )}
+          {
+            !video?.filename && image?.filename && (
+              <Picture
+                src={image.filename}
+                alt={image.alt || image.name}
+                className="fade-in"
+                sizes={getSizes()}
+                ar={16 / 9}
+                layout="fill"
+              />
+            )
+          }
+          {
+            video?.filename && (
+              <VideoInline
+                url={video.filename}
+                client:visible
+                className="fade-in"
+              >
+                {image?.filename && (
+                  <Picture
+                    src={image.filename}
+                    alt={image.alt || image.name}
+                    sizes={getSizes()}
+                    ar={16 / 9}
+                    layout="fill"
+                  />
+                )}
+              </VideoInline>
+            )
+          }
         </div>
 
         <div class={contentClass}>
-          <div class={`${wide ? 'breakout' : ''} scale-in h-fit grid grid-cols-1 gap-4 py-14 md:py-20 sm:${align || ""}`}>
-            <div set:html={renderedRichText} class="richtext max-w-2xl text-ellipsis px-3" />
+          <div
+            class={`${wide ? "breakout" : ""} scale-in h-fit grid grid-cols-1 gap-4 py-14 md:py-20 sm:${align || ""}`}
+          >
+            <div
+              set:html={renderedRichText}
+              class="richtext max-w-2xl text-ellipsis px-3"
+            />
 
-            {links && links.length > 0 && (
-              <div class="buttons inline-flex w-fit flex-wrap gap-4 pt-4">
-                {links.map((link) => (
-                  <Link blok={link} />
-                ))}
-              </div>
-            )}
+            {
+              links && links.length > 0 && (
+                <div class="buttons inline-flex w-fit flex-wrap items-center gap-4 pt-4">
+                  {links.map((link) => (
+                    <Link blok={link} />
+                  ))}
+                </div>
+              )
+            }
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-

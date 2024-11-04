@@ -36,13 +36,11 @@ function getSizes() {
   const maxWidth = container === "breakout" ? "breakout" : "content";
   return `(min-width: var(--${maxWidth}-max-width)) calc(var(--${maxWidth}-max-width) * ${media_width} / 100), ${baseSize}`;
 }
- 
+
 const textMediaClass = `${container} text-media ${reverse ? "reverse" : ""}`;
 const gridClass = `text-media__container grid grid-flow-dense grid-cols-1 gap-4 sm:gap-6 md:gap-10 xl:gap-18 ${padding_top} ${padding_bottom}`;
 const figureClass = `overflow-hidden rounded-media fade-up h-fit sticky top-0 mx-auto grid place-items-start md:max-w-full`;
 const contentClass = `w-full richtext max-w-2xl relative z-40 mx-auto md:mx-0 grid content-center items-center justify-self-start ${align || ""} ${reverse ? "md:col-start-1 md:row-start-1" : ""}`;
-
-
 ---
 
 <div {...storyblokEditable(blok)} class={`${surface} intersection`}>
