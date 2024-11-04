@@ -21,9 +21,9 @@ const renderedRichText = renderRichText(content);
     {
       icon && (
         <div
-          class={`${surface || ""} rounded-input float-right ml-2 inline-block p-1`}
+          class={`${surface || ""} rounded-input float-right ml-2 inline-block p-2 text-2xl`}
         >
-          <Icon name={icon} class="h-6 w-6" />
+          <Icon name={icon} is:inline />
         </div>
       )
     }
