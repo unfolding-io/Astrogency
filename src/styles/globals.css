@@ -294,7 +294,7 @@ sub {
   
   &-icon {
     border-radius: var(--radius-input);
-    @apply grid aspect-square min-h-3 place-items-center p-2;
+    @apply grid aspect-square min-h-3 place-items-center p-2.5;
     line-height: 1 !important;
   }
   &-underline {
