@@ -79,10 +79,10 @@ const text = renderRichText(content);
 
   <div class="content-grid relative h-fit">
     <div
-      class="breakout align-items-end lg:gap-8 grid grid-cols-1 gap-3 text-balance py-20 lg:py-28 xl:py-20 lg:grid-cols-10"
+      class="breakout align-items-end grid grid-cols-1 gap-3 text-balance py-20 lg:grid-cols-10 lg:gap-8 lg:py-28 xl:py-20"
     >
       <h1
-        class="max-w-3xl text-4xl md:text-5xl lg:text-6xl lg:col-span-6 xl:text-7xl"
+        class="max-w-3xl text-4xl md:text-5xl lg:col-span-6 lg:text-6xl xl:text-7xl"
         set:html={title}
       />
 
@@ -92,7 +92,7 @@ const text = renderRichText(content);
         {content && <div class="text-xl" set:html={text} />}
         {
           links && links.length > 0 && (
-            <div class="mt-2 flex w-fit gap-2 lg:absolute lg:bottom-0 lg:inset-x-0 lg:translate-y-full lg:pt-5">
+            <div class="mt-2 flex w-fit items-center gap-2 lg:absolute lg:inset-x-0 lg:bottom-0 lg:translate-y-full lg:pt-5">
               {links.map((link) => (
                 <Link blok={link} />
               ))}
@@ -115,7 +115,7 @@ const text = renderRichText(content);
     h1 {
       strong,
       b,
-      bold { 
+      bold {
         font-weight: inherit;
         color: var(--accent-color);
       }
