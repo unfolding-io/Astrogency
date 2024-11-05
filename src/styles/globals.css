@@ -5,9 +5,7 @@
 * {
   @apply border-border;
 }
-/* html {
-  scroll-behavior: smooth;
-} */
+ 
 @supports selector(::-webkit-scrollbar) {
   html::-webkit-scrollbar {
     width: 8px;
