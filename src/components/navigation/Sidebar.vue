@@ -26,43 +26,25 @@ const html = ref<HTMLHtmlElement | null>(null);
 const isOpen = ref(false);
 const clicked = ref(false);
 
-function onOpen() {
-  /* if (html.value) {
-    html.value.style["scroll-behavior"] = "auto";
-    //isOpen.value = true;
-  } */
-}
-
-/* function onClose() {
-  //isOpen.value = false;
-  setTimeout(() => {
-    if (html.value) {
-      html.value.style["scroll-behavior"] = "smooth";
-    }
-  }, 500);
-} */
-
 onMounted(() => {
   html.value = document.getElementsByTagName("html")[0];
 });
 </script>
 
 <template>
-  <div class="contents sm:hidden z-50">
-    <Drawer direction="bottom" @update:open="onOpen" v-model:open="isOpen" @close="onClose" >
+  <div class="z-50 contents sm:hidden">
+    <Drawer direction="bottom" v-model:open="isOpen">
       <DrawerTrigger
         asChild
         :aria-label="labels.menu"
-        class="menu-btn pointer-events-auto aspect-square overflow-hidden p-2 z-50"
-        :class="`p-2 ${isOpen && 'is-open'} ${!isOpen && clicked && 'close' } `"
+        class="menu-btn pointer-events-auto z-50 aspect-square overflow-hidden p-2"
+        :class="`p-2 ${isOpen && 'is-open'} ${!isOpen && clicked && 'close'} `"
         @click="
           isOpen = true;
           clicked = true;
         "
       >
-        
-          <slot name="icon" />
-       
+        <slot name="icon" />
       </DrawerTrigger>
       <DrawerContent :class="surface">
         <DrawerHeader>
