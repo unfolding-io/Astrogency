@@ -36,19 +36,23 @@
         v-if="!show_name_field && !include_main_list"
         type="submit"
         :disabled="loading"
-        :class="inputClass"
-        class="btn btn-icon group absolute inset-y-1 right-1 grid place-items-center rounded-sm disabled:pointer-events-none disabled:cursor-not-allowed"
+        :class="inputClass || 'surface-primary'"
+        class="btn-icon-s group absolute inset-y-1 right-1 p-0"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="1rem"
-          height="1rem"
-          class="scale-125 transition-all group-hover:scale-150"
+          width="1em"
+          height="1em"
           viewBox="0 0 24 24"
+          class="group-hover:scale-110 transform transition-transform duration-200"
         >
           <path
-            fill="currentColor"
-            d="M13.47 8.53a.75.75 0 0 1 1.06-1.06l4 4a.75.75 0 0 1 0 1.06l-4 4a.75.75 0 1 1-1.06-1.06l2.72-2.72H6.5a.75.75 0 0 1 0-1.5h9.69z"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h14m-7-7l7 7l-7 7"
           />
         </svg>
       </button>
@@ -157,7 +161,7 @@ const canSubmit = computed(() => {
   return isFinished.value && pass.value;
 });
 
-const submit = async () => { 
+const submit = async () => {
   if (!canSubmit.value) {
     toastMessage.set({
       message: t("missing_email"),
@@ -206,7 +210,7 @@ const submit = async () => {
     });
     /* Clear form data and close modal */
     form.email = "";
-    form.first_name = ""; 
+    form.first_name = "";
   }
 };
 </script>
