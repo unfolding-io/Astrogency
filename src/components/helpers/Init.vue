@@ -30,14 +30,14 @@ onMounted(() => {
   }
   /* SET SCROLL BEHAVIOR (PAGE VIEW ANIMATIONS + SMOOTH SCROLL IS NOT WORKING ) */
 
-  if (!window.location.href.includes("/cms")) {
+  /* if (!window.location.href.includes("/cms")) {
     setTimeout(() => {
       html.style["scroll-behavior"] = "smooth";
     }, 500);
-  }
-  if (window.location.href.includes("/cms")) {
+  } */
+  /* if (window.location.href.includes("/cms")) {
     html.style["scroll-behavior"] = "auto";
-  }
+  } */
 
   /* SCROLL OBSERVER FOR PAGE */
   let prevPos = 0;
