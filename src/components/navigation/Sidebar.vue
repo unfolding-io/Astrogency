@@ -27,20 +27,20 @@ const isOpen = ref(false);
 const clicked = ref(false);
 
 function onOpen() {
-  if (html.value) {
+  /* if (html.value) {
     html.value.style["scroll-behavior"] = "auto";
     //isOpen.value = true;
-  }
+  } */
 }
 
-function onClose() {
+/* function onClose() {
   //isOpen.value = false;
   setTimeout(() => {
     if (html.value) {
       html.value.style["scroll-behavior"] = "smooth";
     }
   }, 500);
-}
+} */
 
 onMounted(() => {
   html.value = document.getElementsByTagName("html")[0];
