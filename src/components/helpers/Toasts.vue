@@ -27,7 +27,7 @@ watch($toastMessage, (value) => {
 </script>
 
 <template>
-  <Toaster theme="dark" position="top-left" />
+  <Toaster position="top-left" />
 </template>
 
 <style>

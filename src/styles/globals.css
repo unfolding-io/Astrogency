@@ -5,9 +5,9 @@
 * {
   @apply border-border;
 }
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
 @supports selector(::-webkit-scrollbar) {
   html::-webkit-scrollbar {
     width: 8px;
@@ -295,6 +295,11 @@ sub {
   &-icon {
     border-radius: var(--radius-input);
     @apply grid aspect-square min-h-3 place-items-center p-2.5;
+    line-height: 1 !important;
+  }
+  &-icon-s {
+    border-radius: var(--radius-input);
+    @apply grid aspect-square min-h-3 place-items-center p-1.5;
     line-height: 1 !important;
   }
   &-underline {
