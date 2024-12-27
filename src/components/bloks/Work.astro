@@ -12,41 +12,51 @@ interface Props {
   services?: any[];
   links?: any[];
 }
-const { blok, status, categories, services } = Astro.props;
-const { title, content, thumbnail, surface, body, links } = blok;
+
+const { blok, status } = Astro.props;
+const {
+  title,
+  content,
+  thumbnail,
+  surface,
+  body,
+  links,
+  categories,
+  services,
+} = blok;
 ---
 
 <main {...storyblokEditable(blok)} class={`${surface || ""} `}>
   <section class="content-grid grid pt-20">
     <div class="breakout work-grid gap-8">
       <div class="title grid grid-cols-1 gap-2">
-        <Breadcrumbs >
+        <Breadcrumbs>
           {
-            categories?.map((category) => (
-              <li class="relative and">
+            categories?.map((category:WorkCategoryData) => (
+              <li class="and relative">
                 <Link
-                className="btn-underline truncate"
-                blok={{
-                  href: {
-                    linktype: "url",
-                    url: `/work/${category.slug}`,
-                  },
-                  label: category.content.title,
-                }}
-              />
+                  className="btn-underline truncate"
+                  surface="surface-light"
+                  blok={{
+                    href: {
+                      linktype: "url",
+                      url: `/work/${category.slug}`,
+                    },
+                    label: category.title,
+                  }}
+                />
               </li>
             ))
           }
-          </Breadcrumbs>
-         
+        </Breadcrumbs>
 
-        <h1 class="text-balance text-5xl md:text-6xl max-w-2xl">
+        <h1 class="max-w-2xl text-balance text-5xl md:text-6xl">
           {title}
         </h1>
       </div>
 
       <div
-        class="image parallax-wrap relative h-fit overflow-hidden rounded-media"
+        class="image parallax-wrap rounded-media relative h-fit overflow-hidden"
       >
         {
           thumbnail && (
@@ -76,7 +86,7 @@ const { title, content, thumbnail, surface, body, links } = blok;
         {
           links && links.length > 0 && (
             <div class="mt-auto flex w-full items-center justify-end gap-2 pt-4">
-              {links.map((link:LinkStoryblok) => (
+              {links.map((link: LinkStoryblok) => (
                 <Link blok={link} />
               ))}
             </div>
@@ -89,13 +99,14 @@ const { title, content, thumbnail, surface, body, links } = blok;
           services?.map((service) => (
             <li>
               <Link
-                className="btn-underline"
                 blok={{
                   href: {
                     linktype: "url",
                     url: `/${service.full_slug}`,
                   },
-                  label: service.content.title,
+                  className: "btn-underline",
+                  surface: "surface-light",
+                  label: service.title,
                 }}
               />
             </li>
@@ -104,6 +115,7 @@ const { title, content, thumbnail, surface, body, links } = blok;
       </ul>
     </div>
   </section>
+ 
   <div class="min-h-20">
     {body?.map((blok) => <StoryblokComponent blok={blok} {status} />)}
   </div>

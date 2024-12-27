@@ -13,7 +13,6 @@ STORYBLOK_PREVIEW_TOKEN=XXX
 STORYBLOK_PERSONAL_TOKEN=XXX
 STORYBLOK_SPACE_ID=000000
 STORYBLOK_REGION=eu
-
 LOCALE=en-US
 CURRENCY=USD
 SITE_LANG=en
@@ -38,7 +37,8 @@ npm run dev
 
 open `https://localhost:4321/setup`
 
-And sync your Datasources, Components, and stories. it is best to first delete before syncing.
+And sync your Datasources, Components, and stories. it is best to first delete before syncing. 
+_if a sync or delete fails, try to refresh the page ant try again._
 
 ![Astrorante](https://astrorante.unfolding.io/screenshots/sync.png)
 

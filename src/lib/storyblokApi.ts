@@ -1,7 +1,7 @@
 import { useStoryblokApi } from "@storyblok/astro";
 
 import StoryblokClient from "storyblok-js-client";
-import type { ISbStories, ISbStoryData, ISbResult } from "@storyblok/astro";
+import type { ISbStoryData, ISbResult } from "@storyblok/astro";
 import slugify from "@sindresorhus/slugify";
 import {
   STORYBLOK_SPACE_ID,
@@ -17,6 +17,7 @@ const previewToken = import.meta.env.STORYBLOK_PREVIEW_TOKEN;
 
 const Storyblok = new StoryblokClient({
   oauthToken: token,
+  region: STORYBLOK_REGION,
 });
 
 const StoryblokApi = new StoryblokClient({
@@ -29,30 +30,59 @@ export async function getLocales() {
   return [SITE_LANG, ...data.space.language_codes];
 }
 
+export const getIdFromContent = (content: any) => {
+  if (!content) return "div_" + new Date().getTime().toString(36);
+  const firstContent = content?.content?.[0]?.content?.[0];
+  if (firstContent) {
+    return slugify(firstContent.text);
+  }
+  return "div_" + new Date().getTime().toString(36);
+};
+
 function extractDataSlug(slug: string, lang: string) {
-  if (lang === "default") return slug.replace(/\/$/, "");
+  if (lang === SITE_LANG) return slug.replace(/\/$/, "");
   return slug.replace(`${lang}/`, "");
 }
 
-export const getSettings = async (lang: string | undefined) => {
- try {
-  const { data: settingsData } = (await StoryblokApi.get(
-    "cdn/stories/site-settings/settings",
-    {
-      version: import.meta.env.DEV ? "draft" : "published",
-      language: !lang ? "default" : lang,
-    },
-  )) as ISbResult;
+export async function collectionToRoutes(collection:any[]) {
+  return collection.map((item:any) => {
+    return {
+      params: {
+        lang: item.data.lang === SITE_LANG ? undefined : item.data.lang,
+        slug:
+          item.data.slug === "index"
+            ? undefined
+            : extractDataSlug(item.data.full_slug, item.data.lang),
+      },
+      props: {
+        full_slug: item.data.full_slug,
+        lang: item.data.lang,
+        component: item.data.component,
+        id: item.id,
+      },
+    };
+  });
+}
 
-  return settingsData?.story?.content as SettingsStoryblok;
- }
- catch (e) {
-  return {
-    setup: true,
+export const getSettings = async (lang: string | undefined) => {
+  try {
+    const { data: settingsData } = (await StoryblokApi.get(
+      "cdn/stories/site-settings/settings",
+      {
+        version: import.meta.env.DEV ? "draft" : "published",
+        language: !lang ? "default" : lang,
+      },
+    )) as ISbResult;
+
+    return settingsData?.story?.content as SettingsStoryblok;
+  } catch (e) {
+    return {
+      setup: true,
+    };
   }
- }
 };
 
+/* FOR CMS ROUTE */
 export const getPage = async (
   slug: string | undefined,
   lang: string | undefined,
@@ -69,390 +99,87 @@ export const getPage = async (
   return data.story.content;
 };
 
-export const getPages = async (
-  lang: string,
+export async function getCollectionData({
+  lang,
+  collection,
+  status,
+}: {
+  lang: string | undefined;
+  collection: string;
+  status: "draft" | "published" | undefined;
+}) {
+  const stories = await getData(lang, collection, status);
+  const work_categories = await getData(lang, "work_category", status);
+  const blog_categories = await getData(lang, "blog_category", status);
+  const work_services = await getData(lang, "service", status);
+
+  let categories:BlogCategoryData[] | WorkCategoryData[] = [], services:ServiceData[] = [];
+  return stories.flatMap((story) => {
+    if (story.component === "post") {
+     
+      categories = blog_categories.filter((c) =>
+        story?.category?.includes(c.uuid),
+      );
+    } 
+    if(story.component === "work") {
+      categories = work_categories.filter((c) =>
+        story?.category?.includes(c.uuid),
+      );
+      services = work_services.filter((c) =>
+        story?.services?.includes(c.uuid),
+      );
+    }
+    return {
+      ...story,
+      categories,
+      services,
+    };
+  });
+}
+
+/* GET COLLECTION DATA */
+export const getData = async (
+  lang: string | undefined,
+  collection: string,
   status: "draft" | "published" | undefined,
-  settings: any,
-  locales: string[],
 ) => {
   const per_page = 50;
-  let stories: ISbStoryData<PageStoryblok>[] | [] = [];
-  let page = 0; // Initialize page counter
+  let stories:any[] = [];
+  let page = 1; // Initialize page counter
 
-  const api = useStoryblokApi();
   while (true) {
-    const pages = (await api.get(`cdn/stories`, {
+    const data = (await StoryblokApi.get(`cdn/stories`, {
       version: status || "published",
-      content_type: "page",
+      content_type: collection,
       language: lang,
       per_page,
-      page: per_page * page, // Use page counter instead of pages.length
-    })) as ISbStories;
+      page: page,
+    })) as any;
 
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<PageStoryblok>[]),
-    ];
+    stories = [...stories, ...(data.data.stories as any)];
 
-    if (pages.data.stories.length < per_page) {
+    if (data.data.stories.length < per_page) {
       break;
     }
     page++; // Increment page counter after each loop
   }
 
-  return stories.flatMap((story) => {
+  const data = stories.flatMap((story) => {
     return {
-      params: {
-        slug:
-          story.slug === "index"
-            ? undefined
-            : extractDataSlug(story.full_slug, lang),
-        lang: lang === "default" ? undefined : lang,
-      },
-      props: {
-        dataSlug: story.slug,
-        story: story.content,
-        settings,
-        locales,
-        lang: lang === "default" ? undefined : lang,
-        slug:
-          story.slug === "index"
-            ? undefined
-            : extractDataSlug(story.full_slug, lang),
-      },
-    };
-  });
-};
-
-/* POSTS */
-export const getPosts = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-  settings: any,
-  locales: string[],
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<PostStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "post",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
-
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<PostStoryblok>[]),
-    ];
-
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
-
-  const categories = await getPostCategories(lang, status);
-
-  return stories.flatMap((story) => {
-    return {
-      params: {
-        slug: extractDataSlug(story.full_slug, lang),
-        lang: lang === "default" ? undefined : lang,
-      },
-      props: {
-        dataSlug: story.slug,
-        story: story.content,
-        settings,
-        locales,
-        categories: story.content.category.flatMap((id: string) =>
-          categories.filter((c) => c.uuid === id),
-        ),
-        lang: lang === "default" ? undefined : lang,
-        slug: extractDataSlug(story.full_slug, lang),
-      },
-    };
-  });
-};
-
-export const getPostsData = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<PostStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "post",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
-
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<PostStoryblok>[]),
-    ];
-
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
-
-  return stories.flatMap((story) => {
-    return {
+      uuid: story.uuid,
       slug: story.slug,
       full_slug: story.full_slug,
+      dataSlug: story.slug,
       ...story.content,
     };
   });
+  return data;
 };
 
-export const getPostCategories = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<BlogCategoryStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "blog_category",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
 
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<BlogCategoryStoryblok>[]),
-    ];
 
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
 
-  return stories;
-};
 
-/* SERVICES */
-export const getServices = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-  settings: any,
-  locales: string[],
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<ServiceStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "service",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
-
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<ServiceStoryblok>[]),
-    ];
-
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
-
-  return stories.flatMap((story) => {
-    return {
-      params: {
-        slug: extractDataSlug(story.full_slug, lang),
-        lang: lang === "default" ? undefined : lang,
-      },
-      props: {
-        dataSlug: story.slug,
-        story: story.content,
-        settings,
-        locales,
-        lang: lang === "default" ? undefined : lang,
-        slug_base: story.slug,
-        slug_full: story.full_slug,
-        slug: extractDataSlug(story.full_slug, lang),
-      },
-    };
-  });
-};
-
-export const getServicesData = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<ServiceStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "service",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
-
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<ServiceStoryblok>[]),
-    ];
-
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
-
-  return stories;
-};
-
-/* WORK */
-export const getWorks = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-  settings: any,
-  locales: string[],
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<WorkStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "work",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
-
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<WorkStoryblok>[]),
-    ];
-
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
-
-  const categories = await getWorkCategories(lang, status);
-  const services = await getServicesData(lang, status);
-
-  return stories.flatMap((story) => {
-    return {
-      params: {
-        slug: extractDataSlug(story.full_slug, lang),
-        lang: lang === "default" ? undefined : lang,
-      },
-      props: {
-        dataSlug: story.slug,
-        story: story.content,
-        settings,
-        locales,
-        categories: story.content?.category?.flatMap((id: string) =>
-          categories.filter((c) => c.uuid === id),
-        ),
-        services: story.content?.services?.flatMap((id: string) =>
-          services.filter((c) => c.uuid === id),
-        ),
-        lang: lang === "default" ? undefined : lang,
-        slug: extractDataSlug(story.full_slug, lang),
-      },
-    };
-  });
-};
-
-export const getWorksData = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<WorkStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "work",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
-
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<WorkStoryblok>[]),
-    ];
-
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
-
-  return stories.flatMap((story) => {
-    return {
-      slug: story.slug,
-      full_slug: story.full_slug,
-      ...story.content,
-    };
-  });
-};
-
-export const getWorkCategories = async (
-  lang: string,
-  status: "draft" | "published" | undefined,
-) => {
-  const per_page = 50;
-  let stories: ISbStoryData<WorkCategoryStoryblok>[] | [] = [];
-  let page = 0;
-  const api = useStoryblokApi();
-  while (true) {
-    const pages = (await api.get(`cdn/stories`, {
-      version: status || "published",
-      content_type: "work_category",
-      language: lang,
-      per_page,
-      page: per_page * page,
-    })) as ISbStories;
-
-    stories = [
-      ...stories,
-      ...(pages.data.stories as ISbStoryData<WorkCategoryStoryblok>[]),
-    ];
-
-    if (pages.data.stories.length < per_page) {
-      break;
-    }
-    page++;
-  }
-
-  return stories;
-};
 
 export const pullDataSources = async () => {
   try {
@@ -735,17 +462,16 @@ export const pushStories = async (data: any, current: any) => {
         await Promise.all(
           data.stories[key].map(async (item: any) => {
             const parent = folders.find(
-              (f: any) => f.slug === item?.parent?.slug
+              (f: any) => f.slug === item?.parent?.slug,
             );
             await createStory(item, current, parent);
-          })
+          }),
         );
       }
     } catch (error) {
-      console.error(`Can't create stories` , error);
+      console.error(`Can't create stories`, error);
     }
   }
-
 
   /* create pages */
 
@@ -842,11 +568,4 @@ export const removeStories = async () => {
   return { ok: "ok" };
 };
 
-export const getIdFromContent = (content: any) => {
-  if (!content) return "div_" + new Date().getTime().toString(36);
-  const firstContent = content?.content?.[0]?.content?.[0];
-  if (firstContent) {
-    return slugify(firstContent.text);
-  }
-  return "div_" + new Date().getTime().toString(36);
-};
+
