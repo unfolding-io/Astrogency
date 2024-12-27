@@ -14,11 +14,11 @@ import {
 } from "./storyBlockSchema";
 
 //check if the settings are valid
-const hasSettings = await getSettings(
+const isSetup = await getSettings(
   undefined,
 );
 
-if (hasSettings.setup) {
+if (!!isSetup.setup) {
   console.log("No settings found");
   throw new Error("No settings found, Import all data sources, components and stories, then restart the server.");
 }

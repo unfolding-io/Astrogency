@@ -37,7 +37,8 @@ npm run dev
 
 open `https://localhost:4321/setup`
 
-And sync your Datasources, Components, and stories. it is best to first delete before syncing.
+And sync your Datasources, Components, and stories. it is best to first delete before syncing. 
+_if a sync or delete fails, try to refresh the page ant try again._
 
 ![Astrorante](https://astrorante.unfolding.io/screenshots/sync.png)
 

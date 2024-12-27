@@ -10,7 +10,7 @@ export const richtextSchema = z.object({
 }).passthrough()
 
 export const assetSchema = z.object({
-  alt: z.string().nullable(),
+  alt: z.string().nullable().optional(),
   copyright: z.string().nullable().optional(),
   fieldtype: z.literal('asset'),
   id: z.number().or(z.string()).or(z.null()).optional(),
@@ -335,6 +335,7 @@ export const textMediaSchema = z.object({
     padding_top: z.string().optional(),
     padding_bottom: z.string().optional(),
     component: z.literal('text_media'),
+    layout: z.string().optional(),
     _editable: z.string().optional(),
 }).passthrough()
 
