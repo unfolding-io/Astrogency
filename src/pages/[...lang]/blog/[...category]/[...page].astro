@@ -1,100 +1,101 @@
 ---
-import { 
-  getPostsData, 
-  getPostCategories,
-  getLocales,
-} from "@lib/storyblokApi";
+import { SITE_LANG } from "astro:env/client";
+import { translateUrl, useTranslations } from "@lib/translate";
+import { getEntry, getCollection } from "astro:content";
 import { renderRichText } from "@storyblok/astro";
 import Layout from "@layouts/Layout.astro";
 import PostCard from "@components/cards/PostCard.astro";
-import { SITE_LANG } from "astro:env/client";
 import Link from "@components/navigation/Link.astro";
-import { translateUrl, useTranslations } from "@lib/translate";
 import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
-import { getEntry } from "astro:content";
 
 interface Props {
-  page: Page,
-  settings: SettingsStoryblok,
-  locales: string[],
-  categories: BlogCategoryStoryblok[],
-  category: BlogCategoryStoryblok,
+  page: Page;
+  settings: SettingsStoryblok;
+  locales: string[];
+  categories: BlogCategoryStoryblok[];
+  category?: BlogCategoryStoryblok;
 }
 
 export async function getStaticPaths({ paginate }: { paginate: Function }) {
   const pageSize = 10;
-  const locales = await getLocales();
+  const locales = (await getCollection("locales")).map((locale) => locale.id);
 
-  /* GET ALL PAGES */
   const pages = locales.flatMap(async (lang, index) => {
-    const dataLang = index === 0 ? "default" : lang;
+    const routeLang = index === 0 ? undefined : lang;
     const status = import.meta.env.DEV ? "draft" : "published";
-    const posts = await getPostsData(dataLang, status);
-    const categories = await getPostCategories(dataLang, status);
-    const settings = (await getEntry("settings", lang)).data;
-    const indexPages = paginate(posts, { pageSize: pageSize });
 
-    const groupedByCategory: GroupedByPostCategory = posts.reduce(
-      (acc, item) => {
-        item.category.forEach((categoryId:string) => {
-          if (!acc[categoryId]) {
-            acc[categoryId] = [item];
-          } else {
-            acc[categoryId].push(item);
-          }
+    const [posts, categories, settings] = await Promise.all([
+      getCollection("post", ({ data }) => data.lang === lang),
+      getCollection("blog_category", ({ data }) => data.lang === lang),
+      getEntry("settings", lang),
+    ]);
+
+    const postsData = posts.map((post) => post.data);
+    const categoriesData = categories.map((category) => category.data);
+    const settingsData = settings.data;
+
+    const indexPages = paginate(postsData, { pageSize });
+
+    // Group posts by category
+    const groupedByCategory = postsData.reduce(
+      (acc: Record<string, typeof postsData>, post) => {
+        post.category?.forEach((categoryId: string) => {
+          acc[categoryId] = acc[categoryId] || [];
+          acc[categoryId].push(post);
         });
         return acc;
       },
-      {} as GroupedByPostCategory,
+      {}
     );
 
-    const categoryPages = Object.keys(groupedByCategory)
-      .map((categoryId) => {
-        const category = categories.find((cat) => cat.uuid === categoryId);
-        const categoryIndexPages = paginate(groupedByCategory[categoryId], {
-          pageSize: pageSize,
-        });
+    const categoryPages = Object.entries(groupedByCategory).flatMap(
+      ([categoryId, posts]) => {
+        const category = categoriesData.find((cat) => cat.uuid === categoryId);
+        if (!category) return [];
 
-        return categoryIndexPages.map((page: any) => ({
+        return paginate(posts, { pageSize }).map((page: any) => ({
           params: {
             page: page.params.page,
-            category: category?.slug,
-            lang: dataLang === "default" ? undefined : dataLang,
+            category: category.slug,
+            lang: routeLang,
           },
           props: {
             ...page.props,
             status,
-            settings,
+            settings: settingsData,
             locales,
-            categories,
-            category: {
-              ...category,
-              ...category?.content,
-            },
+            categories: categoriesData,
+            category,
           },
         }));
-      })
-      .flat();
+      }
+    );
 
-    const BasePages = indexPages.map((page: any) => ({
+    const basePages = indexPages.map((page: any) => ({
       params: {
         page: page.params.page,
         category: undefined,
-        lang: dataLang === "default" ? undefined : dataLang,
+        lang: routeLang,
       },
-      props: { ...page.props, status, settings, locales, categories },
+      props: {
+        ...page.props,
+        status,
+        settings: settingsData,
+        locales,
+        categories: categoriesData,
+      },
     }));
 
-    return [...BasePages, ...categoryPages];
+    return [...basePages, ...categoryPages];
   });
 
   const routes = await Promise.all(pages);
   return routes.flat();
 }
 
-let { lang } = Astro.params;
-let { page, settings, locales, categories, category } = Astro.props;
-const pageLang = !lang ? SITE_LANG : lang;
+const { lang } = Astro.params;
+const { page, settings, locales, categories, category } = Astro.props;
+const pageLang = lang || SITE_LANG;
 const t = useTranslations(pageLang);
 
 const { next, prev } = page.url;
@@ -109,48 +110,48 @@ const {
 } = settings;
 
 const localeUrls = translateUrl(Astro.url, locales);
- 
+
 const meta = {
-  title: category?.og_title ? category.og_title : blog_og_title,
-  description: category?.og_description ? category.og_description : blog_og_description,
-  image: category?.og_image ? category.og_image.filename : blog_og_image.filename,
+  title: category?.og_title || blog_og_title,
+  description: category?.og_description || blog_og_description,
+  image: category?.og_image?.filename || blog_og_image?.filename,
 };
 
-const wideImages = [
+// Pre-calculate wide image indices for better performance
+const wideImages = new Set([
   1, 4, 5, 8, 9, 12, 13, 16, 17, 20, 21, 24, 25, 28, 29, 32, 33, 36, 37, 40, 41,
   44, 45, 48, 49, 52, 53, 56, 57, 60, 61, 64, 65, 68, 69, 72, 73, 76, 77, 80,
   81, 84, 85, 88, 89, 92, 93, 96, 97, 100,
-];
+]);
+
+if (!meta.title || !meta.description || !meta.image)
+  return Astro.redirect("/404");
 ---
 
 <Layout {meta} {settings} {localeUrls}>
   <section class={surface_page || ""}>
     <div class="content-grid min-h-svh content-start">
-      <div class="mx-w-lg breakout grid gap-3 pt-20 h-fit">
+      <div class="mx-w-lg breakout grid h-fit gap-3 pt-20">
         <div class="grid grid-cols-1 gap-2">
           <Breadcrumbs />
           <h1
-            class="text-5xl md:text-6xl"
-            set:html={category?.title ? category.title : blog_title}
+            class="text-balance text-5xl md:text-6xl"
+            set:html={category?.title || blog_title}
           />
           <div
             class="richtext no-lead text-balance"
-            set:html={renderRichText(
-              category?.content ? category.content : blog_content,
-            )}
+            set:html={renderRichText(category?.content || blog_content)}
           />
         </div>
         {
-          categories && categories.length > 0 && (
+          categories?.length > 0 && (
             <div class="mt-1 flex w-fit flex-wrap justify-start gap-4 border-t border-current py-4">
               {categories.map((cat) => (
                 <Link
                   className={`btn-underline text-sm ${cat?.slug === category?.slug ? "text-primary" : ""}`}
                   blok={{
-                    href: {
-                      url: `/blog/${cat.slug}`,
-                    },
-                    label: cat?.content?.title,
+                    href: { url: `/blog/${cat.slug}` },
+                    label: cat?.title,
                   }}
                 />
               ))}
@@ -158,6 +159,7 @@ const wideImages = [
           )
         }
       </div>
+
       <div
         class="breakout grid grid-cols-1 gap-4 py-4 md:grid-cols-2 md:gap-8 xl:grid-cols-3"
       >
@@ -165,7 +167,7 @@ const wideImages = [
           page.data.map((story: PostStoryblok, index: number) => (
             <PostCard
               {...story}
-              wide={wideImages.includes(index + 1)}
+              wide={wideImages.has(index + 1)}
               showCategory={!category}
               {categories}
             />
@@ -179,22 +181,17 @@ const wideImages = [
             prev && (
               <Link
                 blok={{
-                  href: {
-                    url: lang === undefined ? `${prev}` : `/${lang}${prev}`,
-                  },
+                  href: { url: lang ? `/${lang}${prev}` : prev },
                   label: t("previous"),
                 }}
               />
             )
           }
-
           {
             next && (
               <Link
                 blok={{
-                  href: {
-                    url: lang === undefined ? `${next}` : `/${lang}${next}`,
-                  },
+                  href: { url: lang ? `/${lang}${next}` : next },
                   label: t("next"),
                 }}
               />

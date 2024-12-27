@@ -7,69 +7,63 @@ import { getEntry, getCollection } from "astro:content";
 import { collectionToRoutes } from "@lib/storyblokApi";
 
 export async function getStaticPaths() {
-  try { 
-    const pagesData = await getCollection("page");
-    const postData = await getCollection("post");
-    const workData = await getCollection("work");
-    const serviceData = await getCollection("service");
-
-    const routes = await collectionToRoutes([
-      ...pagesData,
-      ...postData,
-      ...workData,
-      ...serviceData,
+  try {
+    const collections = await Promise.all([
+      getCollection("page"),
+      getCollection("post"), 
+      getCollection("work"),
+      getCollection("service")
     ]);
- 
-    return routes.flat();
-  } catch (e) {
-    console.error("Error:::", e);
 
-    return [
-      {
-        params: {
-          slug: undefined,
-        },
-        props: {
-          lang: SITE_LANG,
-          id: "404",
-        },
-      },
-    ];
+    const routes = await collectionToRoutes(collections.flat());
+    return routes;
+
+  } catch (error) {
+    console.error("Failed to generate static paths:", error);
+    return [{
+      params: { slug: undefined },
+      props: { lang: SITE_LANG, id: "404" }
+    }];
   }
 }
 
-const props = Astro.props;
-const { lang, id, component } = props;
+interface Props {
+  lang: string;
+  id: string;
+  component: "post" | "page" | "work" | "service";
+}
 
-console.log("props >>>> ", props);
+const { lang, id, component } = Astro.props;
 
-if (!id) return Astro.redirect("/404");
+if (!id || !component) {
+  return Astro.redirect("/404");
+}
 
-const status = import.meta.env.DEV ? "draft" : "published";
-const settings = (await getEntry("settings", lang)).data;
-const locales = (await getCollection("locales")).map((item) => item.id);
+const [settings, locales, story] = await Promise.all([
+  getEntry("settings", lang).then(entry => entry?.data),
+  getCollection("locales").then(collection => collection.map(item => item.id)),
+  getEntry(component, id).then(entry => entry?.data)
+]);
 
 if (!settings) {
- return Astro.redirect("/setup");
-} 
-if (!component) return Astro.redirect("/404");
+  return Astro.redirect("/setup");
+}
 
-const story = (await getEntry(component, id)).data;
+if (!story) {
+  return Astro.redirect("/404"); 
+}
 
-const { og_title, og_description, og_image } = story || {};
-
+const status = import.meta.env.DEV ? "draft" : "published";
 const localeUrls = translateUrl(Astro.url, locales || [SITE_LANG]);
 
-/*  */
-
 const meta = {
-  title: og_title || "404",
-  description: og_description || "page not found",
+  title: story.og_title || "404",
+  description: story.og_description || "page not found",
   og_image: "",
-  image: og_image?.filename || "",
+  image: story.og_image?.filename || ""
 };
 ---
 
-<Layout meta={meta} {settings} {localeUrls}> 
-  {story && <StoryblokComponent blok={story as any} {...props} {status} />}
+<Layout meta={meta} settings={settings} localeUrls={localeUrls}>
+  <StoryblokComponent blok={story} {...Astro.props} status={status} />
 </Layout>
