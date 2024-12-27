@@ -4,15 +4,14 @@ import { SITE_LANG } from "astro:env/client";
 import { useTranslations, getLangFromUrl, translateUrl } from "@lib/translate";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import Layout from "@layouts/Layout.astro";
- 
+
 export const prerender = false;
 const slug = Astro.url.searchParams.get("url");
 if (!slug) {
   return Astro.redirect("/404");
 }
- 
 
-const locales = await getLocales()
+const locales = await getLocales();
 const sbUrl = new URL(slug, Astro.url.origin);
 const lang = getLangFromUrl(sbUrl);
 const dataLang: string = !lang ? "default" : lang;
@@ -21,7 +20,7 @@ const localeUrls = translateUrl(sbUrl, locales || [SITE_LANG]);
 const dataUrl = localeUrls.filter((url) => url.url !== SITE_LANG)[0].url;
 const t = useTranslations(pageLang);
 
-const settings = getSettings(lang);
+const settings = await getSettings(lang);
 
 if (!settings) {
   return Astro.redirect("/setup");
@@ -39,6 +38,7 @@ const meta = {
   image: "",
 };
 ---
+
 <Layout {meta} {settings} bridge={true}>
   {blok && <StoryblokComponent blok={blok} status="draft" />}
   {
