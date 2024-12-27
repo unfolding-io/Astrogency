@@ -1,111 +1,75 @@
 ---
-import {
-  getLocales,
-  getPages,
-  getPosts,
-  getSettings,
-  getServices,
-  getPage,
-  getWorks,
-} from "@lib/storyblokApi";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import Layout from "@layouts/Layout.astro";
 import { translateUrl } from "@lib/translate";
 import { SITE_LANG } from "astro:env/client";
-import { getEntry } from "astro:content";
- 
+import { getEntry, getCollection } from "astro:content";
+import { collectionToRoutes } from "@lib/storyblokApi";
+import type { SbBlokData } from "@storyblok/js/";
 export async function getStaticPaths() {
   try {
-    const locales = await getLocales();
+    const collections = await Promise.all([
+      getCollection("page"),
+      getCollection("post"), 
+      getCollection("work"),
+      getCollection("service")
+    ]);
 
-    /* GET ALL PAGES AND POSTS IN ALL LANGUAGES */
-    const pages = locales.flatMap(async (lang, index) => {
-      const dataLang = index === 0 ? "default" : lang;
-      const settings = (await getEntry("settings", lang)).data;
+    const routes = await collectionToRoutes(collections.flat());
+    return routes;
 
-      const pages = await getPages(
-        dataLang,
-        import.meta.env.DEV ? "draft" : "published",
-        settings,
-        locales,
-      );
-
-      const posts = await getPosts(
-        dataLang,
-        import.meta.env.DEV ? "draft" : "published",
-        settings,
-        locales,
-      );
-
-      const works = await getWorks(
-        dataLang,
-        import.meta.env.DEV ? "draft" : "published",
-        settings,
-        locales,
-      );
-
-      const services = await getServices(
-        dataLang,
-        import.meta.env.DEV ? "draft" : "published",
-        settings,
-        locales,
-      );
-
-      return [...pages, ...posts, ...works, ...services];
-    });
-
-    const routes = await Promise.all(pages);
-
-    return routes.flat();
-  } catch (e) {
-    console.error("Error:::", e);
-
-    return [
-      {
-        params: {
-          slug: undefined,
-        },
-        props: {
-          settings: { data: null },
-        },
-      },
-    ];
+  } catch (error) {
+    console.error("Failed to generate static paths:", error);
+    return [{
+      params: { slug: undefined },
+      props: { lang: SITE_LANG, id: "404" }
+    }];
   }
 }
-let { settings, story, locales } = Astro.props;
 
- 
+interface Props {
+  lang: string;
+  id: string;
+  component: "post" | "page" | "work" | "service";
+}
+
+const { lang, id, component } = Astro.props;
+
+if (!id || !component) {
+  return Astro.redirect("/404");
+}
+
+const [settingsEntry, localesCollection, storyEntry] = await Promise.all([
+  getEntry("settings", lang),
+  getCollection("locales"),
+  getEntry(component, id)
+]);
+
+const settings = settingsEntry?.data ?? null;
+const locales = localesCollection.map(item => item.id);
+const story = storyEntry?.data ?? null;
 
 
-if(!settings || settings.setup) {
+if (!settings) {
+  console.log("settings not found");
   return Astro.redirect("/setup");
 }
 
-const status = import.meta.env.DEV ? "draft" : "published";
-
-if (import.meta.env.DEV) {
-  /* LOOK FOR CONTENT UPDATES IN DEV MODE */
-  const { slug, lang } = Astro.props as RouteParams;
-
-  try {
-    settings = await getSettings(lang);
-    story = await getPage(slug, lang);
-  } catch (e) {
-    console.error("error", e);
-  }
+if (!story) {
+  return Astro.redirect("/404"); 
 }
 
-const { og_title, og_description, og_image } = story || {};
+const status = import.meta.env.DEV ? "draft" : "published";
 const localeUrls = translateUrl(Astro.url, locales || [SITE_LANG]);
 
 const meta = {
-  title: og_title || "404",
-  description: og_description || "page not found",
+  title: story.og_title || "404",
+  description: story.og_description || "page not found",
   og_image: "",
-  image: og_image?.filename || "",
+  image: story.og_image?.filename || ""
 };
 ---
 
-<Layout meta={meta} {settings} {localeUrls}>
-  {story && <StoryblokComponent blok={story} {...Astro.props} {status} />}
+<Layout meta={meta} settings={settings} localeUrls={localeUrls}>
+  <StoryblokComponent blok={story as SbBlokData} {...Astro.props} status={status} />
 </Layout>

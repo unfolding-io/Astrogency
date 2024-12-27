@@ -41,7 +41,7 @@ import Stories from "@components/setup/Stories.vue";
         <h4>Start developing</h4>
 
         <p>
-          Check ou your site at:
+          Restart your server and check your site at:
           <a href="/" class="surface-secondary rounded-sm p-0.5">https://localhost:4321/</a>
         </p>
 
