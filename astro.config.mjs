@@ -14,7 +14,7 @@ const env = loadEnv("", process.cwd(), ["STORYBLOK", "NETLIFY"]);
 // https://astro.build/config
 export default defineConfig({
   site: "https://astrogency.unfolding.io/", // change this to your domain
-  output: "hybrid",
+
   adapter: env.NETLIFY ? netlify() : vercel(), // vercel() or netlify()
   integrations: [
     storyblok({
@@ -122,122 +122,122 @@ export default defineConfig({
       https: true,
     },
   },
-  experimental: {
-    contentLayer: true,
+  experimental: { 
     
-    env: {
-      schema: {
-        STORYBLOK_PREVIEW_TOKEN: envField.string({
-          context: "server",
-          access: "secret",
-          optional: true,
-        }),
-        STORYBLOK_SPACE_ID: envField.number({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
-        STORYBLOK_REGION: envField.string({
-          context: "server",
-          access: "public",
-          default: "eu", // Possible values: "ap", "eu", "us", "ca", "cn" (Default: "eu")
-        }),
-        STORYBLOK_PERSONAL_TOKEN: envField.string({
-          context: "server",
-          access: "secret",
-          optional: true,
-        }),
-        SITE_LANG: envField.string({
-          context: "client",
-          access: "public",
-          default: "en",
-        }),
-        CURRENCY: envField.string({
-          context: "client",
-          access: "public",
-          default: "USD",
-        }),
-        LOCALE: envField.string({
-          context: "client",
-          access: "public",
-          default: "en-US",
-        }),
-        NEWSLETTER_ENDPOINT: envField.string({
-          context: "server",
-          access: "public",
-          default: "none",
-        }),
-        MAILCHIMP_SERVER_PREFIX: envField.string({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
-        MAILCHIMP_LIST_ID: envField.string({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
-        MAILCHIMP_API_KEY: envField.string({
-          context: "server",
-          access: "secret",
-          optional: true,
-        }),
+    
+  },
+  env: {
+    schema: {
+      STORYBLOK_PREVIEW_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      STORYBLOK_SPACE_ID: envField.number({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      STORYBLOK_REGION: envField.string({
+        context: "server",
+        access: "public",
+        default: "eu", // Possible values: "ap", "eu", "us", "ca", "cn" (Default: "eu")
+      }),
+      STORYBLOK_PERSONAL_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      SITE_LANG: envField.string({
+        context: "client",
+        access: "public",
+        default: "en",
+      }),
+      CURRENCY: envField.string({
+        context: "client",
+        access: "public",
+        default: "USD",
+      }),
+      LOCALE: envField.string({
+        context: "client",
+        access: "public",
+        default: "en-US",
+      }),
+      NEWSLETTER_ENDPOINT: envField.string({
+        context: "server",
+        access: "public",
+        default: "none",
+      }),
+      MAILCHIMP_SERVER_PREFIX: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      MAILCHIMP_LIST_ID: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      MAILCHIMP_API_KEY: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
 
-        MAILGUN_API_KEY: envField.string({
-          context: "server",
-          access: "secret",
-          optional: true,
-        }),
+      MAILGUN_API_KEY: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
 
-        MAILGUN_API_URL: envField.string({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
+      MAILGUN_API_URL: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
 
-        MAILGUN_DOMAIN: envField.string({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
+      MAILGUN_DOMAIN: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
 
-        FROM_EMAIL_ADDRESS: envField.string({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
+      FROM_EMAIL_ADDRESS: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
 
-        TO_EMAIL_ADDRESS: envField.string({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
-        POSTMARK_SERVER_TOKEN: envField.string({
-          context: "server",
-          access: "secret",
-          optional: true,
-        }),
-        SLACK_TOKEN: envField.string({
-          context: "server",
-          access: "secret",
-          optional: true,
-        }),
-        SLACK_CHANNEL_ID: envField.string({
-          context: "server",
-          access: "public",
-          optional: true,
-        }),
-        CONTACT_FORM_ENDPOINT: envField.string({
-          context: "server",
-          access: "public",
-          default: "none",
-        }),
-        NEWSLETTER_ENDPOINT: envField.string({
-          context: "server",
-          access: "public",
-          default: "none",
-        }),
-      },
+      TO_EMAIL_ADDRESS: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      POSTMARK_SERVER_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      SLACK_TOKEN: envField.string({
+        context: "server",
+        access: "secret",
+        optional: true,
+      }),
+      SLACK_CHANNEL_ID: envField.string({
+        context: "server",
+        access: "public",
+        optional: true,
+      }),
+      CONTACT_FORM_ENDPOINT: envField.string({
+        context: "server",
+        access: "public",
+        default: "none",
+      }),
+      NEWSLETTER_ENDPOINT: envField.string({
+        context: "server",
+        access: "public",
+        default: "none",
+      }),
     },
   },
 });

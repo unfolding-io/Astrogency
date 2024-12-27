@@ -1,33 +1,30 @@
 ---
-import { 
-  getWorksData, 
-  getWorkCategories,
-  getLocales,
-} from "@lib/storyblokApi";
+
+import { SITE_LANG } from "astro:env/client";
+import { getEntry, getCollection } from 'astro:content';
+import { translateUrl, useTranslations } from "@lib/translate";
 import { renderRichText } from "@storyblok/astro";
 import Layout from "@layouts/Layout.astro";
 import PostCard from "@components/cards/PostCard.astro";
-import { SITE_LANG } from "astro:env/client";
 import Link from "@components/navigation/Link.astro";
-import { translateUrl, useTranslations } from "@lib/translate";
 import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
-import { getEntry } from 'astro:content';
 
 export async function getStaticPaths({ paginate }: { paginate: Function }) {
   const pageSize = 10;
-  const locales = await getLocales()
+  const locales = (await getCollection("locales")).map((locale) => locale.id);
 
   /* GET ALL PAGES */
   const pages = locales.flatMap(async (lang, index) => {
-    const dataLang = index === 0 ? "default" : lang;
-    const status = import.meta.env.DEV ? "draft" : "published";
-    const posts = await getWorksData(dataLang, status);
-    const categories = await getWorkCategories(dataLang, status);
+    const routeLang = index === 0 ? undefined : lang;
+    const status = import.meta.env.DEV ? "draft" : "published"; 
+
+    const posts = (await getCollection("post", ({ data }) => data.lang === lang)).map((post) => post.data);
+    const categories = (await getCollection("blog_category", ({ data }) => data.lang === lang)).map((category) => category.data);
     const settings = (await getEntry("settings", lang)).data;
 
     const indexPages = paginate(posts, { pageSize: pageSize });
 
-    const groupedByCategory: GroupedByWorkCategory = posts.reduce((acc, item) => {
+    const groupedByCategory = posts.reduce((acc:Record<string, typeof posts>, item) => {
       item.category?.forEach((categoryId:string) => {
         if (!acc[categoryId]) {
           acc[categoryId] = [item];
@@ -37,7 +34,7 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
         }
       });
       return acc;
-    }, {} as GroupedByWorkCategory);
+    }, {} );
 
     const categoryPages = Object.keys(groupedByCategory)
       .map((categoryId) => {
@@ -50,7 +47,7 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
           params: {
             page: page.params.page,
             category: category?.slug,
-            lang: dataLang === "default" ? undefined : dataLang,
+            lang: routeLang,
           },
           props: {
             ...page.props,
@@ -59,7 +56,6 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
             locales,
             categories,
             category: {
-              ...category,
               ...category?.content,
             },
           },
@@ -71,7 +67,7 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
       params: {
         page: page.params.page,
         category: undefined,
-        lang: dataLang === "default" ? undefined : dataLang,
+        lang: routeLang,
       },
       props: { ...page.props, status, settings, locales, categories },
     }));
@@ -143,7 +139,7 @@ if(!meta.title || !meta.description || !meta.image) return Astro.redirect("/404"
                     href: {
                       url: `/work/${cat.slug}`,
                     },
-                    label: cat.content?.title,
+                    label: cat?.title,
                   }}
                 />
               ))}

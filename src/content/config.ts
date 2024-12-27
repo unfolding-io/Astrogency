@@ -1,29 +1,26 @@
-import { storyblokLoader } from "@storyblok/astro";
 import { defineCollection, z } from "astro:content";
-import { getSettings, getLocales } from "@lib/storyblokApi";
+import { getSettings, getLocales, getCollectionData } from "@lib/storyblokApi";
 /* This is the first start on migrating to the data layer (WIP) */
+import {
+  pageSchema,
+  postSchema,
+  workSchema,
+  serviceSchema,
+  workCategorySchema,
+  blogCategorySchema,
+} from "./storyBlockSchema";
 
-/* 
-storyblokLoader does not work great. 
-Needs multi lang support :( 
-have to do more research 
-*/
-const storyblokCollection = defineCollection({
-  loader: storyblokLoader({
-    accessToken: import.meta.env.STORYBLOK_PREVIEW_TOKEN,
-    version: "published",
-  }),
-});
+// Define entry types
 
-const locales = await getLocales();
+const siteLocales = await getLocales();
 
 /* First experiment on using a data layer on settings */
 const settings = defineCollection({
   loader: async () => {
     const data = await Promise.all(
-      locales.map(async (lang) => {
+      siteLocales.map(async (lang) => {
         const settings = await getSettings(
-          lang === locales[0] ? undefined : lang,
+          lang === siteLocales[0] ? undefined : lang,
         );
         return {
           id: lang,
@@ -165,15 +162,172 @@ const settings = defineCollection({
     success_bg: z.any(),
     muted_fg: z.any(),
     muted_bg: z.any(),
-    tiny_analytics_id:z.string().optional(),
+    tiny_analytics_id: z.string().optional(),
     radius_media: z.string().or(z.number()).optional(),
     radius_input: z.string().or(z.number()).optional(),
-  }).or(z.object({
-    setup: z.boolean()
-  })).optional(),
+  }),
+});
+
+const page = defineCollection({
+  loader: async () => {
+    const data = await Promise.all(
+      siteLocales.map(async (lang) => {
+        const pages = await getCollectionData({
+          lang: lang === siteLocales[0] ? undefined : lang,
+          collection: "page",
+          status: import.meta.env.DEV ? "draft" : "published",
+        });
+        return pages.map((page) => {
+          return {
+            id: `${lang}/${page.uuid}`,
+            lang: lang,
+            ...page,
+          };
+        });
+      }),
+    );
+    return data.flat();
+  },
+  schema: pageSchema,
+});
+
+const post = defineCollection({
+  loader: async () => {
+    const data = await Promise.all(
+      siteLocales.map(async (lang) => {
+        const posts = await getCollectionData({
+          lang: lang === siteLocales[0] ? undefined : lang,
+          collection: "post",
+          status: import.meta.env.DEV ? "draft" : "published",
+        });
+        return posts.map((page) => {
+          return {
+            id: `${lang}/${page.uuid}`,
+            lang: lang,
+            ...page,
+          };
+        });
+      }),
+    );
+    return data.flat();
+  },
+  schema: postSchema,
+});
+
+const work = defineCollection({
+  loader: async () => {
+    const data = await Promise.all(
+      siteLocales.map(async (lang) => {
+        const posts = await getCollectionData({
+          lang: lang === siteLocales[0] ? undefined : lang,
+          collection: "work",
+          status: import.meta.env.DEV ? "draft" : "published",
+        });
+        return posts.map((page) => {
+          return {
+            id: `${lang}/${page.uuid}`,
+            lang: lang,
+            ...page,
+          };
+        });
+      }),
+    );
+    return data.flat();
+  },
+  schema: workSchema,
+});
+
+const service = defineCollection({
+  loader: async () => {
+    const data = await Promise.all(
+      siteLocales.map(async (lang) => {
+        const posts = await getCollectionData({
+          lang: lang === siteLocales[0] ? undefined : lang,
+          collection: "service",
+          status: import.meta.env.DEV ? "draft" : "published",
+        });
+        return posts.map((page) => {
+          return {
+            id: `${lang}/${page.uuid}`,
+            lang: lang,
+            ...page,
+          };
+        });
+      }),
+    );
+    return data.flat();
+  },
+  schema: serviceSchema,
+});
+
+const work_category = defineCollection({
+  loader: async () => {
+    const data = await Promise.all(
+      siteLocales.map(async (lang) => {
+        const posts = await getCollectionData({
+          lang: lang === siteLocales[0] ? undefined : lang,
+          collection: "work_category",
+          status: import.meta.env.DEV ? "draft" : "published",
+        });
+        return posts.map((page) => {
+          return {
+            id: `${lang}/${page.uuid}`,
+            lang: lang,
+            ...page,
+          };
+        });
+      }),
+    );
+    return data.flat();
+  },
+  schema: workCategorySchema,
+});
+
+const blog_category = defineCollection({
+  loader: async () => {
+    const data = await Promise.all(
+      siteLocales.map(async (lang) => {
+        const posts = await getCollectionData({
+          lang: lang === siteLocales[0] ? undefined : lang,
+          collection: "blog_category",
+          status: import.meta.env.DEV ? "draft" : "published",
+        });
+        return posts.map((page) => {
+          return {
+            id: `${lang}/${page.uuid}`,
+            lang: lang,
+            ...page,
+          };
+        });
+      }),
+    );
+    return data.flat();
+  },
+  schema: blogCategorySchema,
+});
+
+const locales = defineCollection({
+  loader: () => {
+    return siteLocales.map((locale) => {
+      return {
+        id: locale,
+        lang: locale,
+      };
+    });
+  },
+  schema: z.object({
+    id: z.string(),
+    lang: z.string(),
+  }),
 });
 
 export const collections = {
-  storyblok: storyblokCollection,
+  page,
+  post,
+  work,
+  service,
+  work_category,
+  blog_category,
+  locales,
   settings,
 };

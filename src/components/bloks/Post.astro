@@ -10,8 +10,8 @@ interface Props {
   status?: "draft" | "published" | undefined;
   categories?: BlogCategoryStoryblok[];
 }
-const { blok, status, categories } = Astro.props;
-const { title, content, thumbnail, surface, body } = blok;
+const { blok, status } = Astro.props;
+const { title, content, thumbnail, surface, body, categories } = blok;
 ---
 
 <main {...storyblokEditable(blok)} class={`${surface || ""} pt-20`}>
@@ -29,7 +29,7 @@ const { title, content, thumbnail, surface, body } = blok;
                       linktype: "url",
                       url: `/blog/${category.slug}`,
                     },
-                    label: category?.content?.title,
+                    label: category?.title,
                   }}
                 />
               </li>
@@ -73,7 +73,7 @@ const { title, content, thumbnail, surface, body } = blok;
                     linktype: "url",
                     url: `/blog/${category.slug}`,
                   },
-                  label: category?.content?.title,
+                  label: category?.title,
                 }}
               />
             ))
@@ -86,6 +86,6 @@ const { title, content, thumbnail, surface, body } = blok;
         set:html={renderRichText(content)}
       />
     </div>
-  </section>
+  </section> 
   {body?.map((blok) => <StoryblokComponent blok={blok} {status} />)}
 </main>
