@@ -28,7 +28,7 @@ const accordion_items = await Promise.all(
     };
   }),
 );
-let json;
+let json:string | undefined;
 
 if (is_faq) {
   json = `

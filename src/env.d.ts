@@ -2,6 +2,18 @@
 /// <reference path="../.astro/env.d.ts" />
 /// <reference types="astro/client" />
 /// <reference types="@storyblok/astro" />
+
+type PageData = import('./content/storyBlockSchema').PageData;
+type PostData = import('./content/storyBlockSchema').PostData;
+type WorkData = import('./content/storyBlockSchema').WorkData;
+type ServiceData = import('./content/storyBlockSchema').ServiceData;
+type BlogCategoryData = import('./content/storyBlockSchema').BlogCategoryData;
+type WorkCategoryData = import('./content/storyBlockSchema').WorkCategoryData;
+type StackData = import('./content/storyBlockSchema').StackData;
+type ContactTopicData = import('./content/storyBlockSchema').ContactTopicData;
+
+
+
 interface SpaceData {
   id: number;
   name: string;
@@ -26,11 +38,11 @@ interface RouteParams {
 interface MenuParams {
   status?: StoryStatus;
   categories: string[];
-  lang: string;
+  lang: string | undefined;
 }
 interface PostParams {
   status?: StoryStatus;
-  lang: string;
+  lang: string | undefined;
 }
 
 interface Locale {

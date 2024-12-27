@@ -20,7 +20,7 @@ const { title, content, thumbnail, surface, body, categories } = blok;
       <div class="grid grid-cols-1 gap-2">
         <Breadcrumbs>
           {
-            categories?.map((category) => (
+            categories?.map((category:BlogCategoryData) => (
               <li class="and relative">
                 <Link
                   className="btn-underline truncate"
@@ -65,7 +65,7 @@ const { title, content, thumbnail, surface, body, categories } = blok;
           class="absolute right-4 top-4 z-10 flex flex-wrap items-center justify-end gap-2"
         >
           {
-            categories?.map((category) => (
+            categories?.map((category:BlogCategoryData) => (
               <Link
                 className="bg-dark/40 backdrop-blur-sm text-light px-2 py-1 rounded-input text-sm"
                 blok={{

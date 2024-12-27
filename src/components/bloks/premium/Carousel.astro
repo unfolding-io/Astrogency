@@ -1,29 +1,30 @@
 ---
-import { storyblokEditable, useStoryblokApi } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
 import ImageCard from "@components/cards/ImageCard.astro";
 import Picture from "@components/media/Picture.astro";
 import { getIdFromContent } from "@lib/storyblokApi";
-import type { ISbStories } from "@storyblok/astro";
 import PostCard from "@components/cards/PostCard.astro";
 import CarouselVue from "@components/helpers/CarouselVue.vue";
+import { getCollection } from "astro:content";
+import { getLangFromUrl } from "@lib/translate";
 
 interface Props {
   blok: BlogAndWorkItemsStoryblok;
-  lang: string;
   status: StoryStatus;
 }
 
-const { blok, lang, status } = Astro.props;
-const api = useStoryblokApi();
+const { blok} = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+
 const {
   content,
   container = "full",
-  surface = "", 
-  carousel_surface = "", 
+  surface = "",
+  carousel_surface = "",
   items,
   images,
   cards,
-  type = "items", 
+  type = "items",
   padding_top = "pt-lg",
   padding_bottom = "pb-lg",
   autoplay = "none",
@@ -45,23 +46,25 @@ const {
   min_height = "0",
   aspect_ratio = 1,
   arrows_overlay = false,
-  delay=4000,
-  auto_scroll_speed=2,
-  auto_scroll_direction="forward",
-
+  delay = 4000,
+  auto_scroll_speed = 2,
+  auto_scroll_direction = "forward",
 } = blok;
 
 let slides: any[] = [];
 if (type === "items" && items && items.length > 0) {
-  const newsItems = (await api.get(`cdn/stories`, {
-    version: status || "published",
-    by_uuids_ordered: items.join(","),
-    language: lang,
-    per_page: 100,
-    page: 1,
-  })) as ISbStories;
+  const ids = items.map((item) => `${lang}/${item}`);
+  const [posts, works, services] = await Promise.all([
+    getCollection("post", (item) => ids.includes(item.id)),
+    getCollection("work", (item) => ids.includes(item.id)),
+    getCollection("service", (item) => ids.includes(item.id)),
+  ]);
 
-  slides = newsItems.data.stories;
+  slides = [
+    ...posts.map((item) => item.data),
+    ...works.map((item) => item.data),
+    ...services.map((item) => item.data),
+  ];
 }
 if (type === "images" && images && images.length > 0) {
   slides = images;
@@ -93,7 +96,7 @@ const breakpointsBreakout = [
   {
     minWidth: "1400px",
     size: `calc(1400px * ${item_width_xl} / 100)`,
-  }, 
+  },
   { minWidth: "1024px", size: `${Math.round(item_width_lg)}vw` }, // lg
   { minWidth: "768px", size: `${Math.round(item_width_md)}vw` }, // md
   { minWidth: "640px", size: `${Math.round(item_width_sm)}vw` }, // sm
@@ -113,12 +116,12 @@ function getMediaSizes() {
   let sizes: any = [];
   if (container === "full-width") {
     sizes = breakpointsFull.map(
-      (bp) => `(min-width: ${bp.minWidth}) ${bp.size}`,
+      (bp) => `(min-width: ${bp.minWidth}) ${bp.size}`
     );
   }
   if (container === "breakout") {
     sizes = breakpointsBreakout.map(
-      (bp) => `(min-width: ${bp.minWidth}) ${bp.size}`,
+      (bp) => `(min-width: ${bp.minWidth}) ${bp.size}`
     );
   }
   if (container === "normal") {
@@ -176,7 +179,7 @@ function getMediaSizes() {
           slides.map((thumbnail: any, index: any) => (
             <slide>
               <div
-                class={`${index === slides.length - 1 && loop ? "last-slide" : ""} ${noRadius ? "" : "rounded-media overflow-hidden media-bg"}`}
+                class={`${index === slides.length - 1 && loop ? "last-slide" : ""} ${noRadius ? "" : "rounded-media media-bg overflow-hidden"}`}
               >
                 <Picture
                   src={thumbnail.filename}
@@ -185,7 +188,6 @@ function getMediaSizes() {
                   ar={aspect_ratio}
                   layout="fill"
                   loading="lazy"
-                   
                 />
               </div>
             </slide>
@@ -200,8 +202,8 @@ function getMediaSizes() {
                 class={index === slides.length - 1 && loop ? "last-slide" : ""}
               >
                 <PostCard
-                  {...story.content}
-                  full_slug={story.full_slug} 
+                  {...story}
+                  full_slug={story.full_slug}
                   compact={true}
                   wide={true}
                   sizes={getMediaSizes()}

@@ -6,7 +6,8 @@ import { renderRichText } from "@storyblok/astro";
 import Layout from "@layouts/Layout.astro";
 import PostCard from "@components/cards/PostCard.astro";
 import Link from "@components/navigation/Link.astro";
-import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
+import Breadcrumbs from "@components/helpers/Breadcrumbs.astro"; 
+
 
 export async function getStaticPaths({ paginate }: { paginate: Function }) {
   const pageSize = 10;
@@ -17,10 +18,15 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
     const status = import.meta.env.DEV ? "draft" : "published";
 
     const [posts, categories, settings] = await Promise.all([
-      getCollection("post", ({ data }) => data.lang === lang),
+      getCollection("work", ({ data }) => data.lang === lang),
       getCollection("blog_category", ({ data }) => data.lang === lang),
       getEntry("settings", lang),
     ]);
+
+    if (!settings) {
+      console.log("settings not found");
+      return Astro.redirect("/setup");
+    }
 
     const postsData = posts.map((post) => post.data);
     const categoriesData = categories.map((category) => category.data);
@@ -161,7 +167,7 @@ if (!meta.title || !meta.description || !meta.image)
         class="breakout grid grid-cols-1 gap-4 py-4 md:grid-cols-2 md:gap-8 xl:grid-cols-3"
       >
         {
-          page.data.map((story, index: number) => (
+          page.data.map((story:WorkData, index: number) => (
             <PostCard
               {...story}
               wide={wideImages.has(index + 1)}

@@ -1,11 +1,10 @@
 ---
-import { getLocales, getPage } from "@lib/storyblokApi";
+import { getLocales, getPage, getSettings } from "@lib/storyblokApi";
 import { SITE_LANG } from "astro:env/client";
 import { useTranslations, getLangFromUrl, translateUrl } from "@lib/translate";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import Layout from "@layouts/Layout.astro";
-
-import { getEntry } from 'astro:content';
+ 
 export const prerender = false;
 const slug = Astro.url.searchParams.get("url");
 if (!slug) {
@@ -22,7 +21,7 @@ const localeUrls = translateUrl(sbUrl, locales || [SITE_LANG]);
 const dataUrl = localeUrls.filter((url) => url.url !== SITE_LANG)[0].url;
 const t = useTranslations(pageLang);
 
-const settings = (await getEntry("settings", lang)).data;
+const settings = getSettings(lang);
 
 if (!settings) {
   return Astro.redirect("/setup");

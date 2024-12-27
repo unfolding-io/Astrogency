@@ -7,7 +7,7 @@ import vue from "@astrojs/vue";
 import icon from "astro-icon";
 import sitemap from "@astrojs/sitemap";
 import netlify from "@astrojs/netlify";
-import vercel from "@astrojs/vercel/serverless"; 
+import vercel from "@astrojs/vercel"; 
 
 const env = loadEnv("", process.cwd(), ["STORYBLOK", "NETLIFY"]);
  

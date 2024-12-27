@@ -381,7 +381,7 @@ export const settingsSchema = z.object({
   newsletter: z.any(),
   newsletter_in_footer: z.boolean().optional(),
   newsletter_content: richtextSchema.optional(),
-  newsletter_thank_you: z.string().optional(),
+  newsletter_thank_you: z.string(),
   main_menu: z.array(linkSchema),
   footer_text: richtextSchema.optional(),
   footer_menu_1_label: z.string(),
@@ -390,19 +390,19 @@ export const settingsSchema = z.object({
   footer_menu_2: z.array(linkSchema).optional(),
   company_name: z.string().optional(),
   address: z.string().optional(),
-  font_headings: z.string().optional(),
-  font_weight_headings: z.enum(['', '100', '200', '300', '400', '500', '600', '700', '800', '900']).optional(),
-  font_body: z.string().optional(),
-  font_weight_body: z.enum(['', '100', '200', '300', '400', '500', '600', '700', '800', '900']).optional(),
+  font_headings: z.union([z.number(), z.string()]),
+  font_weight_headings: z.union([z.string(), z.number()]),
+  font_body: z.union([z.number(), z.string()]),
+  font_weight_body: z.union([z.string(), z.number()]),
   blog_title: z.string(),
   blog_content: richtextSchema.optional(),
   blog_og_title: z.string(),
   blog_og_description: z.string(),
   blog_og_image: assetSchema,
   email: z.string(),
-  phone: z.string().optional(),
-  phone_label: z.string().optional(),
-  whatsapp: z.string().optional(),
+  phone: z.string(),
+  phone_label: z.string(),
+  whatsapp: z.string(),
   links: z.array(linkSchema).optional(),
   work_title: z.string(),
   work_content: richtextSchema,
@@ -410,10 +410,30 @@ export const settingsSchema = z.object({
   work_og_description: z.string(),
   work_og_image: assetSchema,
   tiny_analytics_id: z.string().optional(),
-  radius_media: z.string().optional(),
-  radius_input: z.string(),
+  radius_media: z.union([z.string(), z.number()]),
+  radius_input: z.union([z.string(), z.number()]),
   component: z.literal('settings'),
   _uid: z.string(),
+  dark_fg: z.any(),
+  dark_bg: z.any(),
+  light_fg: z.any(),
+  light_bg: z.any(),
+  primary_fg: z.any(),
+  primary_bg: z.any(),
+  secondary_fg: z.any(),
+  secondary_bg: z.any(),
+  accent_fg: z.any(),
+  accent_bg: z.any(),
+  info_fg: z.any(),
+  info_bg: z.any(),
+  warning_fg: z.any(),
+  warning_bg: z.any(),
+  danger_fg: z.any(),
+  danger_bg: z.any(),
+  success_fg: z.any(),
+  success_bg: z.any(),
+  muted_fg: z.any(),
+  muted_bg: z.any(),
 }).passthrough()
 
 export const carouselSchema = z.object({
@@ -637,6 +657,7 @@ export const pageSchema = z.object({
 }).passthrough()
 
 // Helper types
+/* 
 const pageResponseSchema = z.object({
   data: z.array(z.any()),
   start: z.number(),
@@ -650,9 +671,15 @@ const pageResponseSchema = z.object({
     prev: z.string().optional(),
     next: z.string().optional(),
   }),
-})
+}) */
 
-export type Page<T = any> = z.infer<typeof pageResponseSchema>
+/* export type Page<T = any> = z.infer<typeof pageResponseSchema> */
+export type PageData = z.infer<typeof pageSchema>
+export type PostData = z.infer<typeof postSchema>
+export type WorkData = z.infer<typeof workSchema>
+export type ServiceData = z.infer<typeof serviceSchema>
+export type BlogCategoryData = z.infer<typeof blogCategorySchema>
+export type WorkCategoryData = z.infer<typeof workCategorySchema>
 
 export type GroupedByWorkCategory = Record<string, z.infer<typeof workSchema>[]>
 export type GroupedByPostCategory = Record<string, z.infer<typeof postSchema>[]>

@@ -32,7 +32,7 @@ const {
       <div class="title grid grid-cols-1 gap-2">
         <Breadcrumbs>
           {
-            categories?.map((category) => (
+            categories?.map((category:WorkCategoryData) => (
               <li class="and relative">
                 <Link
                   className="btn-underline truncate"

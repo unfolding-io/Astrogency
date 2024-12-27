@@ -5,7 +5,7 @@ import { translateUrl } from "@lib/translate";
 import { SITE_LANG } from "astro:env/client";
 import { getEntry, getCollection } from "astro:content";
 import { collectionToRoutes } from "@lib/storyblokApi";
-
+import type { SbBlokData } from "@storyblok/js/";
 export async function getStaticPaths() {
   try {
     const collections = await Promise.all([
@@ -39,13 +39,19 @@ if (!id || !component) {
   return Astro.redirect("/404");
 }
 
-const [settings, locales, story] = await Promise.all([
-  getEntry("settings", lang).then(entry => entry?.data),
-  getCollection("locales").then(collection => collection.map(item => item.id)),
-  getEntry(component, id).then(entry => entry?.data)
+const [settingsEntry, localesCollection, storyEntry] = await Promise.all([
+  getEntry("settings", lang),
+  getCollection("locales"),
+  getEntry(component, id)
 ]);
 
+const settings = settingsEntry?.data ?? null;
+const locales = localesCollection.map(item => item.id);
+const story = storyEntry?.data ?? null;
+
+
 if (!settings) {
+  console.log("settings not found");
   return Astro.redirect("/setup");
 }
 
@@ -65,5 +71,5 @@ const meta = {
 ---
 
 <Layout meta={meta} settings={settings} localeUrls={localeUrls}>
-  <StoryblokComponent blok={story} {...Astro.props} status={status} />
+  <StoryblokComponent blok={story as SbBlokData} {...Astro.props} status={status} />
 </Layout>

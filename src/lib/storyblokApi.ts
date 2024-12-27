@@ -44,8 +44,8 @@ function extractDataSlug(slug: string, lang: string) {
   return slug.replace(`${lang}/`, "");
 }
 
-export async function collectionToRoutes(collection) {
-  return collection.map((item) => {
+export async function collectionToRoutes(collection:any[]) {
+  return collection.map((item:any) => {
     return {
       params: {
         lang: item.data.lang === SITE_LANG ? undefined : item.data.lang,
@@ -104,7 +104,7 @@ export async function getCollectionData({
   collection,
   status,
 }: {
-  lang: string;
+  lang: string | undefined;
   collection: string;
   status: "draft" | "published" | undefined;
 }) {
@@ -113,7 +113,7 @@ export async function getCollectionData({
   const blog_categories = await getData(lang, "blog_category", status);
   const work_services = await getData(lang, "service", status);
 
-  let categories, services;
+  let categories:BlogCategoryData[] | WorkCategoryData[] = [], services:ServiceData[] = [];
   return stories.flatMap((story) => {
     if (story.component === "post") {
      
@@ -139,12 +139,12 @@ export async function getCollectionData({
 
 /* GET COLLECTION DATA */
 export const getData = async (
-  lang: string,
+  lang: string | undefined,
   collection: string,
   status: "draft" | "published" | undefined,
 ) => {
   const per_page = 50;
-  let stories = [];
+  let stories:any[] = [];
   let page = 1; // Initialize page counter
 
   while (true) {

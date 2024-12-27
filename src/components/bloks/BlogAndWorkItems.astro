@@ -1,67 +1,63 @@
 ---
-import { storyblokEditable, renderRichText, useStoryblokApi } from "@storyblok/astro";
-import { getIdFromContent } from "@lib/storyblokApi";
-import type { ISbStories } from "@storyblok/astro";
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { getIdFromContent } from "@lib/storyblokApi"; 
 import PostCard from "@components/cards/PostCard.astro";
- 
+import { getCollection } from "astro:content";
+import { getLangFromUrl } from "@lib/translate";
 
 interface Props {
-  blok: BlogAndWorkItemsStoryblok;
-  lang: string;
-  status: StoryStatus;
+  blok: BlogAndWorkItemsStoryblok; 
 }
 
-const { blok, lang, status } = Astro.props;
-const api = useStoryblokApi();
+const { blok } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+
 const {
   content,
   container = "normal",
   surface,
-  items,
+  items = [],
   accent_surface,
   category,
   max_items,
   padding_top = "pt-lg",
   padding_bottom = "pb-lg",
 } = blok;
-let stories;
+
+let stories: Array<PostData | WorkData | ServiceData> = [];
 
 /* get menu_items */
 if (items && items.length > 0) {
-  const newsItems = (await api.get(`cdn/stories`, {
-    version: status || "published",
-    by_uuids_ordered: items.join(","),
-    language: lang,
-    per_page: max_items || 6,
-    page: 1,
-  })) as ISbStories;
+  const ids = items.map((item) => `${lang}/${item}`);
+  const [posts, works, services] = await Promise.all([
+    getCollection("post", (item) => ids.includes(item.id)),
+    getCollection("work", (item) => ids.includes(item.id)),
+    getCollection("service", (item) => ids.includes(item.id)),
+  ]);
 
-  stories = newsItems.data.stories;
+  stories = [
+    ...posts.map((item) => item.data),
+    ...works.map((item) => item.data),
+    ...services.map((item) => item.data),
+  ].slice(0, max_items);
 }
 
 if (category) {
-  const categoryItems = (await api.get(`cdn/stories`, {
-    version: status || "published",
-    filter_query: {
-      category: {
-        in: category,
-      },
-    },
-    per_page: max_items || 6,
-    page: 1,
-  })) as ISbStories;
+  const [works, posts] = await Promise.all([
+    getCollection("work", ({data}) => data?.category?.includes(category) && data?.lang === lang),
+    getCollection("post", ({data}) => data?.category?.includes(category) && data?.lang === lang),
+  ]); 
+  
 
-  stories = categoryItems.data.stories;
+  stories = [...works.map((item) => item.data), ...posts.map((item) => item.data)].slice(0, max_items);
 }
-const id = getIdFromContent(content)
-
-
+const id = getIdFromContent(content);
 ---
 
 <section
   class={`${padding_top} ${padding_bottom} ${surface || ""}`}
   {...storyblokEditable(blok)}
->
+> 
   <div class="content-grid gap-y-8" {id}>
     <div class={container}>
       <div class="richtext max-w-2xl" set:html={renderRichText(content)} />
@@ -71,9 +67,9 @@ const id = getIdFromContent(content)
         <div
           class={`${container} flex flex-wrap gap-x-4 gap-y-6 md:gap-x-8 md:gap-y-10`}
         >
-          {stories.map((story) => (
+          {stories.map((story: PostData | WorkData | ServiceData) => (
             <PostCard
-              {...story.content}
+              {...story}
               full_slug={story.full_slug}
               accent={accent_surface}
               compact={true}
