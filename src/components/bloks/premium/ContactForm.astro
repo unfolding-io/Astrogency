@@ -1,29 +1,55 @@
 ---
 import {
-  storyblokEditable, 
+  storyblokEditable,
+  renderRichText, 
 } from "@storyblok/astro";
-import Upgrade from "./Upgrade.astro";
- 
+import ContactFormVue from "@components/forms/ContactFormVue.vue";
+import { getLangFromUrl } from "@lib/translate";
+import { getCollection } from "astro:content";
 
 interface Props {
   blok: ContactFormStoryblok;
 } 
 const { blok } = Astro.props;
-const { 
+const {
+  content,
+  topic,
+  thank_you,
+  show_topics = false,
   container ,
-  surface = "", 
+  surface = "",
+  surface_accent = "surface_dark",
   padding_top = "pt-lg",
   padding_bottom= "pb-lg"
 } = blok;
- 
- 
- 
+const renderedRichText = renderRichText(content);
+
+/* get the current lang */
+const lang = getLangFromUrl(Astro.url); 
+/* get all contact_topics from storyblok */
+
+const topicsData = await getCollection("contact_topics", ({data}) => data.lang === lang);
+
+const topics = topicsData?.map((t) => t.data);
+const contact_topic = topicsData?.find((t) => t.data.uuid === topic);
 ---
 
 <div {...storyblokEditable(blok)} class={`${surface} intersection`}>
   <div class={container ? "content-grid" : ""}>
     <div class={`${container} ${padding_top} ${padding_bottom} px-1` }>
-       <Upgrade />
-    </div>
+      
+      <ContactFormVue
+        client:visible
+        endpoint={`none`}
+        topic={contact_topic?.data}
+        {topics}
+        {show_topics}
+        {thank_you}
+        {lang}
+        {surface_accent}
+      >
+        <div set:html={renderedRichText} class="richtext fade-up max-w-2xl" />
+      </ContactFormVue>
+    </div> 
   </div>
 </div>
