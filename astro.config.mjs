@@ -2,7 +2,7 @@ import { defineConfig, envField } from "astro/config";
 import { loadEnv } from "vite";
 import basicSsl from "@vitejs/plugin-basic-ssl";
 import tailwind from "@astrojs/tailwind";
-import storyblok from "@storyblok/astro";
+import { storyblok } from '@storyblok/astro';
 import vue from "@astrojs/vue";
 import icon from "astro-icon";
 import sitemap from "@astrojs/sitemap";
