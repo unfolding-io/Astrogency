@@ -76,30 +76,30 @@
     "slug": "font",
     "dimensions": [],
     "datasource_entries": [
-      { "name": "System UI (sans-serif)", "value": "--font-system-ui" },
-      { "name": "Humanist (sans-serif)", "value": "--font-humanist" },
+      { "name": "System UI (sans-serif)", "value": "font-system-ui" },
+      { "name": "Humanist (sans-serif)", "value": "font-humanist" },
       {
         "name": "Geometric Humanist (sans-serif)",
-        "value": "--font-geometric-humanist"
+        "value": "font-geometric-humanist"
       },
       {
         "name": "Classical Humanist (sans-serif)",
-        "value": "--font-classical-humanist"
+        "value": "font-classical-humanist"
       },
-      { "name": "Neo-Grotesque (sans-serif)", "value": "--font-neo-grotesque" },
-      { "name": "Industrial (sans-serif)", "value": "--font-industrial" },
-      { "name": "Rounded Sans (sans-serif)", "value": "--font-rounded-sans" },
-      { "name": "Transitional (serif)", "value": "--font-transitional" },
-      { "name": "Old Style (serif)", "value": "--font-old-style" },
-      { "name": "Antique (serif)", "value": "--font-antique" },
-      { "name": "Didone (serif)", "value": "--font-didone" },
-      { "name": "Slab Serif (serif)", "value": "--font-slab-serif" },
+      { "name": "Neo-Grotesque (sans-serif)", "value": "font-neo-grotesque" },
+      { "name": "Industrial (sans-serif)", "value": "font-industrial" },
+      { "name": "Rounded Sans (sans-serif)", "value": "font-rounded-sans" },
+      { "name": "Transitional (serif)", "value": "font-transitional" },
+      { "name": "Old Style (serif)", "value": "font-old-style" },
+      { "name": "Antique (serif)", "value": "font-antique" },
+      { "name": "Didone (serif)", "value": "font-didone" },
+      { "name": "Slab Serif (serif)", "value": "font-slab-serif" },
       {
         "name": "Monospace Slab Serif",
-        "value": "--font-monospace-slab-serif"
+        "value": "font-monospace-slab-serif"
       },
-      { "name": "Monospace Code", "value": "--font-monospace-code" },
-      { "name": "Handwritten", "value": "--font-handwritten" }
+      { "name": "Monospace Code", "value": "font-monospace-code" },
+      { "name": "Handwritten", "value": "font-handwritten" }
     ]
   }
 ]
