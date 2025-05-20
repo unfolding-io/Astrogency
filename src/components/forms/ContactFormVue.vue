@@ -74,7 +74,7 @@
         </button>
       </div>
       <Loading :loading="loading" />
-    </form>
+    </form> 
   </div>
 </template>
 
