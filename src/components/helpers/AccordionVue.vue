@@ -18,7 +18,7 @@ interface AccordionItem {
 }
 
 interface Props {
-  items: AccordionItem[];
+  items: AccordionItem[] | any;
 }
 
 const props = withDefaults(defineProps<Props>(), {
