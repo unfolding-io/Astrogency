@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Picture from "@components/media/Picture.astro";
 import LightboxGallery from "@components/media/LightboxGallery.vue";
 
@@ -26,7 +27,7 @@ const {
   padding_bottom = 'pb-lg',
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 const count = items.length;
 
 const columns = {

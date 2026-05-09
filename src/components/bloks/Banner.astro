@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import VideoInline from "@components/media/VideoInline.vue";
 import Picture from "@components/media/Picture.astro";
 import Link from "@components/navigation/Link.astro";
@@ -25,7 +26,7 @@ const {
   wide = false,
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 
 function getSizes() {
   if (container === "full-width") return "100vw";

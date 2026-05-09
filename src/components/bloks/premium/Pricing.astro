@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import { getIdFromContent } from "@lib/storyblokApi";
 import Price from "@components/cards/Price.astro";
 
@@ -18,7 +19,7 @@ const {
   padding_bottom = "pb-lg"
 } = blok;
 
-const renderedRichText = renderRichText(content as any); 
+const renderedRichText = renderBlokRichText(content);
 const id = getIdFromContent(content);
 ---
 

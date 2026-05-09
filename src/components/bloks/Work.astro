@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Picture from "@components/media/Picture.astro";
 import Link from "@components/navigation/Link.astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
@@ -81,7 +82,7 @@ const {
       <div class="text flex flex-col">
         <div
           class="richtext max-w-2xl text-pretty"
-          set:html={renderRichText(content as any)}
+          set:html={renderBlokRichText(content)}
         />
         {
           links && links.length > 0 && (
@@ -117,7 +118,9 @@ const {
   </section>
  
   <div class="min-h-20">
-    {body?.map((blok) => <StoryblokComponent blok={blok} {status} />)}
+    {body?.map((bodyBlok) => (
+      <StoryblokComponent blok={bodyBlok} {status} />
+    ))}
   </div>
 </main>
 

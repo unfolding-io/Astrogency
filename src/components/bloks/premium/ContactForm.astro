@@ -1,8 +1,6 @@
 ---
-import {
-  storyblokEditable,
-  renderRichText, 
-} from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import ContactFormVue from "@components/forms/ContactFormVue.vue";
 import { getLangFromUrl } from "@lib/translate";
 import { getCollection } from "astro:content";
@@ -16,13 +14,13 @@ const {
   topic,
   thank_you,
   show_topics = false,
-  container ,
+  container,
   surface = "",
   surface_accent = "surface_dark",
   padding_top = "pt-lg",
-  padding_bottom= "pb-lg"
+  padding_bottom = "pb-lg",
 } = blok;
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 
 /* get the current lang */
 const lang = getLangFromUrl(Astro.url); 
@@ -36,7 +34,7 @@ const contact_topic = topicsData?.find((t) => t.data.uuid === topic);
 
 <div {...storyblokEditable(blok)} class={`${surface} intersection`}>
   <div class={container ? "content-grid" : ""}>
-    <div class={`${container} ${padding_top} ${padding_bottom} px-1` }>
+    <div class={`${container} ${padding_top} ${padding_bottom} px-1`}>
       
       <ContactFormVue
         client:visible

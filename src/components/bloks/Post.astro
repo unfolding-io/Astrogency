@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Picture from "@components/media/Picture.astro";
 import Link from "@components/navigation/Link.astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
@@ -20,7 +21,7 @@ const { title, content, thumbnail, surface, body, categories } = blok;
       <div class="grid grid-cols-1 gap-2">
         <Breadcrumbs>
           {
-            categories?.map((category:BlogCategoryData) => (
+            categories?.map((category: BlogCategoryData) => (
               <li class="and relative">
                 <Link
                   className="btn-underline truncate"
@@ -65,7 +66,7 @@ const { title, content, thumbnail, surface, body, categories } = blok;
           class="absolute right-4 top-4 z-10 flex flex-wrap items-center justify-end gap-2"
         >
           {
-            categories?.map((category:BlogCategoryData) => (
+            categories?.map((category: BlogCategoryData) => (
               <Link
                 className="bg-dark/40 backdrop-blur-sm text-light px-2 py-1 rounded-input text-sm"
                 blok={{
@@ -83,9 +84,11 @@ const { title, content, thumbnail, surface, body, categories } = blok;
 
       <div
         class="richtext mb-8 mt-4 max-w-2xl text-pretty"
-        set:html={renderRichText(content as any)}
+        set:html={renderBlokRichText(content)}
       />
     </div>
   </section> 
-  {body?.map((blok) => <StoryblokComponent blok={blok} {status} />)}
+  {body?.map((bodyBlok) => (
+    <StoryblokComponent blok={bodyBlok} {status} />
+  ))}
 </main>

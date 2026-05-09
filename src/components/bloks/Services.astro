@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import { getIdFromContent } from "@lib/storyblokApi";
 import PostCard from "@components/cards/PostCard.astro";
 import { getCollection } from "astro:content";
@@ -40,7 +41,7 @@ const fetchStories = async () => {
 
 const stories = (await fetchStories()) as Array<ServiceData>;
 
-const renderedContent = renderRichText(content as any);
+const renderedContent = renderBlokRichText(content);
 
 const id = getIdFromContent(content);
 ---

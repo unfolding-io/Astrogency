@@ -1,12 +1,13 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
-import { getIdFromContent } from "@lib/storyblokApi"; 
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
+import { getIdFromContent } from "@lib/storyblokApi";
 import PostCard from "@components/cards/PostCard.astro";
 import { getCollection } from "astro:content";
 import { getLangFromUrl } from "@lib/translate";
 
 interface Props {
-  blok: BlogAndWorkItemsStoryblok; 
+  blok: BlogAndWorkItemsStoryblok;
 }
 
 const { blok } = Astro.props;
@@ -46,8 +47,7 @@ if (category) {
   const [works, posts] = await Promise.all([
     getCollection("work", ({data}) => data?.category?.includes(category) && data?.lang === lang),
     getCollection("post", ({data}) => data?.category?.includes(category) && data?.lang === lang),
-  ]); 
-  
+  ]);
 
   stories = [...works.map((item) => item.data), ...posts.map((item) => item.data)].slice(0, max_items);
 }
@@ -57,10 +57,10 @@ const id = getIdFromContent(content);
 <section
   class={`${padding_top} ${padding_bottom} ${surface || ""}`}
   {...storyblokEditable(blok)}
-> 
+>
   <div class="content-grid gap-y-8" {id}>
     <div class={container}>
-      <div class="richtext max-w-2xl" set:html={renderRichText(content as any)} />
+      <div class="richtext max-w-2xl" set:html={renderBlokRichText(content)} />
     </div>
     {
       stories && stories.length > 0 && (
