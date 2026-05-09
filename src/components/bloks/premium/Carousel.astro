@@ -4,17 +4,18 @@ import ImageCard from "@components/cards/ImageCard.astro";
 import Picture from "@components/media/Picture.astro";
 import { getIdFromContent } from "@lib/storyblokApi";
 import PostCard from "@components/cards/PostCard.astro";
-// @ts-ignore - Vue component with script setup
+// @ts-expect-error -- Vue SFC default export typing with Astro
 import CarouselVue from "@components/helpers/CarouselVue.vue";
 import { getCollection } from "astro:content";
 import { getLangFromUrl } from "@lib/translate";
+import type { CarouselStoryblok } from "../../../../component-types-sb";
 
 interface Props {
-  blok: BlogAndWorkItemsStoryblok;
-  status: StoryStatus;
+  blok: CarouselStoryblok;
+  status?: StoryStatus;
 }
 
-const { blok} = Astro.props;
+const { blok } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 
 const {
@@ -52,6 +53,14 @@ const {
   auto_scroll_direction = "forward",
 } = blok;
 
+const itemW = {
+  xs: Number(item_width_xs) || 100,
+  sm: Number(item_width_sm) || 50,
+  md: Number(item_width_md) || 33,
+  lg: Number(item_width_lg) || 25,
+  xl: Number(item_width_xl) || 20,
+};
+
 let slides: any[] = [];
 if (type === "items" && items && items.length > 0) {
   const ids = items.map((item) => `${lang}/${item}`);
@@ -77,8 +86,8 @@ if (type === "cards" && cards && cards.length > 0) {
 
 const id = getIdFromContent(content);
 const gapSizes = `--gap-xs:${gap_xs}rem; --gap-sm:${gap_sm}rem; --gap-md:${gap_md}rem; --gap-lg:${gap_lg}rem; --gap-xl:${gap_xl}rem;`;
-const slideSize = `--width-xs:${item_width_xs}%; --width-sm:${item_width_sm}%; --width-md:${item_width_md}%; --width-lg:${item_width_lg}%; --width-xl:${item_width_xl}%;`;
-const gapCorrections = `--correction-xs:${(100 - item_width_xs) / 100}; --correction-sm:${(100 - item_width_sm) / 100}; --correction-md:${(100 - item_width_md) / 100}; --correction-lg:${(100 - item_width_lg) / 100}; --correction-xl:${(100 - item_width_xl) / 100};`;
+const slideSize = `--width-xs:${itemW.xs}%; --width-sm:${itemW.sm}%; --width-md:${itemW.md}%; --width-lg:${itemW.lg}%; --width-xl:${itemW.xl}%;`;
+const gapCorrections = `--correction-xs:${(100 - itemW.xs) / 100}; --correction-sm:${(100 - itemW.sm) / 100}; --correction-md:${(100 - itemW.md) / 100}; --correction-lg:${(100 - itemW.lg) / 100}; --correction-xl:${(100 - itemW.xl) / 100};`;
 
 const noRadius =
   gap_xs === "0" &&
@@ -88,33 +97,33 @@ const noRadius =
   gap_xl === "0";
 
 const breakpointsFull = [
-  { minWidth: "1024px", size: `${Math.round(item_width_lg)}vw` }, // lg
-  { minWidth: "768px", size: `${Math.round(item_width_md)}vw` }, // md
-  { minWidth: "640px", size: `${Math.round(item_width_sm)}vw` }, // sm
-  { minWidth: "0px", size: `${Math.round(item_width_xs)}vw` }, // xs
+  { minWidth: "1024px", size: `${Math.round(itemW.lg)}vw` }, // lg
+  { minWidth: "768px", size: `${Math.round(itemW.md)}vw` }, // md
+  { minWidth: "640px", size: `${Math.round(itemW.sm)}vw` }, // sm
+  { minWidth: "0px", size: `${Math.round(itemW.xs)}vw` }, // xs
 ];
 const breakpointsBreakout = [
   {
     minWidth: "1400px",
-    size: `calc(1400px * ${item_width_xl} / 100)`,
+    size: `calc(1400px * ${itemW.xl} / 100)`,
   },
-  { minWidth: "1024px", size: `${Math.round(item_width_lg)}vw` }, // lg
-  { minWidth: "768px", size: `${Math.round(item_width_md)}vw` }, // md
-  { minWidth: "640px", size: `${Math.round(item_width_sm)}vw` }, // sm
-  { minWidth: "0px", size: `${Math.round(item_width_xs)}vw` }, // xs
+  { minWidth: "1024px", size: `${Math.round(itemW.lg)}vw` }, // lg
+  { minWidth: "768px", size: `${Math.round(itemW.md)}vw` }, // md
+  { minWidth: "640px", size: `${Math.round(itemW.sm)}vw` }, // sm
+  { minWidth: "0px", size: `${Math.round(itemW.xs)}vw` }, // xs
 ];
 const breakpoints = [
   {
     minWidth: "1000px",
-    size: `1000px * ${item_width_xl} / 100)`,
+    size: `calc(1000px * ${itemW.xl} / 100)`,
   }, // --content-max-width
-  { minWidth: "768px", size: `${Math.round(item_width_md)}vw` }, // md
-  { minWidth: "640px", size: `${Math.round(item_width_sm)}vw` }, // sm
-  { minWidth: "0px", size: `${Math.round(item_width_xs)}vw` }, // xs
+  { minWidth: "768px", size: `${Math.round(itemW.md)}vw` }, // md
+  { minWidth: "640px", size: `${Math.round(itemW.sm)}vw` }, // sm
+  { minWidth: "0px", size: `${Math.round(itemW.xs)}vw` }, // xs
 ];
 
 function getMediaSizes() {
-  let sizes: any = [];
+  let sizes: string[] = [];
   if (container === "full-width") {
     sizes = breakpointsFull.map(
       (bp) => `(min-width: ${bp.minWidth}) ${bp.size}`
@@ -159,7 +168,7 @@ function getMediaSizes() {
     >
       {
         type === "cards" &&
-          slides.map((item: any, index: any) => (
+          slides.map((item: ImageCardStoryblok, index: number) => (
             <slide>
               <div
                 style={`min-height:${min_height}svh;`}
@@ -177,7 +186,7 @@ function getMediaSizes() {
 
       {
         type === "images" &&
-          slides.map((thumbnail: any, index: any) => (
+          slides.map((thumbnail, index: number) => (
             <slide>
               <div
                 class={`${index === slides.length - 1 && loop ? "last-slide" : ""} ${noRadius ? "" : "rounded-media media-bg overflow-hidden"}`}
@@ -197,7 +206,7 @@ function getMediaSizes() {
 
       {
         type === "items" &&
-          slides.map((story: any, index: any) => (
+          slides.map((story: PostData | WorkData | ServiceData, index: number) => (
             <slide>
               <div
                 class={index === slides.length - 1 && loop ? "last-slide" : ""}
