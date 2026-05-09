@@ -13,7 +13,7 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
   const pageSize = 10;
   const locales = (await getCollection("locales")).map((locale) => locale.id);
 
-  const pages = locales.flatMap(async (lang, index) => {
+  const pages: Promise<any>[] = locales.flatMap(async (lang, index) => {
     const routeLang = index === 0 ? undefined : lang;
     const status = import.meta.env.DEV ? "draft" : "published";
 
@@ -37,7 +37,10 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
     // Group posts by category
     const groupedByCategory = postsData.reduce(
       (acc: Record<string, typeof postsData>, post) => {
-        post.category?.forEach((categoryId: string) => {
+        post.category?.forEach((item) => {
+          const categoryId =
+            typeof item === "string" ? item : item.uuid;
+          if (!categoryId) return;
           acc[categoryId] = acc[categoryId] || [];
           acc[categoryId].push(post);
         });
@@ -89,8 +92,8 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
     return [...basePages, ...categoryPages];
   });
 
-  const routes = await Promise.all(pages);
-  return routes.flat();
+  const routes: any[] = (await Promise.all(pages)).flat();
+  return routes;
 }
 
 const { lang } = Astro.params;

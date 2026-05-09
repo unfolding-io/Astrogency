@@ -1,13 +1,24 @@
 import { z } from "astro/zod"
 
-// Basic types
-export const richtextSchema = z.looseObject({
-  type: z.string(),
-  content: z.array(z.lazy(() => richtextSchema)).optional(),
-  marks: z.array(z.lazy(() => richtextSchema)).optional(),
-  attrs: z.any().optional(),
-  text: z.string().optional(),
-})
+// Basic types — explicit type breaks TS circular inference with z.lazy + looseObject
+export interface RichTextNode {
+  type: string
+  content?: RichTextNode[]
+  marks?: RichTextNode[]
+  attrs?: unknown
+  text?: string
+  [key: string]: unknown
+}
+
+export const richtextSchema: z.ZodType<RichTextNode> = z.lazy(() =>
+  z.looseObject({
+    type: z.string(),
+    content: z.array(richtextSchema).optional(),
+    marks: z.array(richtextSchema).optional(),
+    attrs: z.any().optional(),
+    text: z.string().optional(),
+  }),
+)
 
 export const assetSchema = z.looseObject({
   alt: z.string().nullable().optional(),

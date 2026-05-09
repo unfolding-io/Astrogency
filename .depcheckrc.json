@@ -1,0 +1,15 @@
+{
+  "ignores": [
+    "@astrojs/check",
+    "@astrojs/ts-plugin",
+    "@iconify-json/lucide",
+    "astro-seo",
+    "prettier",
+    "prettier-plugin-astro",
+    "prettier-plugin-tailwindcss",
+    "async-validator",
+    "typescript"
+  ],
+  "ignore-patterns": ["component-types-sb.d.ts", "postcss-import.d.ts"],
+  "skip-missing": true
+}
