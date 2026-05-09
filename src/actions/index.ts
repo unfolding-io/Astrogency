@@ -1,6 +1,6 @@
 import { defineAction } from "astro:actions";
 import mailchimp from "@mailchimp/mailchimp_marketing";
-import { z } from "astro:schema";
+import { z } from "astro/zod";
 /* TODO debug getSecret netlify bug */
 import {
   MAILGUN_API_URL,
@@ -16,7 +16,7 @@ import {
 export const server = {
   newsletter: defineAction({
     input: z.object({
-      email: z.string().email(),
+      email: z.email(),
       name: z.string().optional(),
       opt_in: z.boolean(),
       lang: z.string().optional(),
@@ -121,7 +121,7 @@ export const server = {
 
   contact: defineAction({
     input: z.object({
-      email: z.string().email(),
+      email: z.email(),
       name: z.string(),
       phone: z.string().optional(),
       message: z.string(),
