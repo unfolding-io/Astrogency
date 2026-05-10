@@ -1,5 +1,9 @@
 # 🪵 CHANGELOG
 
+## v0.0.5
+
+- **Astro 6**: Upgraded to Astro 6.x with matching `@astrojs/*` integrations and dependency refresh.
+
 ## v.0.0.4
 This update brings comprehensive package upgrades and makes all premium features available in the free version.
 
