@@ -1,104 +1,31 @@
 ---
+import type { GetStaticPaths, Page } from "astro";
 import { SITE_LANG } from "astro:env/client";
 import { translateUrl, useTranslations } from "@lib/translate";
-import { getEntry, getCollection } from "astro:content";
-import { renderRichText } from "@storyblok/astro";
+import { buildCategoryPaginatedRoutes } from "@lib/buildCategoryPaginatedRoutes";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Layout from "@layouts/Layout.astro";
 import PostCard from "@components/cards/PostCard.astro";
 import Link from "@components/navigation/Link.astro";
 import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
 
 interface Props {
-  page: Page;
+  page: Page<PostStoryblok>;
   settings: SettingsStoryblok;
   locales: string[];
   categories: BlogCategoryStoryblok[];
   category?: BlogCategoryStoryblok;
 }
 
-export async function getStaticPaths({ paginate }: { paginate: Function }) {
-  const pageSize = 10;
-  const locales = (await getCollection("locales")).map((locale) => locale.id);
-
-  const pages: Promise<any>[] = locales.flatMap(async (lang, index) => {
-    const routeLang = index === 0 ? undefined : lang;
-    const status = import.meta.env.DEV ? "draft" : "published";
-
-    const [posts, categories, settings] = await Promise.all([
-      getCollection("post", ({ data }) => data.lang === lang),
-      getCollection("blog_category", ({ data }) => data.lang === lang),
-      getEntry("settings", lang),
-    ]);
-    if (!settings) {
-      console.log("settings not found");
-      return Astro.redirect("/setup");
-    }
-
-    const postsData = posts.map((post) => post.data);
-    const categoriesData = categories.map((category) => category.data);
-    const settingsData = settings.data;
-
-    const indexPages = paginate(postsData, { pageSize });
-
-    // Group posts by category
-    const groupedByCategory = postsData.reduce(
-      (acc: Record<string, typeof postsData>, post) => {
-        post.category?.forEach((item) => {
-          const categoryId =
-            typeof item === "string" ? item : item.uuid;
-          if (!categoryId) return;
-          acc[categoryId] = acc[categoryId] || [];
-          acc[categoryId].push(post);
-        });
-        return acc;
-      },
-      {}
-    );
-
-    const categoryPages = Object.entries(groupedByCategory).flatMap(
-      ([categoryId, posts]) => {
-        const category = categoriesData.find((cat) => cat.uuid === categoryId);
-        if (!category) return [];
-
-        return paginate(posts, { pageSize }).map((page: any) => ({
-          params: {
-            page: page.params.page,
-            category: category.slug,
-            lang: routeLang,
-          },
-          props: {
-            ...page.props,
-            status,
-            settings: settingsData,
-            locales,
-            categories: categoriesData,
-            category,
-          },
-        }));
-      }
-    );
-
-    const basePages = indexPages.map((page: any) => ({
-      params: {
-        page: page.params.page,
-        category: undefined,
-        lang: routeLang,
-      },
-      props: {
-        ...page.props,
-        status,
-        settings: settingsData,
-        locales,
-        categories: categoriesData,
-      },
-    }));
-
-    return [...basePages, ...categoryPages];
+export const getStaticPaths = (async ({ paginate }) => {
+  const result = await buildCategoryPaginatedRoutes(paginate, {
+    itemsCollection: "post",
+    categoriesCollection: "blog_category",
+    onMissingSettings: () => Astro.redirect("/setup"),
   });
-
-  const routes: any[] = (await Promise.all(pages)).flat();
-  return routes;
-}
+  if (result instanceof Response) return result;
+  return result;
+}) as GetStaticPaths;
 
 const { lang } = Astro.params;
 const { page, settings, locales, categories, category } = Astro.props;
@@ -147,7 +74,7 @@ if (!meta.title || !meta.description || !meta.image)
           />
           <div
             class="richtext no-lead text-balance"
-            set:html={renderRichText((category?.content || blog_content) as any)}
+            set:html={renderBlokRichText(category?.content || blog_content)}
           />
         </div>
         {

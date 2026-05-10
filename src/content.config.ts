@@ -20,8 +20,9 @@ const isSetup = await getSettings(
 );
 
 if (!!isSetup.setup) {
-  console.log("No settings found");
-  throw new Error("No settings found, Import all data sources, components and stories, then restart the server.");
+  throw new Error(
+    "No settings found, Import all data sources, components and stories, then restart the server.",
+  );
 }
 
 // Define entry types

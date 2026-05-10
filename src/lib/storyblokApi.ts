@@ -3,15 +3,9 @@ import { useStoryblokApi } from "@storyblok/astro";
 import StoryblokClient from "storyblok-js-client";
 import type { ISbStoryData, ISbResult } from "@storyblok/astro";
 import slugify from "@sindresorhus/slugify";
-import {
-  STORYBLOK_SPACE_ID,
-  STORYBLOK_REGION,
-  /* getSecret, */
-} from "astro:env/server";
+import { STORYBLOK_SPACE_ID, STORYBLOK_REGION } from "astro:env/server";
 import { SITE_LANG } from "astro:env/client";
 
-/* const token = getSecret("STORYBLOK_PERSONAL_TOKEN");
-const previewToken = getSecret("STORYBLOK_PREVIEW_TOKEN"); */
 const token = import.meta.env.STORYBLOK_PERSONAL_TOKEN;
 const previewToken = import.meta.env.STORYBLOK_PREVIEW_TOKEN;
 
@@ -175,11 +169,6 @@ export const getData = async (
   });
   return data;
 };
-
-
-
-
-
 
 export const pullDataSources = async () => {
   try {
@@ -458,7 +447,9 @@ export const pushStories = async (data: any, current: any) => {
   if (folders && data.stories) {
     try {
       for (const key of Object.keys(data.stories)) {
-        console.log("add stories:", key);
+        if (import.meta.env.DEV) {
+          console.debug("add stories:", key);
+        }
         await Promise.all(
           data.stories[key].map(async (item: any) => {
             const parent = folders.find(

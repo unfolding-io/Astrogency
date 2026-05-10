@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Link from "@components/navigation/Link.astro";
 import { Icon } from "astro-icon/components";
 
@@ -10,7 +11,7 @@ interface Props {
 
 const { blok, surface } = Astro.props;
 const { content, links, icon } = blok;
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 ---
 
 <div
