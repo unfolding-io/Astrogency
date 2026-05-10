@@ -1,7 +1,7 @@
 {
   "name": "astrogency",
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "imports": {
     "#app.css": "./src/styles/globals.css"
   },
