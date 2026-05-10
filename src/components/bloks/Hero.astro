@@ -109,7 +109,7 @@ const text = renderBlokRichText(content);
 <style is:global>
   @media (min-width: 768px) {
     .hero {
-      min-height: max(100svh, 30rem);
+      min-height: clamp(30rem, 100svh, 800px);
     }
   }
 
