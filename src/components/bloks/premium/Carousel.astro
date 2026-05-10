@@ -194,6 +194,7 @@ function getMediaSizes() {
                 <Picture
                   src={thumbnail.filename}
                   alt={thumbnail.alt || thumbnail.filename}
+                  focus={thumbnail.focus}
                   sizes={getMediaSizes()}
                   ar={aspect_ratio}
                   layout="fill"

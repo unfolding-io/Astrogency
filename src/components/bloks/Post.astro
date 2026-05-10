@@ -48,6 +48,7 @@ const { title, content, thumbnail, surface, body, categories } = blok;
             <Picture
               src={thumbnail.filename}
               alt={title}
+              focus={thumbnail.focus}
               className="parallax"
               sizes={`(min-width: 726px) 50vw , 100vw `}
               ar={21 / 9}

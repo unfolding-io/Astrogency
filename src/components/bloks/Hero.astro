@@ -38,6 +38,7 @@ const text = renderBlokRichText(content);
               <Picture
                 src={thumbnail.filename}
                 alt={thumbnail.alt || title}
+                focus={thumbnail.focus}
                 sizes={`100vw`}
                 ar={21 / 9}
                 layout="fill"
@@ -58,6 +59,7 @@ const text = renderBlokRichText(content);
           <Picture
             src={thumbnail.filename}
             alt={thumbnail.alt || title}
+            focus={thumbnail.focus}
             sizes={`100vw`}
             ar={21 / 9}
             layout="fill"

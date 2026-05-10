@@ -9,8 +9,8 @@ import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
 interface Props {
   blok: ServiceStoryblok;
   status?: "draft" | "published" | undefined;
-  categories?: any[];
-  settings?: any;
+  categories?: BlogCategoryData[];
+  settings?: SettingsStoryblok;
 }
 const { blok, status, categories } = Astro.props;
 const { page_title, title, content, thumbnail, surface, body } = blok;
@@ -32,10 +32,10 @@ const { page_title, title, content, thumbnail, surface, body } = blok;
             <Picture
               src={thumbnail.filename}
               alt={title}
-              className="parallax"
+              focus={thumbnail.focus}
+              className="parallax overflow-hidden rounded-media "
               sizes={`(min-width: 726px) 50vw , 100vw `}
               layout="fill"
-              className="overflow-hidden rounded-media "
             />
           )
         }
@@ -51,7 +51,7 @@ const { page_title, title, content, thumbnail, surface, body } = blok;
                     linktype: "url",
                     url: `/blog/${category.slug}`,
                   },
-                  label: category.content.title,
+                  label: category.content?.title ?? category.title,
                 }}
               />
             ))

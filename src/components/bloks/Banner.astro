@@ -63,6 +63,7 @@ const id = getIdFromContent(content);
               <Picture
                 src={image.filename}
                 alt={image.alt || image.name}
+                focus={image.focus}
                 className="fade-in"
                 sizes={getSizes()}
                 ar={16 / 9}
@@ -81,6 +82,7 @@ const id = getIdFromContent(content);
                   <Picture
                     src={image.filename}
                     alt={image.alt || image.name}
+                    focus={image.focus}
                     sizes={getSizes()}
                     ar={16 / 9}
                     layout="fill"

@@ -27,11 +27,13 @@ export const assetSchema = z.looseObject({
   id: z.number().or(z.string()).or(z.null()).optional(),
   filename: z.string().nullable().optional(),
   name: z.string().optional(),
-  title: z.string().nullable().optional(),    
-  src: z.string().optional(), 
+  title: z.string().nullable().optional(),
+  /** Storyblok focal point for the Image Service, e.g. `123x456:123x456:61:228` */
+  focus: z.string().nullable().optional(),
+  src: z.string().optional(),
   width: z.number().nullable().optional(),
   height: z.number().nullable().optional(),
-  aspect_ratio: z.number().nullable().optional(), 
+  aspect_ratio: z.number().nullable().optional(),
   content_type: z.string().optional(),
 })
 

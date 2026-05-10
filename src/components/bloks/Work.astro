@@ -9,9 +9,9 @@ import Breadcrumbs from "@components/helpers/Breadcrumbs.astro";
 interface Props {
   blok: WorkStoryblok;
   status?: "draft" | "published" | undefined;
-  categories?: any[];
-  services?: any[];
-  links?: any[];
+  categories?: WorkCategoryData[];
+  services?: ServiceData[];
+  links?: LinkStoryblok[];
 }
 
 const { blok, status } = Astro.props;
@@ -64,6 +64,7 @@ const {
             <Picture
               src={thumbnail.filename}
               alt={title}
+              focus={thumbnail.focus}
               className="parallax"
               sizes={`(min-width: 726px) 50vw , 100vw `}
               ar={5 / 4}
