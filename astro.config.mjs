@@ -117,11 +117,6 @@ export default defineConfig({
     css: {
       postcss: true,
     },
-   
-  },
-  experimental: { 
-    
-    
   },
   env: {
     schema: {
@@ -226,11 +221,6 @@ export default defineConfig({
         optional: true,
       }),
       CONTACT_FORM_ENDPOINT: envField.string({
-        context: "server",
-        access: "public",
-        default: "none",
-      }),
-      NEWSLETTER_ENDPOINT: envField.string({
         context: "server",
         access: "public",
         default: "none",

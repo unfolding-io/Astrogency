@@ -1,4 +1,8 @@
 ---
+import { getLangFromUrl } from "@lib/translate";
+
+const lang = getLangFromUrl(Astro.url);
+
 interface Props {
   alt: string;
   src: string;
@@ -7,10 +11,12 @@ interface Props {
   ar?: number | string;
   className?: string;
   loading?: "lazy" | "eager";
+  fetchpriority?: "high" | "low" | "auto";
   attributes?: {
     picture?: Record<string, string>;
     img?: Record<string, string>;
   };
+  focus?: string | null;
   layout?: "fill" | "fullWidth" | "fit" | undefined;
   crop?: boolean;
   artDirectives?: {
@@ -28,24 +34,30 @@ let {
   ar,
   className,
   loading,
+  fetchpriority = "auto",
   attributes,
   layout,
   artDirectives,
   crop = true,
+  focus: focusProp = undefined,
 } = Astro.props;
 
+const focus =
+  typeof focusProp === "string" && focusProp.trim().length > 0
+    ? focusProp.trim()
+    : undefined;
 
 const widths = breakpoints || [
   320, 375, 414, 512, 640, 682, 768, 840, 853, 950, 1024, 1056, 1067, 1280,
   1280, 1440, 1536, 1600, 1707, 1920, 2560,
 ];
-const pictureAtrtibutes = attributes?.picture || {};
-const imgAtrtibutes = attributes?.img || {};
+const pictureAttributes = attributes?.picture || {};
+const imgAttributes = attributes?.img || {};
 const originalImageSize = src.split("/")[5].split("x");
 const originalAspect: number =
   parseInt(originalImageSize[0], 10) / parseInt(originalImageSize[1], 10);
 
-ar = parseFloat(ar+"") || originalAspect;
+ar = parseFloat(ar + "") || originalAspect;
 
 const getLayoutClass = () => {
   if (layout === "fill") return "w-full h-full object-cover";
@@ -65,13 +77,16 @@ const createSourceAttributes = (
   breakpoints: number[],
   aspect: number,
 ) => {
+  const filters = focus
+    ? `filters:focal(${focus}):format(${format})${!crop ? ":fill(transparent)" : ""}`
+    : `smart/filters:format(${format})${!crop ? ":fill(transparent)" : ""}`;
   let srscet = breakpoints
     .map(
       (width) =>
-        `${src}/m/${!crop ? 'fit-in/' : ''}${width}x${getHeight(
+        `${src}/m/${!crop ? "fit-in/" : ""}${width}x${getHeight(
           width,
           aspect,
-        )}/smart/filters:format(${format})${!crop ? ':fill(transparent)' : ''} ${width}w`,
+        )}/${filters} ${width}w`,
     )
     .join(", ");
 
@@ -83,20 +98,30 @@ const createSourceAttributes = (
 };
 
 const getBgImage = async () => {
- 
   if (!src.includes(".jpg")) {
-    return '';
+    return "";
   }
 
-  const url = `${src}/m/${!crop ? 'fit-in/' : ''}${15}x${getHeight(15, ar)}/smart/filters:format(jpg)${!crop ? ':fill(transparent)' : ''}`;
+  const filters = focus
+    ? `filters:focal(${focus}):format(jpg)${!crop ? ":fill(transparent)" : ""}`
+    : `smart/filters:format(jpg)${!crop ? ":fill(transparent)" : ""}`;
+  const url = `${src}/m/${!crop ? "fit-in/" : ""}${15}x${getHeight(15, ar)}/${filters}`;
   const response = await fetch(url);
   const bg = Buffer.from(await response.arrayBuffer()).toString("base64");
-  return ` url(data:image/png;base64,${bg})`;
+  return ` url(data:image/jpeg;base64,${bg})`;
 };
 let bgImage = await getBgImage();
+
+const altParts = alt?.includes("|")
+  ? alt.split("|").map((s) => s.trim())
+  : null;
+const langIndex: Record<string, number> = { en: 0, de: 2 };
+const translatedAlt = altParts
+  ? (altParts[langIndex[lang] ?? 0] ?? altParts[0]) || alt
+  : alt;
 ---
 
-<picture {...pictureAtrtibutes} class={getLayoutClass()}>
+<picture {...pictureAttributes} class={getLayoutClass()}>
   {
     artDirectives &&
       artDirectives.length > 0 &&
@@ -136,23 +161,24 @@ let bgImage = await getBgImage();
     sizes={sizes || "100vw"}
   />
 
-  <img &&
+  <img
     style={bgImage && `background-image:  ${bgImage}`}
-    {...imgAtrtibutes}
-    src={`${src}/m/${!crop ? 'fit-in/' : ''}100x${getHeight(100, ar)}/smart${!crop ? '/filters:fill(transparent)' : ''}`}
+    {...imgAttributes}
+    src={`${src}/m/${!crop ? "fit-in/" : ""}100x${getHeight(100, ar)}/${focus ? `filters:focal(${focus})${!crop ? ":fill(transparent)" : ""}` : `smart${!crop ? "/filters:fill(transparent)" : ""}`}`}
     width={w}
     sizes={sizes || "100vw"}
     class={`${className || ""} ${getLayoutClass()}`}
     height={h !== 0 ? h : w}
     decoding="async"
-    alt={alt || "image"}
+    alt={translatedAlt || "image"}
     loading={loading || "lazy"}
+    fetchpriority={fetchpriority}
   />
 </picture>
 <style>
   img {
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
   }
 </style>

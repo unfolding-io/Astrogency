@@ -13,7 +13,7 @@ const url = lang !== SITE_LANG ? `/${lang}/${full_slug}` : `/${full_slug}`;
   href={`${url}`}
   class={`${accent} shadow-lg group transition-all duration-300 @container rounded-media overflow-hidden min-w-[16rem] flex-1`}
 >
-  <div 
+  <div
     class="intersection grid h-fit auto-rows-max grid-cols-1 @md:grid-cols-2"
   >
     <div
@@ -22,6 +22,7 @@ const url = lang !== SITE_LANG ? `/${lang}/${full_slug}` : `/${full_slug}`;
       <Picture
         src={thumbnail.filename}
         alt={title}
+        focus={thumbnail.focus}
         sizes="(min-width: 1240px) 382px ,(min-width: 1098px) 32vw, (min-width: 640px) calc(50vw - 2.5rem), (min-width: 576px) 45vw, calc(100vw - 2rem)"
         ar={16 / 9}
         layout="fill"

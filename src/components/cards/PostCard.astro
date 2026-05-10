@@ -28,7 +28,9 @@ function getSizes() {
   return "(min-width: 1566px) 426px, (min-width: 1280px) 56vw, (min-width: 768px) 27vw, calc(100vw - 2rem)";
 }
 
-const cat = showCategory ? categories.find((c:any) => c.uuid === category[0]) : null;
+const cat = showCategory
+  ? categories?.find((c: { uuid: string }) => c.uuid === category?.[0])
+  : null;
 ---
 
 <a
@@ -42,6 +44,7 @@ const cat = showCategory ? categories.find((c:any) => c.uuid === category[0]) : 
       <Picture
         src={thumbnail.filename}
         alt={title}
+        focus={thumbnail.focus}
         sizes={sizes || getSizes()}
         ar={compact ? 16/9 : wide ? 21/9 : 10.5/9.43}
         layout="fill"

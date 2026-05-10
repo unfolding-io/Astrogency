@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import VideoInline from "@components/media/VideoInline.vue";
 import Picture from "@components/media/Picture.astro";
 import Link from "@components/navigation/Link.astro";
@@ -27,7 +28,7 @@ const {
   crop = true,
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 const id = getIdFromContent(content);
 
 function getSizes() {
@@ -58,6 +59,7 @@ const contentClass = `w-full richtext max-w-2xl relative z-40 mx-auto md:mx-0 gr
                 <Picture
                   src={image.filename}
                   alt={image.alt || image.name}
+                  focus={image.focus}
                   className="rounded-media fade-in"
                   sizes={getSizes()}
                   ar={aspect_ratio}
@@ -81,6 +83,7 @@ const contentClass = `w-full richtext max-w-2xl relative z-40 mx-auto md:mx-0 gr
                       <Picture
                         src={image.filename}
                         alt={image.alt || image.name}
+                        focus={image.focus}
                         className="fade-in "
                         sizes={getSizes()}
                         ar={aspect_ratio}

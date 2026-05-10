@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Feature from "@components/cards/Feature.astro";
 
 import { getIdFromContent } from "@lib/storyblokApi";
@@ -11,19 +12,19 @@ const { blok } = Astro.props;
 const {
   content,
   surface = "",
-  container ="breakout",
+  container = "breakout",
   accent_surface,
   align = "",
   items = [],
-  padding_top = 'pt-lg',
-  padding_bottom = 'pb-lg'
+  padding_top = "pt-lg",
+  padding_bottom = "pb-lg",
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
-const id = getIdFromContent(content)
+const renderedRichText = renderBlokRichText(content);
+const id = getIdFromContent(content);
 ---
 
-<div 
+<div
   {...storyblokEditable(blok)}
   class={`${surface} h-full intersection`}
 >

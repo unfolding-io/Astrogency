@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Link from "@components/navigation/Link.astro";
 
 interface Props {
@@ -17,7 +18,7 @@ const {
   container,
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 ---
 
 <div {...storyblokEditable(blok)} class={`${surface} intersection`}>

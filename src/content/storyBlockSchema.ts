@@ -1,33 +1,46 @@
-import { z } from "zod"
+import { z } from "astro/zod"
 
-// Basic types
-export const richtextSchema = z.object({
-  type: z.string(),
-  content: z.array(z.lazy(() => richtextSchema)).optional(),
-  marks: z.array(z.lazy(() => richtextSchema)).optional(),
-  attrs: z.any().optional(),
-  text: z.string().optional(),
-}).passthrough()
+// Basic types — explicit type breaks TS circular inference with z.lazy + looseObject
+export interface RichTextNode {
+  type: string
+  content?: RichTextNode[]
+  marks?: RichTextNode[]
+  attrs?: unknown
+  text?: string
+  [key: string]: unknown
+}
 
-export const assetSchema = z.object({
+export const richtextSchema: z.ZodType<RichTextNode> = z.lazy(() =>
+  z.looseObject({
+    type: z.string(),
+    content: z.array(richtextSchema).optional(),
+    marks: z.array(richtextSchema).optional(),
+    attrs: z.any().optional(),
+    text: z.string().optional(),
+  }),
+)
+
+export const assetSchema = z.looseObject({
   alt: z.string().nullable().optional(),
   copyright: z.string().nullable().optional(),
   fieldtype: z.literal('asset'),
   id: z.number().or(z.string()).or(z.null()).optional(),
   filename: z.string().nullable().optional(),
   name: z.string().optional(),
-  title: z.string().nullable().optional(),    
-  src: z.string().optional(), 
+  title: z.string().nullable().optional(),
+  /** Storyblok focal point for the Image Service, e.g. `123x456:123x456:61:228` */
+  focus: z.string().nullable().optional(),
+  src: z.string().optional(),
   width: z.number().nullable().optional(),
   height: z.number().nullable().optional(),
-  aspect_ratio: z.number().nullable().optional(), 
+  aspect_ratio: z.number().nullable().optional(),
   content_type: z.string().optional(),
-}).passthrough()
+})
 
 export const multiassetSchema = z.array(assetSchema)
 
 export const multilinkSchema = z.union([
-  z.object({
+  z.looseObject({
     linktype: z.literal('story'),
     cached_url: z.string(),
     target: z.enum(['_blank', '_self']).optional(),
@@ -35,26 +48,26 @@ export const multilinkSchema = z.union([
     id: z.string().optional(),
     fieldtype: z.literal('multilink').optional(),
     url: z.string().optional(),
-  }).passthrough(),
-  z.object({
+  }),
+  z.looseObject({
     linktype: z.literal('url'),
     url: z.string(),
     target: z.enum(['_blank', '_self']).optional(),
     fieldtype: z.literal('multilink').optional(),
     cached_url: z.string().optional(),
-  }).passthrough(),
-  z.object({
+  }),
+  z.looseObject({
     linktype: z.literal('email'),
     cached_url: z.string(),
-  }).passthrough(),
-  z.object({
+  }),
+  z.looseObject({
     linktype: z.literal('asset'),
     url: z.string(),
-  }).passthrough(),
+  }),
 ])
 
 // Component schemas
-export const linkSchema = z.object({
+export const linkSchema = z.looseObject({
   label: z.string(),
   href: multilinkSchema,
   icon: z.union([z.number(), z.string()]).optional(),
@@ -62,16 +75,16 @@ export const linkSchema = z.object({
   hide_label: z.boolean().optional(),
   component: z.literal('link'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const accordionItemSchema = z.object({
+export const accordionItemSchema = z.looseObject({
   title: z.string(),
   content: richtextSchema,
   component: z.literal('accordion_item'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const accordionSchema = z.object({
+export const accordionSchema = z.looseObject({
   is_faq: z.boolean().optional(),
   items: z.array(accordionItemSchema).optional(),
   content: richtextSchema,
@@ -81,9 +94,9 @@ export const accordionSchema = z.object({
   padding_bottom: z.string().optional(),
   component: z.literal('accordion'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const bannerSchema = z.object({
+export const bannerSchema = z.looseObject({
   surface: z.string().optional(),
   surface_banner: z.string().optional(),
   align: z.string().optional(),
@@ -97,9 +110,9 @@ export const bannerSchema = z.object({
   padding_bottom: z.string().optional(),
   component: z.literal('banner'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const blogCategorySchema = z.object({
+export const blogCategorySchema = z.looseObject({
   uuid: z.string().optional(),
   title: z.string(),
   content: richtextSchema.optional(),
@@ -109,9 +122,9 @@ export const blogCategorySchema = z.object({
   surface: z.string().optional(),
   component: z.literal('blog_category'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const blogAndWorkItemsSchema = z.object({
+export const blogAndWorkItemsSchema = z.looseObject({
   surface: z.string().optional(),
   container: z.string().optional(),
   padding_top: z.string().optional(),
@@ -124,16 +137,16 @@ export const blogAndWorkItemsSchema = z.object({
   _uid: z.string(),
   title: z.string().optional(),
   _editable: z.string().optional()
-}).passthrough()
+})
 
-export const contactTopicsSchema = z.object({
+export const contactTopicsSchema = z.looseObject({
   name: z.string(),
   destination: z.string(),
   component: z.literal('contact_topics'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const contactFormSchema = z.object({
+export const contactFormSchema = z.looseObject({
   content: richtextSchema.optional(),
   container: z.string().optional(),
   topic: z.union([z.lazy(() => contactTopicsSchema), z.string()]).optional(),
@@ -142,17 +155,17 @@ export const contactFormSchema = z.object({
   surface: z.string().optional(),
   component: z.literal('contact_form'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const featureItemSchema = z.object({
+export const featureItemSchema = z.looseObject({
   content: richtextSchema,
   icon: z.union([z.number(), z.string()]).optional(),
   links: z.array(linkSchema).optional(),
   component: z.literal('feature_item'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const featuresSchema = z.object({
+export const featuresSchema = z.looseObject({
   content: richtextSchema.optional(),
   items: z.array(featureItemSchema).optional(),
   surface: z.string().optional(),
@@ -163,9 +176,9 @@ export const featuresSchema = z.object({
   padding_bottom: z.string().optional(),
   component: z.literal('features'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const gallerySchema = z.object({
+export const gallerySchema = z.looseObject({
   surface: z.string().optional(),
   align: z.string().optional(),
   container: z.string(),
@@ -182,9 +195,9 @@ export const gallerySchema = z.object({
   items: multiassetSchema.optional(),
   component: z.literal('gallery'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const heroSchema = z.object({
+export const heroSchema = z.looseObject({
   surface: z.string().optional(),
   accent_color: z.enum([
     '',
@@ -218,17 +231,17 @@ export const heroSchema = z.object({
   video: assetSchema.optional(),
   component: z.literal('hero'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const imageCardSchema = z.object({
+export const imageCardSchema = z.looseObject({
   image: assetSchema,
   aspect_ratio: z.string().or(z.number()).optional(),
   content: richtextSchema,
   component: z.literal('image_card'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const imageCardsSchema = z.object({
+export const imageCardsSchema = z.looseObject({
   lightbox: z.boolean().optional(),
   surface: z.string().optional(),
   align: z.string().optional(),
@@ -245,17 +258,17 @@ export const imageCardsSchema = z.object({
   items: z.array(imageCardSchema),
   component: z.literal('image_cards'),
   _uid: z.string(),
-}).passthrough()
+})
 
-/* export const menuItemsSchema = z.object({
+/* export const menuItemsSchema = z.looseObject({
   title: z.string().optional(),
   content: richtextSchema.optional(),
   price: z.string().optional(),
   component: z.literal('menu_items'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const menusSchema = z.object({
+export const menusSchema = z.looseObject({
   content: richtextSchema.optional(),
   items: z.array(menuItemsSchema).optional(),
   surface: z.string().optional(),
@@ -265,9 +278,9 @@ export const menusSchema = z.object({
   padding_bottom: z.string().optional(),
   component: z.literal('menus'),
   _uid: z.string(),
-}).passthrough() */
+}) */
 
-export const newsletterSchema = z.object({
+export const newsletterSchema = z.looseObject({
   list_id: z.string().optional(),
   show_name_field: z.boolean().optional(),
   opt_in: z.boolean().optional(),
@@ -278,9 +291,9 @@ export const newsletterSchema = z.object({
   surface: z.string().optional(),
   component: z.literal('newsletter'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const priceItemSchema = z.object({
+export const priceItemSchema = z.looseObject({
   title: z.string().optional(),
   icon: z.union([z.number(), z.string()]).optional(),
   price_prefix: z.string().optional(),
@@ -292,9 +305,9 @@ export const priceItemSchema = z.object({
   accent_surface: z.string().optional(),
   component: z.literal('price_item'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const pricingSchema = z.object({
+export const pricingSchema = z.looseObject({
   content: richtextSchema.optional(),
   items: z.array(priceItemSchema).optional(),
   surface: z.string().optional(),
@@ -304,9 +317,9 @@ export const pricingSchema = z.object({
   padding_bottom: z.string().optional(),
   component: z.literal('pricing'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const richtextBlokSchema = z.object({
+export const richtextBlokSchema = z.looseObject({
   _uid: z.string(),
   surface: z.string().optional(),
   align: z.string().optional(),
@@ -317,9 +330,9 @@ export const richtextBlokSchema = z.object({
   links: z.array(linkSchema).optional(),
   component: z.literal('richtext'),
   _editable: z.string().optional()
-}).passthrough()
+})
 
-export const textMediaSchema = z.object({
+export const textMediaSchema = z.looseObject({
     uuid: z.string().optional(),
     _uid: z.string(),
     image: assetSchema,
@@ -337,9 +350,9 @@ export const textMediaSchema = z.object({
     component: z.literal('text_media'),
     layout: z.string().optional(),
     _editable: z.string().optional(),
-}).passthrough()
+})
 
-  export const stackSchema = z.object({
+  export const stackSchema = z.looseObject({
     name: z.string().optional(),
     logo: assetSchema.optional(),
     intro: z.string().optional(),
@@ -347,9 +360,9 @@ export const textMediaSchema = z.object({
     content: richtextSchema.optional(),
     component: z.literal('stack'),
     _uid: z.string(),
-  }).passthrough()
+  })
 
-  export const stackItemsSchema = z.object({
+  export const stackItemsSchema = z.looseObject({
     content: richtextSchema.optional(),
     surface: z.string().optional(),
     accent_surface: z.string().optional(),
@@ -358,13 +371,13 @@ export const textMediaSchema = z.object({
     items: z.array(z.union([stackSchema, z.string()])).optional(),
     component: z.literal('stack_items'),
     _uid: z.string(),
-  }).passthrough()
+  })
 
 
 
 
 
-export const settingsSchema = z.object({
+export const settingsSchema = z.looseObject({
   surface_light: z.string().optional(),
   surface_dark: z.string().optional(),
   surface_muted: z.string().optional(),
@@ -379,7 +392,7 @@ export const settingsSchema = z.object({
   surface_page: z.string().optional(),
   surface_menu: z.string().optional(),
   contact_form: z.array(contactFormSchema).optional(),
-  newsletter: z.any(),
+  newsletter: z.any().optional(),
   newsletter_in_footer: z.boolean().optional(),
   newsletter_content: richtextSchema.optional(),
   newsletter_thank_you: z.string(),
@@ -435,9 +448,9 @@ export const settingsSchema = z.object({
   success_bg: z.any(),
   muted_fg: z.any(),
   muted_bg: z.any(),
-}).passthrough()
+})
 
-export const carouselSchema = z.object({
+export const carouselSchema = z.looseObject({
   overflow_hidden: z.boolean().optional(),
   container: z.enum(['', 'normal', 'breakout', 'full-width']).optional(),
   surface: z.string().optional(),
@@ -471,9 +484,9 @@ export const carouselSchema = z.object({
   cards: z.array(imageCardSchema).optional(),
   component: z.literal('carousel'),
   _uid: z.string()
-}).passthrough()
+})
 
-export const cardGridSchema = z.object({
+export const cardGridSchema = z.looseObject({
   surface: z.string().optional(),
   align: z.string().optional(),
   container: z.string(),
@@ -492,9 +505,9 @@ export const cardGridSchema = z.object({
   min_height: z.string().optional(),
   component: z.literal('card_grid'),
   _uid: z.string()
-}).passthrough()
+})
 
-export const workCategorySchema = z.object({
+export const workCategorySchema = z.looseObject({
   uuid: z.string().optional(),
   title: z.string(),
   page_title: z.string().optional(),
@@ -505,11 +518,11 @@ export const workCategorySchema = z.object({
   surface: z.string().optional(),
   component: z.literal('work_category'),
   _uid: z.string(),
-}).passthrough()
+})
 
 
 
-export const serviceSchema = z.object({
+export const serviceSchema = z.looseObject({
   uuid: z.string().optional(),
   title: z.string().optional(),
   page_title: z.string().optional(),
@@ -540,9 +553,9 @@ export const serviceSchema = z.object({
   surface: z.string().optional(),
   component: z.literal('service'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const servicesSchema = z.object({
+export const servicesSchema = z.looseObject({
   surface: z.string().optional(),
   container: z.string().optional(),
   padding_top: z.string().optional(),
@@ -553,9 +566,9 @@ export const servicesSchema = z.object({
   max_items: z.union([z.number(), z.string(), z.null()]).optional(),
   component: z.literal('services'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const workSchema = z.object({
+export const workSchema = z.looseObject({
   uuid: z.string().optional(),
   title: z.string(),
   intro: z.string().optional(),
@@ -590,9 +603,9 @@ export const workSchema = z.object({
   surface: z.string().optional(),
   component: z.literal('work'),
   _uid: z.string(),
-}).passthrough()
+})
 
-export const postSchema = z.object({
+export const postSchema = z.looseObject({
   uuid: z.string().optional(),
   category: z.array(z.union([blogCategorySchema, z.string()])),
   title: z.string(),
@@ -624,10 +637,10 @@ export const postSchema = z.object({
   surface: z.string().optional(),
   component: z.literal('post'),
   _uid: z.string(),
-}).passthrough()
+})
 
 // Main page schema that combines everything
-export const pageSchema = z.object({
+export const pageSchema = z.looseObject({
   uuid: z.string().optional(),
   body: z.array(z.union([
     heroSchema, 
@@ -655,11 +668,11 @@ export const pageSchema = z.object({
   component: z.literal('page'),
   data: z.any().optional(), 
   _uid: z.string(),
-}).passthrough()
+})
 
 // Helper types
 /* 
-const pageResponseSchema = z.object({
+const pageResponseSchema = z.looseObject({
   data: z.array(z.any()),
   start: z.number(),
   end: z.number(),
@@ -667,7 +680,7 @@ const pageResponseSchema = z.object({
   currentPage: z.number(),
   size: z.number(),
   lastPage: z.number(),
-  url: z.object({
+  url: z.looseObject({
     current: z.string(),
     prev: z.string().optional(),
     next: z.string().optional(),

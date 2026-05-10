@@ -123,7 +123,7 @@ export const POST: APIRoute = async ({ request }) => {
       },
     );
   } catch (error) {
-    console.debug(error);
+    console.error(error);
     return new Response(
       JSON.stringify({
         message: "error",

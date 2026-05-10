@@ -1,7 +1,6 @@
 ---
 import { storyblokEditable } from "@storyblok/astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
-/* import Layout from "@layouts/Layout.astro"; */
 interface Props {
   blok: PageStoryblok;
   status?: "draft" | "published" | undefined;
@@ -11,5 +10,7 @@ const { surface } = blok;
 ---
 
 <main {...storyblokEditable(blok)} class={`${surface || ""} min-h-svh`}>
-  {blok.body?.map((blok,index) => <StoryblokComponent blok={blok} {status} {index} />)}
+  {blok.body?.map((bodyBlok, index) => (
+    <StoryblokComponent blok={bodyBlok} {status} {index} />
+  ))}
 </main>

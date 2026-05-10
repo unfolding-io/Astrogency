@@ -99,7 +99,9 @@ const pushDataSources = async () => {
     await response.json();
     setTimeout(() => {
       loading.value = false;
-      console.log(`🔄 Fetching new datasources`);
+      if (import.meta.env.DEV) {
+        console.debug("Fetching new datasources");
+      }
       fetchDataSources();
     }, 1000);
   } catch (error) {

@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import NewsletterForm from "@components/forms/NewsletterForm.vue";
 import { getLangFromUrl } from "@lib/translate";
 import { NEWSLETTER_ENDPOINT } from "astro:env/server";
@@ -52,7 +53,7 @@ const id = getIdFromContent(content);
         {
           content && (
             <div
-              set:html={renderRichText(content as any)}
+              set:html={renderBlokRichText(content)}
               class="richtext fade-up max-w-2xl text-balance empty:hidden"
             />
           )

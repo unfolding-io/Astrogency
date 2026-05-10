@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Picture from "@components/media/Picture.astro";
 import LightboxGallery from "@components/media/LightboxGallery.vue";
 
@@ -26,7 +27,7 @@ const {
   padding_bottom = 'pb-lg',
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 const count = items.length;
 
 const columns = {
@@ -90,6 +91,7 @@ const contentClass = `${align} ${container} ${container === "full-width" ? "px-2
               <Picture
                 src={item.filename}
                 alt={item.alt || item.title || ""}
+                focus={item.focus}
                 sizes={getSizes()}
                 layout="fill"
               />
@@ -102,6 +104,7 @@ const contentClass = `${align} ${container} ${container === "full-width" ? "px-2
             <Picture
               src={item.filename}
               alt={item.alt || item.title || ""}
+              focus={item.focus}
               sizes={getSizes()}
               ar={aspect_ratio}
               className="overflow-hidden rounded-media"

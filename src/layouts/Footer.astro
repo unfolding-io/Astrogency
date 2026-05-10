@@ -1,5 +1,5 @@
 ---
-import { renderRichText } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Link from "@components/navigation/Link.astro";
 import { Icon } from "astro-icon/components";
 import NewsletterForm from "@components/forms/NewsletterForm.vue";
@@ -35,7 +35,9 @@ const showNewsletter = NEWSLETTER_ENDPOINT !== "none" && newsletter_in_footer;
 
 const lang = getLangFromUrl(Astro.url);
 
-const renderedNewsletterContent = newsletter_content ? renderRichText(newsletter_content as any) : null;
+const renderedNewsletterContent = newsletter_content
+  ? renderBlokRichText(newsletter_content)
+  : null;
 ---
 
 <!-- Footer container -->
@@ -123,7 +125,7 @@ const renderedNewsletterContent = newsletter_content ? renderRichText(newsletter
             is:inline
           />
 
-          <div class="pb-4 text-sm" set:html={footer_text ? renderRichText(footer_text as any) : ""} />
+          <div class="pb-4 text-sm" set:html={renderBlokRichText(footer_text)} />
 
           <div class="grid gap-3 text-sm">
             {address && <p class="">{address}</p>}
@@ -205,7 +207,7 @@ const renderedNewsletterContent = newsletter_content ? renderRichText(newsletter
       class="breakout flex items-end justify-between gap-2 text-left text-balance"
     >
       <div class="opacity-70">
-        <span>©2023 </span>
+        <span>© {new Date().getFullYear()} </span>
         {company_name}
       </div>
       <!-- 👉👉 CC BY-ND 4.0 ©️unfolding.io  👈👈 -->

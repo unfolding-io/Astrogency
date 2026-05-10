@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import ImageCard from "@components/cards/ImageCard.astro";
 
 interface Props {
@@ -28,7 +29,7 @@ const {
   min_height = "0",
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 const count = items.length;
 
 const columns = {

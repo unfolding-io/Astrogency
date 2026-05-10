@@ -1,5 +1,6 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import AccordionVue from "@components/helpers/AccordionVue.vue";
 
 interface Props {
@@ -18,17 +19,17 @@ const {
   is_faq = false,
 } = blok;
 
-const renderedRichText = renderRichText(content as any);
+const renderedRichText = renderBlokRichText(content);
 
 const accordion_items = await Promise.all(
-  items.map(async (item: any) => {
+  items.map(async (item: AccordionItemStoryblok) => {
     return {
       title: item.title,
-      content: renderRichText(item.content as any),
+      content: renderBlokRichText(item.content),
     };
   }),
 );
-let json:string | undefined;
+let json: string | undefined;
 
 if (is_faq) {
   json = `
@@ -38,7 +39,7 @@ if (is_faq) {
         "mainEntity": [
           ${accordion_items
             .map(
-              (item: any) => `
+              (item: { title: string; content: string }) => `
             {
               "@type": "Question",
               "name": "${item.title.replace(/"/g, '\\"')}",

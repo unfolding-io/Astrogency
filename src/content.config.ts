@@ -1,4 +1,5 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
 import { getSettings, getLocales, getCollectionData } from "@lib/storyblokApi";
 /* This is the first start on migrating to the data layer (WIP) */
 import {
@@ -11,7 +12,7 @@ import {
   contactTopicsSchema,
   stackSchema,
   settingsSchema,
-} from "./storyBlockSchema";
+} from "./content/storyBlockSchema";
 
 //check if the settings are valid
 const isSetup = await getSettings(
@@ -19,8 +20,9 @@ const isSetup = await getSettings(
 );
 
 if (!!isSetup.setup) {
-  console.log("No settings found");
-  throw new Error("No settings found, Import all data sources, components and stories, then restart the server.");
+  throw new Error(
+    "No settings found, Import all data sources, components and stories, then restart the server.",
+  );
 }
 
 // Define entry types

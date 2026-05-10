@@ -1,6 +1,7 @@
 ---
 import Picture from "@components/media/Picture.astro";
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
+import { storyblokEditable } from "@storyblok/astro";
+import { renderBlokRichText } from "@lib/storyblokRichText";
 import Link from "@components/navigation/Link.astro";
 
 const {
@@ -17,7 +18,7 @@ const {
   noRadius = false,
 } = Astro.props;
 
-const text = renderRichText(content as any);
+const text = renderBlokRichText(content);
 ---
 
 {
@@ -31,6 +32,7 @@ const text = renderRichText(content as any);
           <Picture
             src={image.filename}
             alt={image.alt || image.title || ""}
+            focus={image.focus}
             sizes={sizes}
             ar={aspect_ratio}
             layout="fullWidth"
@@ -44,7 +46,7 @@ const text = renderRichText(content as any);
         <div class={`richtext scale-in`} set:html={text} />
         {buttons && buttons.length > 0 && (
           <div class="buttons inline-flex h-fit w-full flex-wrap gap-4 pt-6">
-            {buttons.map((link: any) => (
+            {buttons.map((link: LinkStoryblok) => (
               <Link blok={link} />
             ))}
           </div>
@@ -68,6 +70,7 @@ const text = renderRichText(content as any);
           <Picture
             src={image.filename}
             alt={image.alt || image.title || ""}
+            focus={image.focus}
             sizes={sizes}
             ar={aspect_ratio}
             layout="fill"
@@ -81,7 +84,7 @@ const text = renderRichText(content as any);
         <div class={`richtext scale-in relative`} set:html={text} />
         {buttons && buttons.length > 0 && (
           <div class="buttons relative inline-flex h-fit w-fit flex-wrap gap-4 pt-6">
-            {buttons.map((link: any) => (
+            {buttons.map((link: LinkStoryblok) => (
               <Link blok={link} />
             ))}
           </div>
